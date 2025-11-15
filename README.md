@@ -14,11 +14,28 @@ A complete multiplayer 3D Snakes and Ladders board game built with Unity.
 
 ## 🚀 Quick Start
 
+### ⚡ **NEW: Automated Scene Builder!**
+
+The fastest way to get started is using the **automated scene builder**:
+
+1. Open the project in Unity
+2. Go to **Tools → Snakes and Ladders → Quick Setup → Complete Setup (All-in-One)**
+3. Click "Yes, Setup Everything!"
+4. Open GameScene (Tools → Snakes and Ladders → Open Scenes → Open GameScene)
+5. Select the "Board" GameObject and click **"Generate Board"** in the Inspector
+6. Press **Play** to test!
+
+**🎉 That's it! You now have a fully working game in under 1 minute!**
+
+For detailed automation features, see **[AUTOMATION_GUIDE.md](AUTOMATION_GUIDE.md)**
+
 ### Prerequisites
 - Unity 2021.3 or newer
 - TextMeshPro package (should import automatically)
 
-### Installation
+### Manual Installation (Alternative)
+
+If you prefer manual setup:
 
 1. Open the project in Unity
 2. Open the `IMPLEMENTATION_GUIDE.md` for detailed setup instructions
@@ -58,7 +75,8 @@ Assets/Scripts/
 
 ## 📖 Documentation
 
-- **[IMPLEMENTATION_GUIDE.md](IMPLEMENTATION_GUIDE.md)** - Complete step-by-step setup guide
+- **[AUTOMATION_GUIDE.md](AUTOMATION_GUIDE.md)** - ⭐ **NEW!** Automated scene builder and setup tools
+- **[IMPLEMENTATION_GUIDE.md](IMPLEMENTATION_GUIDE.md)** - Complete step-by-step manual setup guide
 - Includes scene setup, component configuration, and troubleshooting
 
 ## 🎯 Game Rules

@@ -31,19 +31,4 @@ namespace LAS.Gameplay
             ServiceLocator.Get<IEventBus>()?.Publish(new MoveRequestedEvent { playerIndex = c.CurrentPlayer, steps = steps });
         }
     }
-
-
-    public class GameOverState : GameState
-    {
-        public override void Enter(GameController c)
-        {
-            base.Enter(c);
-            UnityEngine.Debug.Log("Game Over State Entered");
-        }
-
-        public override void OnDiceRolled(int value)
-        {
-            // Do nothing - game is over
-        }
-    }
 }

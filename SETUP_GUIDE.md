@@ -397,14 +397,21 @@ Assets/
 
 **Fix**: Run `LAS > Setup Game Scene` again
 
-### "Dice button doesn't work"
+### "Roll Dice button doesn't appear or doesn't work"
 
-**Check**:
-- DiceModel exists (created automatically at runtime)
-- GameController exists (created automatically at runtime)
-- Console for any errors
+**This is a common issue!** See the detailed guide: **[BUTTON_SETUP_GUIDE.md](BUTTON_SETUP_GUIDE.md)**
 
-**Fix**: Check that GameSetupManager has "Auto Setup On Start" enabled
+**Quick Check**:
+1. Look in Hierarchy for: `GameCanvas > RollDiceButton`
+2. If missing: Re-run `LAS > Setup Game Scene`
+3. If exists but not working: Check `GameCanvas` → `GameUIManager` component → verify "Roll Dice Button" field is assigned
+
+**Manual Fix**:
+1. Right-click `GameCanvas` → `UI > Button - TextMeshPro`
+2. Rename to `RollDiceButton`
+3. Drag it to `GameUIManager` → `Roll Dice Button` field in Inspector
+
+See [BUTTON_SETUP_GUIDE.md](BUTTON_SETUP_GUIDE.md) for complete step-by-step instructions.
 
 ### "Players don't move"
 

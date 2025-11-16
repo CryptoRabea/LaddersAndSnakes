@@ -13,4 +13,5 @@ public class TileData : ScriptableObject
     public int tileIndex;
     public TileType tileType;
     public int targetTileIndex;
+    public Color color = Color.white;
 }

@@ -30,7 +30,7 @@ namespace LAS.Gameplay
         private void Start()
         {
             // Find the DiceModel in the scene
-            diceModel = FindObjectOfType<DiceModel>();
+            diceModel = FindFirstObjectByType<DiceModel>();
             if (diceModel == null)
             {
                 Debug.LogWarning("[AIPlayerController] DiceModel not found in scene");
@@ -58,7 +58,7 @@ namespace LAS.Gameplay
             var gameController = GetComponent<MultiplayerGameController>();
             if (gameController == null)
             {
-                gameController = FindObjectOfType<MultiplayerGameController>();
+                gameController = FindFirstObjectByType<MultiplayerGameController>();
             }
 
             // If it's the AI's turn at game start, make the first move
@@ -87,7 +87,7 @@ namespace LAS.Gameplay
             var gameController = GetComponent<MultiplayerGameController>();
             if (gameController == null)
             {
-                gameController = FindObjectOfType<MultiplayerGameController>();
+                gameController = FindFirstObjectByType<MultiplayerGameController>();
             }
 
             if (gameController == null)

@@ -115,17 +115,22 @@ namespace LAS.Editor
 
         private static void CreateTurnIndicator(Transform parent)
         {
+            GameObject turnIndicatorGO = null;
             var turnIndicatorObj = parent.Find("TurnIndicator");
             if (turnIndicatorObj == null)
             {
-                turnIndicatorObj = new GameObject("TurnIndicator").transform;
-                turnIndicatorObj.SetParent(parent);
-                Undo.RegisterCreatedObjectUndo(turnIndicatorObj.gameObject, "Create Turn Indicator");
+                turnIndicatorGO = new GameObject("TurnIndicator");
+                turnIndicatorGO.transform.SetParent(parent);
+                Undo.RegisterCreatedObjectUndo(turnIndicatorGO, "Create Turn Indicator");
+            }
+            else
+            {
+                turnIndicatorGO = turnIndicatorObj.gameObject;
             }
 
-            var rectTransform = turnIndicatorObj.GetComponent<RectTransform>();
+            var rectTransform = turnIndicatorGO.GetComponent<RectTransform>();
             if (rectTransform == null)
-                rectTransform = turnIndicatorObj.gameObject.AddComponent<RectTransform>();
+                rectTransform = turnIndicatorGO.AddComponent<RectTransform>();
 
             rectTransform.anchorMin = new Vector2(0.5f, 1f);
             rectTransform.anchorMax = new Vector2(0.5f, 1f);
@@ -133,9 +138,9 @@ namespace LAS.Editor
             rectTransform.anchoredPosition = new Vector2(0, -20);
             rectTransform.sizeDelta = new Vector2(400, 60);
 
-            var text = turnIndicatorObj.GetComponent<TextMeshProUGUI>();
+            var text = turnIndicatorGO.GetComponent<TextMeshProUGUI>();
             if (text == null)
-                text = turnIndicatorObj.gameObject.AddComponent<TextMeshProUGUI>();
+                text = turnIndicatorGO.AddComponent<TextMeshProUGUI>();
 
             text.text = "Player 1's Turn";
             text.fontSize = 36;
@@ -145,17 +150,22 @@ namespace LAS.Editor
 
         private static void CreateDiceButton(Transform parent)
         {
+            GameObject buttonGO = null;
             var buttonObj = parent.Find("RollDiceButton");
             if (buttonObj == null)
             {
-                buttonObj = new GameObject("RollDiceButton").transform;
-                buttonObj.SetParent(parent);
-                Undo.RegisterCreatedObjectUndo(buttonObj.gameObject, "Create Dice Button");
+                buttonGO = new GameObject("RollDiceButton");
+                buttonGO.transform.SetParent(parent);
+                Undo.RegisterCreatedObjectUndo(buttonGO, "Create Dice Button");
+            }
+            else
+            {
+                buttonGO = buttonObj.gameObject;
             }
 
-            var rectTransform = buttonObj.GetComponent<RectTransform>();
+            var rectTransform = buttonGO.GetComponent<RectTransform>();
             if (rectTransform == null)
-                rectTransform = buttonObj.gameObject.AddComponent<RectTransform>();
+                rectTransform = buttonGO.AddComponent<RectTransform>();
 
             rectTransform.anchorMin = new Vector2(0.5f, 0f);
             rectTransform.anchorMax = new Vector2(0.5f, 0f);
@@ -163,36 +173,41 @@ namespace LAS.Editor
             rectTransform.anchoredPosition = new Vector2(0, 40);
             rectTransform.sizeDelta = new Vector2(200, 60);
 
-            var image = buttonObj.GetComponent<Image>();
+            var image = buttonGO.GetComponent<Image>();
             if (image == null)
-                image = buttonObj.gameObject.AddComponent<Image>();
+                image = buttonGO.AddComponent<Image>();
 
             image.color = new Color(0.2f, 0.6f, 1f);
 
-            var button = buttonObj.GetComponent<Button>();
+            var button = buttonGO.GetComponent<Button>();
             if (button == null)
-                button = buttonObj.gameObject.AddComponent<Button>();
+                button = buttonGO.AddComponent<Button>();
 
             // Create button text
-            var textObj = buttonObj.Find("Text");
+            GameObject textGO = null;
+            var textObj = buttonGO.transform.Find("Text");
             if (textObj == null)
             {
-                textObj = new GameObject("Text").transform;
-                textObj.SetParent(buttonObj);
+                textGO = new GameObject("Text");
+                textGO.transform.SetParent(buttonGO.transform);
+            }
+            else
+            {
+                textGO = textObj.gameObject;
             }
 
-            var textRect = textObj.GetComponent<RectTransform>();
+            var textRect = textGO.GetComponent<RectTransform>();
             if (textRect == null)
-                textRect = textObj.gameObject.AddComponent<RectTransform>();
+                textRect = textGO.AddComponent<RectTransform>();
 
             textRect.anchorMin = Vector2.zero;
             textRect.anchorMax = Vector2.one;
             textRect.sizeDelta = Vector2.zero;
             textRect.anchoredPosition = Vector2.zero;
 
-            var buttonText = textObj.GetComponent<TextMeshProUGUI>();
+            var buttonText = textGO.GetComponent<TextMeshProUGUI>();
             if (buttonText == null)
-                buttonText = textObj.gameObject.AddComponent<TextMeshProUGUI>();
+                buttonText = textGO.AddComponent<TextMeshProUGUI>();
 
             buttonText.text = "Roll Dice";
             buttonText.fontSize = 24;
@@ -202,17 +217,22 @@ namespace LAS.Editor
 
         private static void CreateDiceResultText(Transform parent)
         {
+            GameObject resultGO = null;
             var resultObj = parent.Find("DiceResultText");
             if (resultObj == null)
             {
-                resultObj = new GameObject("DiceResultText").transform;
-                resultObj.SetParent(parent);
-                Undo.RegisterCreatedObjectUndo(resultObj.gameObject, "Create Dice Result Text");
+                resultGO = new GameObject("DiceResultText");
+                resultGO.transform.SetParent(parent);
+                Undo.RegisterCreatedObjectUndo(resultGO, "Create Dice Result Text");
+            }
+            else
+            {
+                resultGO = resultObj.gameObject;
             }
 
-            var rectTransform = resultObj.GetComponent<RectTransform>();
+            var rectTransform = resultGO.GetComponent<RectTransform>();
             if (rectTransform == null)
-                rectTransform = resultObj.gameObject.AddComponent<RectTransform>();
+                rectTransform = resultGO.AddComponent<RectTransform>();
 
             rectTransform.anchorMin = new Vector2(0.5f, 0f);
             rectTransform.anchorMax = new Vector2(0.5f, 0f);
@@ -220,9 +240,9 @@ namespace LAS.Editor
             rectTransform.anchoredPosition = new Vector2(0, 120);
             rectTransform.sizeDelta = new Vector2(200, 40);
 
-            var text = resultObj.GetComponent<TextMeshProUGUI>();
+            var text = resultGO.GetComponent<TextMeshProUGUI>();
             if (text == null)
-                text = resultObj.gameObject.AddComponent<TextMeshProUGUI>();
+                text = resultGO.AddComponent<TextMeshProUGUI>();
 
             text.text = "Rolled: -";
             text.fontSize = 28;
@@ -232,40 +252,50 @@ namespace LAS.Editor
 
         private static void CreateGameOverPanel(Transform parent)
         {
+            GameObject panelGO = null;
             var panelObj = parent.Find("GameOverPanel");
             if (panelObj == null)
             {
-                panelObj = new GameObject("GameOverPanel").transform;
-                panelObj.SetParent(parent);
-                Undo.RegisterCreatedObjectUndo(panelObj.gameObject, "Create Game Over Panel");
+                panelGO = new GameObject("GameOverPanel");
+                panelGO.transform.SetParent(parent);
+                Undo.RegisterCreatedObjectUndo(panelGO, "Create Game Over Panel");
+            }
+            else
+            {
+                panelGO = panelObj.gameObject;
             }
 
-            var rectTransform = panelObj.GetComponent<RectTransform>();
+            var rectTransform = panelGO.GetComponent<RectTransform>();
             if (rectTransform == null)
-                rectTransform = panelObj.gameObject.AddComponent<RectTransform>();
+                rectTransform = panelGO.AddComponent<RectTransform>();
 
             rectTransform.anchorMin = Vector2.zero;
             rectTransform.anchorMax = Vector2.one;
             rectTransform.sizeDelta = Vector2.zero;
             rectTransform.anchoredPosition = Vector2.zero;
 
-            var image = panelObj.GetComponent<Image>();
+            var image = panelGO.GetComponent<Image>();
             if (image == null)
-                image = panelObj.gameObject.AddComponent<Image>();
+                image = panelGO.AddComponent<Image>();
 
             image.color = new Color(0, 0, 0, 0.8f);
 
             // Winner text
-            var winnerTextObj = panelObj.Find("WinnerText");
+            GameObject winnerTextGO = null;
+            var winnerTextObj = panelGO.transform.Find("WinnerText");
             if (winnerTextObj == null)
             {
-                winnerTextObj = new GameObject("WinnerText").transform;
-                winnerTextObj.SetParent(panelObj);
+                winnerTextGO = new GameObject("WinnerText");
+                winnerTextGO.transform.SetParent(panelGO.transform);
+            }
+            else
+            {
+                winnerTextGO = winnerTextObj.gameObject;
             }
 
-            var winnerRect = winnerTextObj.GetComponent<RectTransform>();
+            var winnerRect = winnerTextGO.GetComponent<RectTransform>();
             if (winnerRect == null)
-                winnerRect = winnerTextObj.gameObject.AddComponent<RectTransform>();
+                winnerRect = winnerTextGO.AddComponent<RectTransform>();
 
             winnerRect.anchorMin = new Vector2(0.5f, 0.5f);
             winnerRect.anchorMax = new Vector2(0.5f, 0.5f);
@@ -273,9 +303,9 @@ namespace LAS.Editor
             winnerRect.anchoredPosition = new Vector2(0, 100);
             winnerRect.sizeDelta = new Vector2(600, 100);
 
-            var winnerText = winnerTextObj.GetComponent<TextMeshProUGUI>();
+            var winnerText = winnerTextGO.GetComponent<TextMeshProUGUI>();
             if (winnerText == null)
-                winnerText = winnerTextObj.gameObject.AddComponent<TextMeshProUGUI>();
+                winnerText = winnerTextGO.AddComponent<TextMeshProUGUI>();
 
             winnerText.text = "Player 1 Wins!";
             winnerText.fontSize = 48;
@@ -283,26 +313,31 @@ namespace LAS.Editor
             winnerText.color = Color.yellow;
 
             // Play Again button
-            CreateButton(panelObj, "PlayAgainButton", "Play Again", new Vector2(0, -50), new Vector2(200, 60));
+            CreateButton(panelGO.transform, "PlayAgainButton", "Play Again", new Vector2(0, -50), new Vector2(200, 60));
 
             // Main Menu button
-            CreateButton(panelObj, "MainMenuButton", "Main Menu", new Vector2(0, -130), new Vector2(200, 60));
+            CreateButton(panelGO.transform, "MainMenuButton", "Main Menu", new Vector2(0, -130), new Vector2(200, 60));
 
-            panelObj.gameObject.SetActive(false);
+            panelGO.SetActive(false);
         }
 
         private static void CreateButton(Transform parent, string name, string text, Vector2 position, Vector2 size)
         {
+            GameObject buttonGO = null;
             var buttonObj = parent.Find(name);
             if (buttonObj == null)
             {
-                buttonObj = new GameObject(name).transform;
-                buttonObj.SetParent(parent);
+                buttonGO = new GameObject(name);
+                buttonGO.transform.SetParent(parent);
+            }
+            else
+            {
+                buttonGO = buttonObj.gameObject;
             }
 
-            var rectTransform = buttonObj.GetComponent<RectTransform>();
+            var rectTransform = buttonGO.GetComponent<RectTransform>();
             if (rectTransform == null)
-                rectTransform = buttonObj.gameObject.AddComponent<RectTransform>();
+                rectTransform = buttonGO.AddComponent<RectTransform>();
 
             rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
@@ -310,36 +345,41 @@ namespace LAS.Editor
             rectTransform.anchoredPosition = position;
             rectTransform.sizeDelta = size;
 
-            var image = buttonObj.GetComponent<Image>();
+            var image = buttonGO.GetComponent<Image>();
             if (image == null)
-                image = buttonObj.gameObject.AddComponent<Image>();
+                image = buttonGO.AddComponent<Image>();
 
             image.color = new Color(0.2f, 0.6f, 1f);
 
-            var button = buttonObj.GetComponent<Button>();
+            var button = buttonGO.GetComponent<Button>();
             if (button == null)
-                button = buttonObj.gameObject.AddComponent<Button>();
+                button = buttonGO.AddComponent<Button>();
 
             // Create button text
-            var textObj = buttonObj.Find("Text");
+            GameObject textGO = null;
+            var textObj = buttonGO.transform.Find("Text");
             if (textObj == null)
             {
-                textObj = new GameObject("Text").transform;
-                textObj.SetParent(buttonObj);
+                textGO = new GameObject("Text");
+                textGO.transform.SetParent(buttonGO.transform);
+            }
+            else
+            {
+                textGO = textObj.gameObject;
             }
 
-            var textRect = textObj.GetComponent<RectTransform>();
+            var textRect = textGO.GetComponent<RectTransform>();
             if (textRect == null)
-                textRect = textObj.gameObject.AddComponent<RectTransform>();
+                textRect = textGO.AddComponent<RectTransform>();
 
             textRect.anchorMin = Vector2.zero;
             textRect.anchorMax = Vector2.one;
             textRect.sizeDelta = Vector2.zero;
             textRect.anchoredPosition = Vector2.zero;
 
-            var buttonText = textObj.GetComponent<TextMeshProUGUI>();
+            var buttonText = textGO.GetComponent<TextMeshProUGUI>();
             if (buttonText == null)
-                buttonText = textObj.gameObject.AddComponent<TextMeshProUGUI>();
+                buttonText = textGO.AddComponent<TextMeshProUGUI>();
 
             buttonText.text = text;
             buttonText.fontSize = 24;

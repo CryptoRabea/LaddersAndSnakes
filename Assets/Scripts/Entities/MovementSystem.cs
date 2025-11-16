@@ -35,6 +35,15 @@ namespace LAS.Entities
                 landed = jumped;
             }
             piece.currentIndex = landed; piece.PlayIdle(); bus?.Publish(new PieceMovedEvent { playerIndex = evt.playerIndex, from = from, to = landed });
+
+            // Check for win condition (reached the final square)
+            if (landed >= squareTransforms.Length)
+            {
+                Debug.Log($"Player {evt.playerIndex} wins!");
+                bus?.Publish(new GameOverEvent { winnerIndex = evt.playerIndex });
+                yield break; // Don't end turn, game is over
+            }
+
             var ctrl = Object.FindAnyObjectByType<Gameplay.GameController>(); ctrl?.EndTurn();
         }
     }

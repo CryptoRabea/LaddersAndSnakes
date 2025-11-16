@@ -4,4 +4,5 @@ namespace LAS.Events
     public struct MoveRequestedEvent { public int playerIndex; public int steps; }
     public struct PieceMovedEvent { public int playerIndex; public int from; public int to; }
     public struct TurnEndedEvent { public int playerIndex; }
+    public struct GameOverEvent { public int winnerIndex; }
 }

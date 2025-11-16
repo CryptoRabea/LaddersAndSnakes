@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1724d18b3271408419321de607e29757, type: 3}
+  m_Name: New Board Config
+  m_EditorClassIdentifier: Assembly-CSharp::LAS.Config.BoardConfig
+  jumps: []
+  tiles:
+  - {fileID: 11400000, guid: 488a2a7ae46c89843af7957dddcbad94, type: 2}
+  - {fileID: 11400000, guid: 27a596c7cc913b6418e88aab6e75923e, type: 2}
+  - {fileID: 11400000, guid: e82d0b575c0a1da4690520aa26a7a192, type: 2}
+  - {fileID: 11400000, guid: 9c5e3032149f1b34ba4d764fe8c8b298, type: 2}
+  - {fileID: 11400000, guid: 4fb14170c2811b542a389e8f8675c3f5, type: 2}
+  - {fileID: 11400000, guid: 8da474509797d9a448f641d3c3cf1693, type: 2}
+  - {fileID: 11400000, guid: 2a162895fbb53cc48b404fc76cc4e916, type: 2}
+  - {fileID: 11400000, guid: e389f3d7050d7c242a8a46fcd6fe3261, type: 2}
+  - {fileID: 11400000, guid: c0c782858a96cd14a9d909db8d4f8df5, type: 2}
+  - {fileID: 11400000, guid: ad2c74f309f652f48974d6e9e6a86386, type: 2}

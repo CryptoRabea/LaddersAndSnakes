@@ -3,9 +3,9 @@ using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
 using LAS.Config;
-using LaddersAndSnakes;
+using LAS;
 
-namespace LaddersAndSnakes.Editor
+namespace LAS.Editor
 {
     /// <summary>
     /// Editor utility to create and configure default BoardConfig asset

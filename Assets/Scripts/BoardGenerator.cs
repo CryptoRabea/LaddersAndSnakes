@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using LAS.Config;
 
-namespace LaddersAndSnakes
+namespace LAS
 {
     /// <summary>
     /// Generates a default 10x10 Snakes and Ladders board with visual tiles

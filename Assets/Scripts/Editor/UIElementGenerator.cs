@@ -5,9 +5,9 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using LaddersAndSnakes.Core;
+using LAS.Core;
 
-namespace LaddersAndSnakes.Editor
+namespace LAS.Editor
 {
     /// <summary>
     /// Core utility for generating UI elements in the scene

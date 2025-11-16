@@ -9,7 +9,6 @@ namespace LAS.Config
     public class BoardConfig : ScriptableObject
     {
         public List<BoardJump> jumps = new List<BoardJump>();
-        public TileData[] tiles;
 
     }
 

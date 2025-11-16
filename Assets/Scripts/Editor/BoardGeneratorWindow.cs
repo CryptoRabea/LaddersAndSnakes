@@ -3,7 +3,7 @@ using UnityEditor;
 using System.Collections.Generic;
 using LAS.Config;
 
-namespace LaddersAndSnakes.Editor
+namespace LAS.Editor
 {
     /// <summary>
     /// Editor window for generating board configurations

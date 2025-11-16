@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LaddersAndSnakes
+namespace LAS.Config
 {
     /// <summary>
     /// Configuration for procedural board generation

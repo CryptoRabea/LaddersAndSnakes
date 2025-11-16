@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace LaddersAndSnakes.Core
+namespace LAS.Core
 {
     /// <summary>
     /// Attribute to mark UI fields for automatic reference binding.

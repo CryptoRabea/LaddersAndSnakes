@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LaddersAndSnakes
+namespace LAS.Config
 {
     /// <summary>
     /// Stores a difficulty preset configuration for board generation

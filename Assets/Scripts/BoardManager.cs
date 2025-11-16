@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Handles all board logic — tile data, world positions, ladders/snakes mapping.
+/// Handles all board logic â€“ tile positions, ladders/snakes mapping.
 /// Fully event-driven, no Update() usage.
 /// </summary>
 public class BoardManager : MonoBehaviour
@@ -13,6 +13,7 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private Transform boardParent;   // Parent containing tile transforms (optional)
 
     private Dictionary<int, Transform> tileLookup = new Dictionary<int, Transform>();
+    private Dictionary<int, int> jumpLookup = new Dictionary<int, int>(); // from -> to mapping
 
     private void Awake()
     {
@@ -29,13 +30,23 @@ public class BoardManager : MonoBehaviour
             Debug.LogWarning("BoardManager: No boardParent assigned. Generating logical positions only.");
         }
 
-        // Build lookup based on child transforms (if a visual board exists)
+        // Build tile lookup based on child transforms (if a visual board exists)
         tileLookup.Clear();
         if (boardParent != null)
         {
             for (int i = 0; i < boardParent.childCount; i++)
             {
                 tileLookup[i + 1] = boardParent.GetChild(i);
+            }
+        }
+
+        // Build jump lookup from BoardConfig jumps
+        jumpLookup.Clear();
+        if (boardConfig != null && boardConfig.jumps != null)
+        {
+            foreach (var jump in boardConfig.jumps)
+            {
+                jumpLookup[jump.from] = jump.to;
             }
         }
     }
@@ -59,45 +70,39 @@ public class BoardManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns the ScriptableObject tile data (for ladders/snakes).
-    /// </summary>
-    public TileData GetTile(int index)
-    {
-        if (boardConfig == null || boardConfig.tiles == null)
-            return null;
-
-        if (index >= 0 && index < boardConfig.tiles.Length)
-            return boardConfig.tiles[index];
-
-        return null;
-    }
-
-    /// <summary>
     /// Finds the final position if the tile leads to a ladder or snake.
     /// </summary>
     public int GetTargetTileIndex(int currentTile)
     {
-        TileData tile = GetTile(currentTile);
-        if (tile == null) return currentTile;
-
-        if (tile.tileType == TileType.LadderStart || tile.tileType == TileType.SnakeHead)
-            return tile.targetTileIndex;
+        if (jumpLookup.TryGetValue(currentTile, out int targetTile))
+            return targetTile;
 
         return currentTile;
+    }
+
+    /// <summary>
+    /// Gets the BoardConfig asset being used
+    /// </summary>
+    public BoardConfig GetBoardConfig()
+    {
+        return boardConfig;
     }
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        if (boardConfig == null || boardConfig.tiles == null)
+        if (boardConfig == null || boardConfig.jumps == null)
             return;
 
         Gizmos.color = Color.yellow;
-        foreach (var tile in boardConfig.tiles)
+        foreach (var jump in boardConfig.jumps)
         {
-            if (tile == null) continue;
-            Vector3 pos = GetTilePosition(tile.tileIndex);
-            Gizmos.DrawSphere(pos, 0.1f);
+            Vector3 fromPos = GetTilePosition(jump.from);
+            Vector3 toPos = GetTilePosition(jump.to);
+
+            Gizmos.color = jump.isLadder ? Color.green : Color.red;
+            Gizmos.DrawLine(fromPos + Vector3.up * 0.2f, toPos + Vector3.up * 0.2f);
+            Gizmos.DrawSphere(fromPos + Vector3.up * 0.2f, 0.1f);
         }
     }
 #endif

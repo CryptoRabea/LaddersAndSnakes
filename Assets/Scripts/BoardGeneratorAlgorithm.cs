@@ -82,10 +82,10 @@ namespace LaddersAndSnakes
 
             for (int i = 0; i < count; i++)
             {
-                BoardJump jump = GenerateSingleJump(existingJumps, isLadder, out error);
-                if (jump != null)
+                BoardJump? jump = GenerateSingleJump(existingJumps, isLadder, out error);
+                if (jump.HasValue)
                 {
-                    existingJumps.Add(jump);
+                    existingJumps.Add(jump.Value);
                     successfulPlacements++;
                 }
                 else
@@ -111,7 +111,7 @@ namespace LaddersAndSnakes
         /// <summary>
         /// Generates a single jump (ladder or snake)
         /// </summary>
-        private BoardJump GenerateSingleJump(List<BoardJump> existingJumps, bool isLadder, out string error)
+        private BoardJump? GenerateSingleJump(List<BoardJump> existingJumps, bool isLadder, out string error)
         {
             for (int attempt = 0; attempt < config.maxPlacementAttempts; attempt++)
             {

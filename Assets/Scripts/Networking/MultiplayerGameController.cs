@@ -18,7 +18,7 @@ namespace LAS.Networking
         private NetworkManager networkManager;
         private int totalPlayers = 2;
 
-        protected virtual void Awake()
+        protected override void Awake()
         {
             base.Awake();
 

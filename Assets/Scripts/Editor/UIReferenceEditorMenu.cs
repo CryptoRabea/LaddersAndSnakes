@@ -1,7 +1,10 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using LaddersAndSnakes.Core;
-using System.Collections.Generic;
 
 namespace LaddersAndSnakes.Editor
 {
@@ -157,7 +160,8 @@ namespace LaddersAndSnakes.Editor
             bool hasUIReferences = false;
             foreach (var field in fields)
             {
-                if (field.GetCustomAttribute<UIReferenceAttribute>() != null)
+                var attrs = field.GetCustomAttributes(typeof(UIReferenceAttribute), false);
+                if (attrs != null && attrs.Length > 0)
                 {
                     hasUIReferences = true;
                     break;

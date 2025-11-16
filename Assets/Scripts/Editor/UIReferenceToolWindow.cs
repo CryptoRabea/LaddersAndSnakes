@@ -1,7 +1,9 @@
-using UnityEditor;
-using UnityEngine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using UnityEditor;
+using UnityEngine;
 using LaddersAndSnakes.Core;
 
 namespace LaddersAndSnakes.Editor
@@ -176,9 +178,10 @@ namespace LaddersAndSnakes.Editor
 
             foreach (var field in fields)
             {
-                var attribute = field.GetCustomAttribute<UIReferenceAttribute>();
-                if (attribute == null) continue;
+                var attrs = field.GetCustomAttributes(typeof(UIReferenceAttribute), false);
+                if (attrs == null || attrs.Length == 0) continue;
 
+                var attribute = (UIReferenceAttribute)attrs[0];
                 hasAnyReference = true;
                 object value = field.GetValue(component);
                 bool isAssigned = value != null && !value.Equals(null);
@@ -375,8 +378,8 @@ namespace LaddersAndSnakes.Editor
 
                 foreach (var field in fields)
                 {
-                    var attribute = field.GetCustomAttribute<UIReferenceAttribute>();
-                    if (attribute != null)
+                    var attrs = field.GetCustomAttributes(typeof(UIReferenceAttribute), false);
+                    if (attrs != null && attrs.Length > 0)
                     {
                         field.SetValue(component, null);
                     }

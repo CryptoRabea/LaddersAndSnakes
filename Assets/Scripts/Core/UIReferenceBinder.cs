@@ -13,6 +13,15 @@ namespace LaddersAndSnakes.Core
     public static class UIReferenceBinder
     {
         /// <summary>
+        /// Helper method to get custom attribute in a Unity-compatible way
+        /// </summary>
+        private static T GetCustomAttribute<T>(this FieldInfo field) where T : Attribute
+        {
+            var attrs = field.GetCustomAttributes(typeof(T), false);
+            return attrs != null && attrs.Length > 0 ? (T)attrs[0] : null;
+        }
+
+        /// <summary>
         /// Binds all fields marked with [UIReference] attribute on the given component
         /// </summary>
         /// <param name="component">Component to bind references for</param>
@@ -213,11 +222,12 @@ namespace LaddersAndSnakes.Core
         /// </summary>
         private static UnityEngine.Object FindInScene(string name, Type componentType, string tag = null)
         {
-            Component[] allComponents = UnityEngine.Object.FindObjectsOfType(componentType, true);
+            UnityEngine.Object[] allObjects = UnityEngine.Object.FindObjectsOfType(componentType, true);
 
-            foreach (Component comp in allComponents)
+            foreach (UnityEngine.Object obj in allObjects)
             {
-                if (comp.name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                Component comp = obj as Component;
+                if (comp != null && comp.name.Equals(name, StringComparison.OrdinalIgnoreCase))
                 {
                     if (string.IsNullOrEmpty(tag) || comp.CompareTag(tag))
                         return comp;

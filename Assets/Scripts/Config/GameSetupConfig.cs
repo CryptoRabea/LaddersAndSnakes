@@ -58,12 +58,4 @@ namespace LAS.Config
         Host,
         Client
     }
-
-    public enum DifficultyLevel
-    {
-        Easy,
-        Medium,
-        Hard,
-        Extreme
-    }
 }

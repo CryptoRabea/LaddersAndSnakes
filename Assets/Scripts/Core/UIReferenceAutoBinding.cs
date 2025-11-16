@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace LaddersAndSnakes.Core
@@ -91,7 +94,8 @@ namespace LaddersAndSnakes.Core
 
                         foreach (var field in fields)
                         {
-                            if (field.GetCustomAttribute<UIReferenceAttribute>() != null)
+                            var attrs = field.GetCustomAttributes(typeof(UIReferenceAttribute), false);
+                            if (attrs != null && attrs.Length > 0)
                             {
                                 validComponents.Add(component);
                                 break;

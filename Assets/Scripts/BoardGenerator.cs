@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using LAS.Config;
 
 namespace LaddersAndSnakes
 {

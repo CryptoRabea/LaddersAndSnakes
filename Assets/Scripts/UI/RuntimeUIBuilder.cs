@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using LAS.Entities;
+using LAS.Config;
 
 namespace LAS.UI
 {
@@ -47,6 +49,9 @@ namespace LAS.UI
             // Ensure EventSystem exists
             EnsureEventSystem();
 
+            // Ensure DiceModel exists
+            EnsureDiceModel();
+
             // Create UI elements
             CreateTurnIndicator();
             CreateRollDiceButton();
@@ -79,6 +84,49 @@ namespace LAS.UI
                 eventSystemObj.AddComponent<StandaloneInputModule>();
                 Debug.Log("[RuntimeUIBuilder] Created EventSystem");
             }
+        }
+
+        private void EnsureDiceModel()
+        {
+            // Check if DiceModel already exists
+            var existingDiceModel = FindObjectOfType<DiceModel>();
+            if (existingDiceModel != null)
+            {
+                Debug.Log("[RuntimeUIBuilder] DiceModel already exists");
+                return;
+            }
+
+            // Create DiceModel GameObject
+            var diceModelObj = new GameObject("DiceModel");
+            var diceModel = diceModelObj.AddComponent<DiceModel>();
+
+            // Try to load the DiceConfig asset
+            var diceConfig = Resources.Load<DiceConfig>("New Dice Config");
+            if (diceConfig == null)
+            {
+                // Try to find any DiceConfig in the project
+                #if UNITY_EDITOR
+                string[] guids = UnityEditor.AssetDatabase.FindAssets("t:DiceConfig");
+                if (guids.Length > 0)
+                {
+                    string path = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[0]);
+                    diceConfig = UnityEditor.AssetDatabase.LoadAssetAtPath<DiceConfig>(path);
+                    Debug.Log($"[RuntimeUIBuilder] Loaded DiceConfig from {path}");
+                }
+                #endif
+            }
+
+            // If still no config, create a default one at runtime
+            if (diceConfig == null)
+            {
+                diceConfig = ScriptableObject.CreateInstance<DiceConfig>();
+                diceConfig.sides = 6;
+                diceConfig.rollDuration = 1.2f;
+                Debug.Log("[RuntimeUIBuilder] Created runtime DiceConfig with default values");
+            }
+
+            diceModel.config = diceConfig;
+            Debug.Log("[RuntimeUIBuilder] Created DiceModel and assigned config");
         }
 
         private void CreateTurnIndicator()

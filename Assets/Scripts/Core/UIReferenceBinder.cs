@@ -200,16 +200,20 @@ namespace LaddersAndSnakes.Core
         }
 
         /// <summary>
-        /// Recursively finds a child by name
+        /// Recursively finds a child by name with depth limiting to prevent stack overflow
         /// </summary>
-        private static Transform FindChildRecursive(Transform parent, string name)
+        private static Transform FindChildRecursive(Transform parent, string name, int maxDepth = 50, int currentDepth = 0)
         {
+            // Prevent stack overflow by limiting recursion depth
+            if (currentDepth >= maxDepth)
+                return null;
+
             foreach (Transform child in parent)
             {
                 if (child.name == name)
                     return child;
 
-                Transform found = FindChildRecursive(child, name);
+                Transform found = FindChildRecursive(child, name, maxDepth, currentDepth + 1);
                 if (found != null)
                     return found;
             }

@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: GameSetupConfig
   m_EditorClassIdentifier: Assembly-CSharp::LAS.Config.GameSetupConfig
   playerCount: 2
-  enableAI: 0
-  aiPlayerCount: 0
+  enableAI: 1
+  aiPlayerCount: 1
   enableNetworking: 0
   networkMode: 0
   serverAddress: localhost
-  useProceduralBoard: 0
+  useProceduralBoard: 1
   difficultyLevel: 1
   randomSeed: 0
   cameraDistance: 15

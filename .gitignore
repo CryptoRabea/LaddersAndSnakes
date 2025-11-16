@@ -56,25 +56,19 @@ MemoryCaptures/
 *.zip
 *.rar
 *.7z
+
+# Note: DO NOT ignore .meta, .prefab, .unity, .asset files
+# These are essential for Unity to maintain proper references
+# Only ignore large binary assets like textures and models
 *.Fbx
-*.shader
 *.png
-*.asset
-*.meta
-*.mat
-*.prefab
 *.jpg
-*.shaderGraph
 *.exr
 *.tga
-*.unity
-*.lighting
-*.terrainlayer
-*.controller
-*.json
-*.vsconfig
+*.shader
+*.shaderGraph
 *.txt
-*.inputactions
+*.vsconfig
 
 # OS
 .DS_Store

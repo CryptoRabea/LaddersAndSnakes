@@ -23,6 +23,7 @@ namespace LAS.UI
         [SerializeField] private Button settingsButton;
         [SerializeField] private Button quitButton;
 
+
         [Header("Multiplayer Options")]
         [SerializeField] private Button hostGameButton;
         [SerializeField] private Button joinGameButton;
@@ -32,6 +33,8 @@ namespace LAS.UI
 
         [Header("Settings")]
         [SerializeField] private string gameSceneName = "GameScene";
+        [SerializeField] private string mainMenuSceneName = "MainMenu";
+        [SerializeField] private Button settingsBackButton;
 
         private void Start()
         {
@@ -81,6 +84,9 @@ namespace LAS.UI
 
             if (backButton != null)
                 backButton.onClick.AddListener(OnBack);
+
+            if (settingsBackButton != null)
+                settingsBackButton.onClick.AddListener(OnBack);
         }
 
         private void ShowMainPanel()
@@ -228,6 +234,9 @@ namespace LAS.UI
 
             if (backButton != null)
                 backButton.onClick.RemoveListener(OnBack);
+
+            if (settingsBackButton != null)
+                settingsBackButton.onClick.RemoveListener(OnBack);
         }
     }
 }

@@ -1,0 +1,158 @@
+[2025-11-14 17:07:27.998 +02:00 INF 1763132847859] Launching bug reporter: "Release" session 1763132847859
+[2025-11-14 17:07:29.446 +02:00 WRN 1763132847859] Glob search returned no results for ProgramData\Unity\Editor\upm.log
+[2025-11-14 17:07:29.619 +02:00 INF 1763132847859] Event triggered: bug_reporter_opened
+[2025-11-14 17:07:29.941 +02:00 INF 1763132847859] Creating / overwriting file at C:\Users\youss\AppData\Local\Temp\UnityBugReporter_1763132847859\system_info.txt
+[2025-11-14 17:07:29.942 +02:00 INF 1763132847859] Creating directory at C:\Users\youss\AppData\Local\Temp\UnityBugReporter_1763132847859
+[2025-11-14 17:07:29.975 +02:00 INF 1763132847859] Event triggered: attachment_added
+[2025-11-14 17:07:30.918 +02:00 INF 1763132847859] Event triggered: attachment_added
+[2025-11-14 17:07:30.944 +02:00 INF 1763132847859] Event triggered: attachment_added
+[2025-11-14 17:07:30.952 +02:00 INF 1763132847859] Event triggered: attachment_added
+[2025-11-14 17:07:30.967 +02:00 INF 1763132847859] Event triggered: attachment_added
+[2025-11-14 17:07:30.979 +02:00 INF 1763132847859] Event triggered: attachment_added
+[2025-11-14 17:07:30.985 +02:00 INF 1763132847859] Event triggered: attachment_added
+[2025-11-14 17:07:30.996 +02:00 INF 1763132847859] Event triggered: attachment_added
+[2025-11-14 17:07:31.010 +02:00 INF 1763132847859] Event triggered: attachment_added
+[2025-11-14 17:07:31.020 +02:00 INF 1763132847859] Event triggered: attachment_added
+[2025-11-14 17:07:31.412 +02:00 INF 1763132847859] Launch status: 15 - Launched, ReadCliArgs, ReadSettings, LoadedReport
+[2025-11-14 17:07:35.148 +02:00 INF 1763132847859] Creating / overwriting file at C:\ProgramData\Unity\config\bugreporter-settings.json
+[2025-11-14 17:07:35.159 +02:00 INF 1763132847859] Deleting directory at C:\Users\youss\AppData\Local\Temp\UnityBugReporter_1763132847859
+[2025-11-14 17:07:35.160 +02:00 INF 1763132847859] Event triggered: report_cancelled
+[2025-11-14 17:07:35.200 +02:00 INF 1763132847859] Event triggered: bug_reporter_closed
+[2025-11-14 23:19:19.851 +02:00 INF 1763155159720] Launching bug reporter: "Release" session 1763155159720
+[2025-11-14 23:19:21.634 +02:00 WRN 1763155159720] Glob search returned no results for ProgramData\Unity\Editor\upm.log
+[2025-11-14 23:19:21.801 +02:00 INF 1763155159720] Event triggered: bug_reporter_opened
+[2025-11-14 23:19:22.100 +02:00 INF 1763155159720] Creating / overwriting file at C:\Users\youss\AppData\Local\Temp\UnityBugReporter_1763155159720\system_info.txt
+[2025-11-14 23:19:22.100 +02:00 INF 1763155159720] Creating directory at C:\Users\youss\AppData\Local\Temp\UnityBugReporter_1763155159720
+[2025-11-14 23:19:22.127 +02:00 INF 1763155159720] Event triggered: attachment_added
+[2025-11-14 23:19:23.284 +02:00 INF 1763155159720] Event triggered: attachment_added
+[2025-11-14 23:19:23.304 +02:00 INF 1763155159720] Event triggered: attachment_added
+[2025-11-14 23:19:23.326 +02:00 INF 1763155159720] Event triggered: attachment_added
+[2025-11-14 23:19:23.338 +02:00 INF 1763155159720] Event triggered: attachment_added
+[2025-11-14 23:19:23.352 +02:00 INF 1763155159720] Event triggered: attachment_added
+[2025-11-14 23:19:23.367 +02:00 INF 1763155159720] Event triggered: attachment_added
+[2025-11-14 23:19:23.381 +02:00 INF 1763155159720] Event triggered: attachment_added
+[2025-11-14 23:19:23.397 +02:00 INF 1763155159720] Event triggered: attachment_added
+[2025-11-14 23:19:23.408 +02:00 INF 1763155159720] Event triggered: attachment_added
+[2025-11-14 23:19:23.884 +02:00 INF 1763155159720] Launch status: 15 - Launched, ReadCliArgs, ReadSettings, LoadedReport
+[2025-11-14 23:19:31.578 +02:00 INF 1763155159720] Event triggered: unity_project_size_reduced
+[2025-11-14 23:19:31.586 +02:00 INF 1763155159720] Event triggered: attachment_populated
+[2025-11-14 23:19:35.892 +02:00 INF 1763155159720] Creating / overwriting file at C:\ProgramData\Unity\config\bugreporter-settings.json
+[2025-11-14 23:19:35.897 +02:00 INF 1763155159720] Deleting directory at C:\Users\youss\AppData\Local\Temp\UnityBugReporter_1763155159720
+[2025-11-14 23:19:35.898 +02:00 INF 1763155159720] Event triggered: report_cancelled
+[2025-11-14 23:19:35.963 +02:00 INF 1763155159720] Event triggered: bug_reporter_closed
+[2025-11-15 15:20:29.418 +02:00 INF 1763212829225] Launching bug reporter: "Release" session 1763212829225
+[2025-11-15 15:20:30.970 +02:00 WRN 1763212829225] Glob search returned no results for ProgramData\Unity\Editor\upm.log
+[2025-11-15 15:20:31.227 +02:00 INF 1763212829225] Event triggered: bug_reporter_opened
+[2025-11-15 15:20:31.542 +02:00 INF 1763212829225] Creating / overwriting file at C:\Users\youss\AppData\Local\Temp\UnityBugReporter_1763212829225\system_info.txt
+[2025-11-15 15:20:31.543 +02:00 INF 1763212829225] Creating directory at C:\Users\youss\AppData\Local\Temp\UnityBugReporter_1763212829225
+[2025-11-15 15:20:31.612 +02:00 INF 1763212829225] Event triggered: attachment_added
+[2025-11-15 15:20:33.163 +02:00 INF 1763212829225] Event triggered: attachment_added
+[2025-11-15 15:20:33.188 +02:00 INF 1763212829225] Event triggered: attachment_added
+[2025-11-15 15:20:33.216 +02:00 INF 1763212829225] Event triggered: attachment_added
+[2025-11-15 15:20:33.229 +02:00 INF 1763212829225] Event triggered: attachment_added
+[2025-11-15 15:20:33.242 +02:00 INF 1763212829225] Event triggered: attachment_added
+[2025-11-15 15:20:33.259 +02:00 INF 1763212829225] Event triggered: attachment_added
+[2025-11-15 15:20:33.272 +02:00 INF 1763212829225] Event triggered: attachment_added
+[2025-11-15 15:20:33.289 +02:00 INF 1763212829225] Event triggered: attachment_added
+[2025-11-15 15:20:33.301 +02:00 INF 1763212829225] Event triggered: attachment_added
+[2025-11-15 15:20:33.308 +02:00 WRN 1763212829225] Failed to make the 'GetUnityHubUser' request to the Unity Hub. TimeoutException: The operation has timed out.
+[2025-11-15 15:20:33.309 +02:00 WRN 1763212829225] Failed to make the 'GetUnityHubUser' request to the Unity Hub. TimeoutException: The operation has timed out.
+[2025-11-15 15:20:33.514 +02:00 WRN 1763212829225] Failed to make the 'GetUnityHubUser' request to the Unity Hub. TimeoutException: The operation has timed out.
+[2025-11-15 15:20:34.059 +02:00 INF 1763212829225] Launch status: 15 - Launched, ReadCliArgs, ReadSettings, LoadedReport
+[2025-11-15 15:20:34.155 +02:00 WRN 1763212829225] Failed to make the 'GetUnityHubUser' request to the Unity Hub. TimeoutException: The operation has timed out.
+[2025-11-15 15:20:34.195 +02:00 WRN 1763212829225] Failed to make the 'GetUnityHubUser' request to the Unity Hub. TimeoutException: The operation has timed out.
+[2025-11-15 15:20:34.228 +02:00 WRN 1763212829225] Failed to make the 'GetUnityHubUser' request to the Unity Hub. TimeoutException: The operation has timed out.
+[2025-11-15 15:20:34.263 +02:00 WRN 1763212829225] Failed to make the 'GetUnityHubUser' request to the Unity Hub. TimeoutException: The operation has timed out.
+[2025-11-15 15:20:35.469 +02:00 WRN 1763212829225] Failed to make the 'GetUnityHubUser' request to the Unity Hub. TimeoutException: The operation has timed out.
+[2025-11-15 15:20:35.500 +02:00 WRN 1763212829225] Failed to make the 'GetUnityHubUser' request to the Unity Hub. TimeoutException: The operation has timed out.
+[2025-11-15 15:20:35.534 +02:00 WRN 1763212829225] Failed to make the 'GetUnityHubUser' request to the Unity Hub. TimeoutException: The operation has timed out.
+[2025-11-15 15:20:35.566 +02:00 WRN 1763212829225] Failed to make the 'GetUnityHubUser' request to the Unity Hub. TimeoutException: The operation has timed out.
+[2025-11-15 15:20:35.600 +02:00 WRN 1763212829225] Failed to make the 'GetUnityHubUser' request to the Unity Hub. TimeoutException: The operation has timed out.
+[2025-11-15 15:20:44.454 +02:00 INF 1763212829225] Event triggered: unity_project_size_reduced
+[2025-11-15 15:20:44.465 +02:00 INF 1763212829225] Event triggered: attachment_populated
+[2025-11-15 15:21:03.055 +02:00 INF 1763212829225] Creating / overwriting file at C:\ProgramData\Unity\config\bugreporter-settings.json
+[2025-11-15 15:21:03.079 +02:00 INF 1763212829225] Deleting directory at C:\Users\youss\AppData\Local\Temp\UnityBugReporter_1763212829225
+[2025-11-15 15:21:03.083 +02:00 INF 1763212829225] Event triggered: report_cancelled
+[2025-11-15 15:21:03.214 +02:00 INF 1763212829225] Event triggered: bug_reporter_closed
+[2025-11-16 13:03:27.628 +02:00 INF 1763291007457] Launching bug reporter: "Release" session 1763291007457
+[2025-11-16 13:03:29.219 +02:00 WRN 1763291007457] Glob search returned no results for ProgramData\Unity\Editor\upm.log
+[2025-11-16 13:03:29.407 +02:00 INF 1763291007457] Event triggered: bug_reporter_opened
+[2025-11-16 13:03:29.728 +02:00 INF 1763291007457] Creating / overwriting file at C:\Users\youss\AppData\Local\Temp\UnityBugReporter_1763291007457\system_info.txt
+[2025-11-16 13:03:29.729 +02:00 INF 1763291007457] Creating directory at C:\Users\youss\AppData\Local\Temp\UnityBugReporter_1763291007457
+[2025-11-16 13:03:29.758 +02:00 INF 1763291007457] Event triggered: attachment_added
+[2025-11-16 13:03:30.987 +02:00 INF 1763291007457] Event triggered: attachment_added
+[2025-11-16 13:03:31.032 +02:00 INF 1763291007457] Event triggered: attachment_added
+[2025-11-16 13:03:31.055 +02:00 INF 1763291007457] Event triggered: attachment_added
+[2025-11-16 13:03:31.069 +02:00 INF 1763291007457] Event triggered: attachment_added
+[2025-11-16 13:03:31.086 +02:00 INF 1763291007457] Event triggered: attachment_added
+[2025-11-16 13:03:31.103 +02:00 INF 1763291007457] Event triggered: attachment_added
+[2025-11-16 13:03:31.113 +02:00 INF 1763291007457] Event triggered: attachment_added
+[2025-11-16 13:03:31.126 +02:00 INF 1763291007457] Event triggered: attachment_added
+[2025-11-16 13:03:31.137 +02:00 INF 1763291007457] Event triggered: attachment_added
+[2025-11-16 13:03:31.527 +02:00 INF 1763291007457] Launch status: 15 - Launched, ReadCliArgs, ReadSettings, LoadedReport
+[2025-11-16 13:03:34.054 +02:00 INF 1763291007457] Creating / overwriting file at C:\ProgramData\Unity\config\bugreporter-settings.json
+[2025-11-16 13:03:34.058 +02:00 INF 1763291007457] Deleting directory at C:\Users\youss\AppData\Local\Temp\UnityBugReporter_1763291007457
+[2025-11-16 13:03:34.059 +02:00 INF 1763291007457] Event triggered: report_cancelled
+[2025-11-16 13:03:34.111 +02:00 INF 1763291007457] Event triggered: bug_reporter_closed
+[2025-11-16 14:53:34.815 +02:00 INF 1763297614625] Launching bug reporter: "Release" session 1763297614625
+[2025-11-16 14:53:36.947 +02:00 WRN 1763297614625] Glob search returned no results for ProgramData\Unity\Editor\upm.log
+[2025-11-16 14:53:37.135 +02:00 INF 1763297614625] Event triggered: bug_reporter_opened
+[2025-11-16 14:53:37.619 +02:00 INF 1763297614625] Creating / overwriting file at C:\Users\youss\AppData\Local\Temp\UnityBugReporter_1763297614625\system_info.txt
+[2025-11-16 14:53:37.620 +02:00 INF 1763297614625] Creating directory at C:\Users\youss\AppData\Local\Temp\UnityBugReporter_1763297614625
+[2025-11-16 14:53:37.648 +02:00 INF 1763297614625] Event triggered: attachment_added
+[2025-11-16 14:53:38.700 +02:00 INF 1763297614625] Event triggered: attachment_added
+[2025-11-16 14:53:38.722 +02:00 INF 1763297614625] Event triggered: attachment_added
+[2025-11-16 14:53:38.747 +02:00 INF 1763297614625] Event triggered: attachment_added
+[2025-11-16 14:53:38.758 +02:00 INF 1763297614625] Event triggered: attachment_added
+[2025-11-16 14:53:38.776 +02:00 INF 1763297614625] Event triggered: attachment_added
+[2025-11-16 14:53:38.788 +02:00 INF 1763297614625] Event triggered: attachment_added
+[2025-11-16 14:53:38.801 +02:00 INF 1763297614625] Event triggered: attachment_added
+[2025-11-16 14:53:38.813 +02:00 INF 1763297614625] Event triggered: attachment_added
+[2025-11-16 14:53:38.823 +02:00 INF 1763297614625] Event triggered: attachment_added
+[2025-11-16 14:53:39.154 +02:00 INF 1763297614625] Launch status: 15 - Launched, ReadCliArgs, ReadSettings, LoadedReport
+[2025-11-16 14:53:46.865 +02:00 INF 1763297614625] Event triggered: unity_project_size_reduced
+[2025-11-16 14:53:46.873 +02:00 INF 1763297614625] Event triggered: attachment_populated
+[2025-11-16 14:54:32.485 +02:00 INF 1763297614625] Creating / overwriting file at C:\ProgramData\Unity\config\bugreporter-settings.json
+[2025-11-16 14:54:32.497 +02:00 INF 1763297614625] Deleting directory at C:\Users\youss\AppData\Local\Temp\UnityBugReporter_1763297614625
+[2025-11-16 14:54:32.498 +02:00 INF 1763297614625] Event triggered: report_cancelled
+[2025-11-16 14:54:32.550 +02:00 INF 1763297614625] Event triggered: bug_reporter_closed
+[2025-11-16 16:19:47.250 +02:00 INF 1763302787041] Launching bug reporter: "Release" session 1763302787041
+[2025-11-16 16:19:49.048 +02:00 WRN 1763302787041] Glob search returned no results for ProgramData\Unity\Editor\upm.log
+[2025-11-16 16:19:49.270 +02:00 INF 1763302787041] Event triggered: bug_reporter_opened
+[2025-11-16 16:19:49.578 +02:00 INF 1763302787041] Creating / overwriting file at C:\Users\youss\AppData\Local\Temp\UnityBugReporter_1763302787041\system_info.txt
+[2025-11-16 16:19:49.579 +02:00 INF 1763302787041] Creating directory at C:\Users\youss\AppData\Local\Temp\UnityBugReporter_1763302787041
+[2025-11-16 16:19:49.608 +02:00 INF 1763302787041] Event triggered: attachment_added
+[2025-11-16 16:19:50.856 +02:00 INF 1763302787041] Event triggered: attachment_added
+[2025-11-16 16:19:50.889 +02:00 INF 1763302787041] Event triggered: attachment_added
+[2025-11-16 16:19:50.921 +02:00 INF 1763302787041] Event triggered: attachment_added
+[2025-11-16 16:19:50.934 +02:00 INF 1763302787041] Event triggered: attachment_added
+[2025-11-16 16:19:50.950 +02:00 INF 1763302787041] Event triggered: attachment_added
+[2025-11-16 16:19:50.965 +02:00 INF 1763302787041] Event triggered: attachment_added
+[2025-11-16 16:19:50.980 +02:00 INF 1763302787041] Event triggered: attachment_added
+[2025-11-16 16:19:50.996 +02:00 INF 1763302787041] Event triggered: attachment_added
+[2025-11-16 16:19:51.012 +02:00 INF 1763302787041] Event triggered: attachment_added
+[2025-11-16 16:19:51.353 +02:00 INF 1763302787041] Launch status: 15 - Launched, ReadCliArgs, ReadSettings, LoadedReport
+[2025-11-16 16:20:00.913 +02:00 INF 1763302787041] Event triggered: unity_project_size_reduced
+[2025-11-16 16:20:00.920 +02:00 INF 1763302787041] Event triggered: attachment_populated
+[2025-11-16 16:20:19.874 +02:00 INF 1763302787041] Creating / overwriting file at C:\ProgramData\Unity\config\bugreporter-settings.json
+[2025-11-16 16:20:19.883 +02:00 INF 1763302787041] Deleting directory at C:\Users\youss\AppData\Local\Temp\UnityBugReporter_1763302787041
+[2025-11-16 16:20:19.885 +02:00 INF 1763302787041] Event triggered: report_cancelled
+[2025-11-16 16:20:19.979 +02:00 INF 1763302787041] Event triggered: bug_reporter_closed
+[2025-11-16 17:50:49.634 +02:00 INF 1763308249478] Launching bug reporter: "Release" session 1763308249478
+[2025-11-16 17:50:51.059 +02:00 WRN 1763308249478] Glob search returned no results for ProgramData\Unity\Editor\upm.log
+[2025-11-16 17:50:51.270 +02:00 INF 1763308249478] Event triggered: bug_reporter_opened
+[2025-11-16 17:50:51.810 +02:00 INF 1763308249478] Creating / overwriting file at C:\Users\youss\AppData\Local\Temp\UnityBugReporter_1763308249478\system_info.txt
+[2025-11-16 17:50:51.811 +02:00 INF 1763308249478] Creating directory at C:\Users\youss\AppData\Local\Temp\UnityBugReporter_1763308249478
+[2025-11-16 17:50:51.895 +02:00 INF 1763308249478] Event triggered: attachment_added
+[2025-11-16 17:50:53.032 +02:00 INF 1763308249478] Event triggered: attachment_added
+[2025-11-16 17:50:53.052 +02:00 INF 1763308249478] Event triggered: attachment_added
+[2025-11-16 17:50:53.071 +02:00 INF 1763308249478] Event triggered: attachment_added
+[2025-11-16 17:50:53.086 +02:00 INF 1763308249478] Event triggered: attachment_added
+[2025-11-16 17:50:53.097 +02:00 INF 1763308249478] Event triggered: attachment_added
+[2025-11-16 17:50:53.108 +02:00 INF 1763308249478] Event triggered: attachment_added
+[2025-11-16 17:50:53.122 +02:00 INF 1763308249478] Event triggered: attachment_added
+[2025-11-16 17:50:53.134 +02:00 INF 1763308249478] Event triggered: attachment_added
+[2025-11-16 17:50:53.146 +02:00 INF 1763308249478] Event triggered: attachment_added
+[2025-11-16 17:50:53.468 +02:00 INF 1763308249478] Launch status: 15 - Launched, ReadCliArgs, ReadSettings, LoadedReport
+[2025-11-16 17:51:02.002 +02:00 INF 1763308249478] Event triggered: unity_project_size_reduced
+[2025-11-16 17:51:02.012 +02:00 INF 1763308249478] Event triggered: attachment_populated

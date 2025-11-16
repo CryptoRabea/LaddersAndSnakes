@@ -157,7 +157,7 @@ namespace LAS.Editor
         [MenuItem(MENU_ROOT + "Setup/Quick Scene Setup", false, PRIORITY_SETUP + 1)]
         public static void QuickSceneSetup()
         {
-            QuickUISetup.SetupGameScene();
+            QuickUISetup.SetupRuntimeUIBuilder();
         }
 
         #endregion

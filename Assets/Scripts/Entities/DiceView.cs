@@ -6,7 +6,6 @@ using LAS.Core;
 
 namespace LAS.Entities
 {
-    [RequireComponent(typeof(Animator))]
     public class DiceView : MonoBehaviour, IPoolable
     {
         public Animator animator;
@@ -16,8 +15,16 @@ namespace LAS.Entities
         public void OnDespawn() { }
         public void RollVisual(int finalFace)
         {
-            if (animator != null) { animator.SetInteger("Face", finalFace); animator.SetTrigger("Roll"); }
-            else StartCoroutine(SimpleSpinCoroutine(config.rollDuration));
+            // Check if animator exists AND has a valid controller
+            if (animator != null && animator.runtimeAnimatorController != null)
+            {
+                animator.SetInteger("Face", finalFace);
+                animator.SetTrigger("Roll");
+            }
+            else
+            {
+                StartCoroutine(SimpleSpinCoroutine(config.rollDuration));
+            }
         }
         IEnumerator SimpleSpinCoroutine(float duration)
         {

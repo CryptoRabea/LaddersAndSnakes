@@ -126,7 +126,40 @@ namespace LAS.UI
             }
 
             diceModel.config = diceConfig;
-            Debug.Log("[RuntimeUIBuilder] Created DiceModel and assigned config");
+
+            // Create a simple visual dice
+            CreateSimpleDiceView(diceModelObj, diceModel, diceConfig);
+
+            Debug.Log("[RuntimeUIBuilder] Created DiceModel with visual dice");
+        }
+
+        private void CreateSimpleDiceView(GameObject parent, DiceModel diceModel, DiceConfig config)
+        {
+            // Create a visual dice object as a child
+            var diceVisual = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            diceVisual.name = "DiceVisual";
+            diceVisual.transform.SetParent(parent.transform, false);
+            diceVisual.transform.localPosition = new Vector3(0, 2f, 0); // Position above board
+            diceVisual.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+
+            // Add DiceView component
+            var diceView = diceVisual.AddComponent<DiceView>();
+            diceView.config = config;
+
+            // Remove the Animator requirement by adding one or letting it work without
+            // The DiceView will fall back to SimpleSpinCoroutine if no animator
+
+            // Make the dice more visible with a material
+            var renderer = diceVisual.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                renderer.material.color = Color.white;
+            }
+
+            // Assign the view to the model
+            diceModel.diceView = diceView;
+
+            Debug.Log("[RuntimeUIBuilder] Created simple dice visual");
         }
 
         private void CreateTurnIndicator()

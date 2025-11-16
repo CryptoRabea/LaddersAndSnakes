@@ -15,5 +15,21 @@ namespace LAS.Config
 
 
     [Serializable]
-    public struct BoardJump { public int from; public int to; }
+    public struct BoardJump
+    {
+        public int from;
+        public int to;
+        public bool isLadder;
+
+        public BoardJump(int from, int to, bool isLadder = false)
+        {
+            this.from = from;
+            this.to = to;
+            this.isLadder = isLadder;
+        }
+
+        // Helper properties for compatibility with new generator
+        public int fromTile => from;
+        public int toTile => to;
+    }
 }

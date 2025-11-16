@@ -186,6 +186,18 @@ This is a complete rewrite focusing on:
 
 The old complex system has been replaced with straightforward, functional code that actually works.
 
+## Custom Models Support
+
+Want to use your own 3D models for player pieces and dice?
+
+See **[CUSTOM_MODELS_GUIDE.md](CUSTOM_MODELS_GUIDE.md)** for detailed instructions on:
+- Adding custom player piece models (characters, animals, objects, etc.)
+- Using different models for each player
+- Adding animated 3D dice with physics
+- Troubleshooting and tips
+
+The game fully supports custom models - just drag and drop your prefabs!
+
 ## Credits
 
 Rebuilt from scratch to fix all issues with the original implementation.

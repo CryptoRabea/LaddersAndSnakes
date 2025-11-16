@@ -6,16 +6,49 @@ using TMPro;
 using LAS.Gameplay;
 using LAS.UI;
 using LAS.Entities;
+using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 namespace LAS.Editor
 {
     /// <summary>
     /// Editor utility to automatically set up the GameScene with all required components
     /// </summary>
+    [InitializeOnLoad]
     public class GameSceneSetup : EditorWindow
     {
+        static GameSceneSetup()
+        {
+            // Subscribe to scene opened event
+            EditorSceneManager.sceneOpened += OnSceneOpened;
+        }
+
+        private static void OnSceneOpened(Scene scene, OpenSceneMode mode)
+        {
+            // Check if this is the GameScene
+            if (scene.name == "GameScene")
+            {
+                // Check if UI is missing
+                if (GameObject.Find("GameCanvas") == null)
+                {
+                    Debug.Log("[GameSceneSetup] GameScene opened without UI. Auto-configuring...");
+                    SetupSceneQuietly();
+                }
+            }
+        }
+
         [MenuItem("LAS/Setup Game Scene")]
         public static void SetupScene()
+        {
+            SetupSceneInternal(true);
+        }
+
+        private static void SetupSceneQuietly()
+        {
+            SetupSceneInternal(false);
+        }
+
+        private static void SetupSceneInternal(bool showDialog)
         {
             Debug.Log("[GameSceneSetup] Setting up GameScene...");
 
@@ -28,12 +61,19 @@ namespace LAS.Editor
             // Create Lighting
             CreateLighting();
 
+            // Mark scene as dirty to save changes
+            EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+
             Debug.Log("[GameSceneSetup] Scene setup complete! Press Play to start the game.");
-            EditorUtility.DisplayDialog("Setup Complete",
-                "GameScene has been set up successfully!\n\n" +
-                "Press Play to start the game. The GameSetupManager will automatically " +
-                "create the board, player pieces, and dice at runtime.",
-                "OK");
+
+            if (showDialog)
+            {
+                EditorUtility.DisplayDialog("Setup Complete",
+                    "GameScene has been set up successfully!\n\n" +
+                    "Press Play to start the game. The GameSetupManager will automatically " +
+                    "create the board, player pieces, and dice at runtime.",
+                    "OK");
+            }
         }
 
         private static void CreateGameSetupManager()

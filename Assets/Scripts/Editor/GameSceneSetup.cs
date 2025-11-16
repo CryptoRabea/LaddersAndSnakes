@@ -178,6 +178,13 @@ namespace LAS.Editor
             CreateDiceResultText(canvasObj.transform);
             CreateGameOverPanel(canvasObj.transform);
 
+            // Add RuntimeUIBuilder for automatic UI generation at runtime
+            var uiBuilder = canvasObj.GetComponent<RuntimeUIBuilder>();
+            if (uiBuilder == null)
+            {
+                uiBuilder = canvasObj.AddComponent<RuntimeUIBuilder>();
+            }
+
             // Add GameUIManager
             var uiManager = canvasObj.GetComponent<GameUIManager>();
             if (uiManager == null)

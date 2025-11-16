@@ -18,6 +18,7 @@ namespace LAS.UI
 
         [Header("Main Menu Buttons")]
         [SerializeField] private Button playLocalButton;
+        [SerializeField] private Button playAIButton;
         [SerializeField] private Button playOnlineButton;
         [SerializeField] private Button settingsButton;
         [SerializeField] private Button quitButton;
@@ -59,6 +60,9 @@ namespace LAS.UI
         {
             if (playLocalButton != null)
                 playLocalButton.onClick.AddListener(OnPlayLocal);
+
+            if (playAIButton != null)
+                playAIButton.onClick.AddListener(OnPlayAI);
 
             if (playOnlineButton != null)
                 playOnlineButton.onClick.AddListener(OnPlayOnline);
@@ -112,6 +116,22 @@ namespace LAS.UI
             }
 
             NetworkManager.Instance.StartLocalMultiplayer(playerCount);
+            LoadGameScene();
+        }
+
+        private void OnPlayAI()
+        {
+            Debug.Log("[MainMenu] Starting single player vs AI");
+
+            // Ensure NetworkManager exists
+            if (NetworkManager.Instance == null)
+            {
+                var nmGO = new GameObject("NetworkManager");
+                nmGO.AddComponent<NetworkManager>();
+            }
+
+            // Start single player mode (player vs AI)
+            NetworkManager.Instance.StartSinglePlayerWithAI();
             LoadGameScene();
         }
 
@@ -187,6 +207,9 @@ namespace LAS.UI
             // Clean up listeners
             if (playLocalButton != null)
                 playLocalButton.onClick.RemoveListener(OnPlayLocal);
+
+            if (playAIButton != null)
+                playAIButton.onClick.RemoveListener(OnPlayAI);
 
             if (playOnlineButton != null)
                 playOnlineButton.onClick.RemoveListener(OnPlayOnline);

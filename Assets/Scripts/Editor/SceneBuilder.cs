@@ -20,7 +20,6 @@ namespace LAS.Editor
         private const string MAIN_MENU_SCENE = "MainMenu.unity";
         private const string GAME_SCENE = "GameScene.unity";
 
-        [MenuItem("LAS/Build All Scenes", priority = 0)]
         public static void BuildAllScenes()
         {
             BuildMainMenuScene();
@@ -34,7 +33,6 @@ namespace LAS.Editor
                 "You can now build and test the game!", "OK");
         }
 
-        [MenuItem("LAS/Build MainMenu Scene", priority = 1)]
         public static void BuildMainMenuScene()
         {
             Debug.Log("[SceneBuilder] Building MainMenu scene...");
@@ -131,7 +129,6 @@ namespace LAS.Editor
             Debug.Log($"[SceneBuilder] ✓ MainMenu scene created at {SCENES_PATH + MAIN_MENU_SCENE}");
         }
 
-        [MenuItem("LAS/Build Game Scene", priority = 2)]
         public static void BuildGameScene()
         {
             Debug.Log("[SceneBuilder] Building Game scene...");
@@ -171,7 +168,6 @@ namespace LAS.Editor
             Debug.Log($"[SceneBuilder] ✓ Game scene created at {SCENES_PATH + GAME_SCENE}");
         }
 
-        [MenuItem("LAS/Configure Build Settings", priority = 3)]
         public static void ConfigureBuildSettings()
         {
             Debug.Log("[SceneBuilder] Configuring build settings...");

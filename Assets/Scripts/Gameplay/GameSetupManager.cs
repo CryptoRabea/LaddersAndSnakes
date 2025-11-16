@@ -298,6 +298,18 @@ namespace LAS.Gameplay
                 gameController = controllerObj.AddComponent<MultiplayerGameController>();
             }
 
+            // Add AIPlayerController if we're in single player AI mode
+            var networkManager = NetworkManager.Instance;
+            if (networkManager != null && networkManager.IsSinglePlayerAI)
+            {
+                var aiController = controllerObj.GetComponent<AIPlayerController>();
+                if (aiController == null)
+                {
+                    aiController = controllerObj.AddComponent<AIPlayerController>();
+                    Debug.Log("[GameSetupManager] Added AIPlayerController for single player AI mode");
+                }
+            }
+
             Debug.Log("[GameSetupManager] Game controller setup complete");
         }
 

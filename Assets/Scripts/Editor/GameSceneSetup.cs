@@ -115,12 +115,25 @@ namespace LAS.Editor
 
         private static void CreateTurnIndicator(Transform parent)
         {
+            if (parent == null || !parent)
+            {
+                Debug.LogError("[GameSceneSetup] Parent transform is null or destroyed");
+                return;
+            }
+
             var turnIndicatorObj = parent.Find("TurnIndicator");
             if (turnIndicatorObj == null)
             {
-                turnIndicatorObj = new GameObject("TurnIndicator").transform;
-                turnIndicatorObj.SetParent(parent);
-                Undo.RegisterCreatedObjectUndo(turnIndicatorObj.gameObject, "Create Turn Indicator");
+                var newObj = new GameObject("TurnIndicator");
+                Undo.RegisterCreatedObjectUndo(newObj, "Create Turn Indicator");
+                newObj.transform.SetParent(parent);
+                turnIndicatorObj = newObj.transform;
+            }
+
+            if (turnIndicatorObj == null || !turnIndicatorObj)
+            {
+                Debug.LogError("[GameSceneSetup] TurnIndicator transform is null or destroyed");
+                return;
             }
 
             var rectTransform = turnIndicatorObj.GetComponent<RectTransform>();
@@ -145,12 +158,25 @@ namespace LAS.Editor
 
         private static void CreateDiceButton(Transform parent)
         {
+            if (parent == null || !parent)
+            {
+                Debug.LogError("[GameSceneSetup] Parent transform is null or destroyed");
+                return;
+            }
+
             var buttonObj = parent.Find("RollDiceButton");
             if (buttonObj == null)
             {
-                buttonObj = new GameObject("RollDiceButton").transform;
-                buttonObj.SetParent(parent);
-                Undo.RegisterCreatedObjectUndo(buttonObj.gameObject, "Create Dice Button");
+                var newObj = new GameObject("RollDiceButton");
+                Undo.RegisterCreatedObjectUndo(newObj, "Create Dice Button");
+                newObj.transform.SetParent(parent);
+                buttonObj = newObj.transform;
+            }
+
+            if (buttonObj == null || !buttonObj)
+            {
+                Debug.LogError("[GameSceneSetup] RollDiceButton transform is null or destroyed");
+                return;
             }
 
             var rectTransform = buttonObj.GetComponent<RectTransform>();
@@ -177,8 +203,15 @@ namespace LAS.Editor
             var textObj = buttonObj.Find("Text");
             if (textObj == null)
             {
-                textObj = new GameObject("Text").transform;
-                textObj.SetParent(buttonObj);
+                var newTextObj = new GameObject("Text");
+                newTextObj.transform.SetParent(buttonObj);
+                textObj = newTextObj.transform;
+            }
+
+            if (textObj == null || !textObj)
+            {
+                Debug.LogError("[GameSceneSetup] Button text transform is null or destroyed");
+                return;
             }
 
             var textRect = textObj.GetComponent<RectTransform>();
@@ -202,12 +235,25 @@ namespace LAS.Editor
 
         private static void CreateDiceResultText(Transform parent)
         {
+            if (parent == null || !parent)
+            {
+                Debug.LogError("[GameSceneSetup] Parent transform is null or destroyed");
+                return;
+            }
+
             var resultObj = parent.Find("DiceResultText");
             if (resultObj == null)
             {
-                resultObj = new GameObject("DiceResultText").transform;
-                resultObj.SetParent(parent);
-                Undo.RegisterCreatedObjectUndo(resultObj.gameObject, "Create Dice Result Text");
+                var newObj = new GameObject("DiceResultText");
+                Undo.RegisterCreatedObjectUndo(newObj, "Create Dice Result Text");
+                newObj.transform.SetParent(parent);
+                resultObj = newObj.transform;
+            }
+
+            if (resultObj == null || !resultObj)
+            {
+                Debug.LogError("[GameSceneSetup] DiceResultText transform is null or destroyed");
+                return;
             }
 
             var rectTransform = resultObj.GetComponent<RectTransform>();
@@ -232,12 +278,25 @@ namespace LAS.Editor
 
         private static void CreateGameOverPanel(Transform parent)
         {
+            if (parent == null || !parent)
+            {
+                Debug.LogError("[GameSceneSetup] Parent transform is null or destroyed");
+                return;
+            }
+
             var panelObj = parent.Find("GameOverPanel");
             if (panelObj == null)
             {
-                panelObj = new GameObject("GameOverPanel").transform;
-                panelObj.SetParent(parent);
-                Undo.RegisterCreatedObjectUndo(panelObj.gameObject, "Create Game Over Panel");
+                var newObj = new GameObject("GameOverPanel");
+                Undo.RegisterCreatedObjectUndo(newObj, "Create Game Over Panel");
+                newObj.transform.SetParent(parent);
+                panelObj = newObj.transform;
+            }
+
+            if (panelObj == null || !panelObj)
+            {
+                Debug.LogError("[GameSceneSetup] GameOverPanel transform is null or destroyed");
+                return;
             }
 
             var rectTransform = panelObj.GetComponent<RectTransform>();
@@ -259,8 +318,15 @@ namespace LAS.Editor
             var winnerTextObj = panelObj.Find("WinnerText");
             if (winnerTextObj == null)
             {
-                winnerTextObj = new GameObject("WinnerText").transform;
-                winnerTextObj.SetParent(panelObj);
+                var newTextObj = new GameObject("WinnerText");
+                newTextObj.transform.SetParent(panelObj);
+                winnerTextObj = newTextObj.transform;
+            }
+
+            if (winnerTextObj == null || !winnerTextObj)
+            {
+                Debug.LogError("[GameSceneSetup] WinnerText transform is null or destroyed");
+                return;
             }
 
             var winnerRect = winnerTextObj.GetComponent<RectTransform>();
@@ -293,11 +359,24 @@ namespace LAS.Editor
 
         private static void CreateButton(Transform parent, string name, string text, Vector2 position, Vector2 size)
         {
+            if (parent == null || !parent)
+            {
+                Debug.LogError("[GameSceneSetup] Parent transform is null or destroyed");
+                return;
+            }
+
             var buttonObj = parent.Find(name);
             if (buttonObj == null)
             {
-                buttonObj = new GameObject(name).transform;
-                buttonObj.SetParent(parent);
+                var newObj = new GameObject(name);
+                newObj.transform.SetParent(parent);
+                buttonObj = newObj.transform;
+            }
+
+            if (buttonObj == null || !buttonObj)
+            {
+                Debug.LogError($"[GameSceneSetup] {name} transform is null or destroyed");
+                return;
             }
 
             var rectTransform = buttonObj.GetComponent<RectTransform>();
@@ -324,8 +403,15 @@ namespace LAS.Editor
             var textObj = buttonObj.Find("Text");
             if (textObj == null)
             {
-                textObj = new GameObject("Text").transform;
-                textObj.SetParent(buttonObj);
+                var newTextObj = new GameObject("Text");
+                newTextObj.transform.SetParent(buttonObj);
+                textObj = newTextObj.transform;
+            }
+
+            if (textObj == null || !textObj)
+            {
+                Debug.LogError($"[GameSceneSetup] {name} text transform is null or destroyed");
+                return;
             }
 
             var textRect = textObj.GetComponent<RectTransform>();

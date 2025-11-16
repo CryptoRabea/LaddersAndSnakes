@@ -19,6 +19,15 @@ public class SimpleGameManager : MonoBehaviour
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private int numberOfPlayers = 2;
     [SerializeField] private Color[] playerColors = new Color[] { Color.red, Color.blue, Color.green, Color.yellow };
+    [SerializeField] private float playerHeightOffset = 0.5f;
+    [SerializeField] private float playerSpacing = 0.3f;
+    [Tooltip("Optional: Assign custom prefabs for each player (leave empty to use playerPrefab for all)")]
+    [SerializeField] private GameObject[] customPlayerPrefabs = new GameObject[4];
+
+    [Header("Dice Settings")]
+    [SerializeField] private SimpleDiceRoller diceRoller;
+    [Tooltip("If true, uses DiceRoller component. If false, instant random roll.")]
+    [SerializeField] private bool useVisualDice = false;
 
     [Header("UI")]
     [SerializeField] private Button rollDiceButton;
@@ -166,17 +175,35 @@ public class SimpleGameManager : MonoBehaviour
         {
             playerPositions.Add(0); // Start at position 0
 
-            if (playerPrefab != null)
+            // Choose which prefab to use
+            GameObject prefabToUse = null;
+            if (customPlayerPrefabs != null && i < customPlayerPrefabs.Length && customPlayerPrefabs[i] != null)
             {
-                Vector3 startPos = squarePositions[0] + new Vector3(i * 0.3f, 0.5f, 0);
-                GameObject player = Instantiate(playerPrefab, startPos, Quaternion.identity);
+                // Use custom prefab for this player
+                prefabToUse = customPlayerPrefabs[i];
+            }
+            else if (playerPrefab != null)
+            {
+                // Use default prefab
+                prefabToUse = playerPrefab;
+            }
+
+            if (prefabToUse != null)
+            {
+                Vector3 startPos = squarePositions[0] + new Vector3(i * playerSpacing, playerHeightOffset, 0);
+                GameObject player = Instantiate(prefabToUse, startPos, Quaternion.identity);
                 player.name = "Player_" + (i + 1);
 
-                // Set player color
-                Renderer renderer = player.GetComponent<Renderer>();
-                if (renderer != null && i < playerColors.Length)
+                // Set player color (only if using default prefab and has renderer)
+                if (prefabToUse == playerPrefab)
                 {
-                    renderer.material.color = playerColors[i];
+                    Renderer renderer = player.GetComponentInChildren<Renderer>();
+                    if (renderer != null && i < playerColors.Length)
+                    {
+                        // Create instance of material to avoid modifying prefab
+                        renderer.material = new Material(renderer.material);
+                        renderer.material.color = playerColors[i];
+                    }
                 }
 
                 players.Add(player);
@@ -216,7 +243,36 @@ public class SimpleGameManager : MonoBehaviour
     {
         if (isMoving) return;
 
-        int diceRoll = Random.Range(1, 7);
+        StartCoroutine(RollDiceCoroutine());
+    }
+
+    IEnumerator RollDiceCoroutine()
+    {
+        isMoving = true;
+
+        if (rollDiceButton != null)
+        {
+            rollDiceButton.interactable = false;
+        }
+
+        if (messageText != null)
+        {
+            messageText.text = $"Player {currentPlayer + 1} rolling...";
+        }
+
+        int diceRoll = 0;
+
+        // Use visual dice roller if enabled
+        if (useVisualDice && diceRoller != null)
+        {
+            yield return StartCoroutine(diceRoller.RollDice((result) => { diceRoll = result; }));
+        }
+        else
+        {
+            // Instant roll
+            diceRoll = Random.Range(1, 7);
+            yield return new WaitForSeconds(0.3f);
+        }
 
         if (diceText != null)
         {
@@ -228,7 +284,9 @@ public class SimpleGameManager : MonoBehaviour
             messageText.text = $"Player {currentPlayer + 1} rolled a {diceRoll}!";
         }
 
-        StartCoroutine(MovePlayer(currentPlayer, diceRoll));
+        yield return new WaitForSeconds(0.5f);
+
+        yield return StartCoroutine(MovePlayer(currentPlayer, diceRoll));
     }
 
     IEnumerator MovePlayer(int playerIndex, int steps)
@@ -258,7 +316,7 @@ public class SimpleGameManager : MonoBehaviour
         // Move step by step
         for (int i = currentPos + 1; i <= newPos; i++)
         {
-            Vector3 targetPos = squarePositions[i] + new Vector3(playerIndex * 0.3f, 0.5f, 0);
+            Vector3 targetPos = squarePositions[i] + new Vector3(playerIndex * playerSpacing, playerHeightOffset, 0);
             yield return StartCoroutine(MoveToPosition(players[playerIndex], targetPos, 0.3f));
             playerPositions[playerIndex] = i;
         }
@@ -278,7 +336,7 @@ public class SimpleGameManager : MonoBehaviour
 
             yield return new WaitForSeconds(1f);
 
-            Vector3 jumpPos = squarePositions[jumpTo] + new Vector3(playerIndex * 0.3f, 0.5f, 0);
+            Vector3 jumpPos = squarePositions[jumpTo] + new Vector3(playerIndex * playerSpacing, playerHeightOffset, 0);
             yield return StartCoroutine(MoveToPosition(players[playerIndex], jumpPos, 0.5f));
             playerPositions[playerIndex] = jumpTo;
             newPos = jumpTo;

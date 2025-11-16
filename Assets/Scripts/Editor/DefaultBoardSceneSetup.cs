@@ -4,7 +4,7 @@ using UnityEditor.SceneManagement;
 using LAS.Config;
 using LAS.Entities;
 
-namespace LaddersAndSnakes.Editor
+namespace LAS.Editor
 {
     /// <summary>
     /// Editor utility to setup the game scene with a default board

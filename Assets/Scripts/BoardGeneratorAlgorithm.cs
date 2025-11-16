@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using LAS.Config;
 
-namespace LaddersAndSnakes
+namespace LAS
 {
     /// <summary>
     /// Core algorithm for generating random board configurations
@@ -197,7 +197,7 @@ namespace LaddersAndSnakes
         /// <summary>
         /// Generates a board with a specific difficulty level
         /// </summary>
-        public List<BoardJump> GenerateBoardWithDifficulty(DifficultyLevel difficulty, out string error)
+        public List<BoardJump> GenerateBoardWithDifficulty(Config.DifficultyLevel difficulty, out string error)
         {
             // Apply difficulty preset to config
             ApplyDifficultyPreset(difficulty);
@@ -209,11 +209,11 @@ namespace LaddersAndSnakes
         /// <summary>
         /// Applies a difficulty preset to the configuration
         /// </summary>
-        private void ApplyDifficultyPreset(DifficultyLevel difficulty)
+        private void ApplyDifficultyPreset(Config.DifficultyLevel difficulty)
         {
             switch (difficulty)
             {
-                case DifficultyLevel.Easy:
+                case Config.DifficultyLevel.Easy:
                     config.minLadders = 8;
                     config.maxLadders = 12;
                     config.minSnakes = 5;
@@ -225,7 +225,7 @@ namespace LaddersAndSnakes
                     config.balanceRatio = 1.5f; // More ladders than snakes
                     break;
 
-                case DifficultyLevel.Medium:
+                case Config.DifficultyLevel.Medium:
                     config.minLadders = 6;
                     config.maxLadders = 9;
                     config.minSnakes = 6;
@@ -237,7 +237,7 @@ namespace LaddersAndSnakes
                     config.balanceRatio = 1.2f; // Slightly more ladders
                     break;
 
-                case DifficultyLevel.Hard:
+                case Config.DifficultyLevel.Hard:
                     config.minLadders = 5;
                     config.maxLadders = 7;
                     config.minSnakes = 8;
@@ -249,7 +249,7 @@ namespace LaddersAndSnakes
                     config.balanceRatio = 0.8f; // More snakes than ladders
                     break;
 
-                case DifficultyLevel.Extreme:
+                case Config.DifficultyLevel.Extreme:
                     config.minLadders = 3;
                     config.maxLadders = 5;
                     config.minSnakes = 12;
@@ -261,7 +261,7 @@ namespace LaddersAndSnakes
                     config.balanceRatio = 0.5f; // Much more snakes
                     break;
 
-                case DifficultyLevel.Custom:
+                case Config.DifficultyLevel.Custom:
                     // Don't modify config for custom
                     break;
             }

@@ -1,4 +1,4 @@
-namespace LaddersAndSnakes
+namespace LAS.Config
 {
     /// <summary>
     /// Difficulty levels for board generation

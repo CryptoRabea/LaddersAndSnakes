@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using LaddersAndSnakes.Core;
+using LAS.Core;
 
-namespace LaddersAndSnakes.Editor
+namespace LAS.Editor
 {
     /// <summary>
     /// Editor menu items and utilities for UI Reference system

@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using LaddersAndSnakes.Core;
+using LAS.Core;
 
-namespace LaddersAndSnakes.Examples
+namespace LAS.Examples
 {
     /// <summary>
     /// Example demonstrating different ways to use the UI Reference Tool

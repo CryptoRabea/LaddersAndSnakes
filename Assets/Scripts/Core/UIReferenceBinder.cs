@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace LaddersAndSnakes.Core
+namespace LAS.Core
 {
     /// <summary>
     /// Utility class for automatically binding UI references marked with UIReferenceAttribute

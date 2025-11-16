@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-namespace LaddersAndSnakes.Core
+namespace LAS.Core
 {
     /// <summary>
     /// Component that automatically binds UI references at runtime

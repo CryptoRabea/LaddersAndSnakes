@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LAS.Config;
 
-namespace LaddersAndSnakes
+namespace LAS
 {
     /// <summary>
     /// Validates board configurations to ensure they follow game rules

@@ -68,7 +68,6 @@ MemoryCaptures/
 *.exr
 *.tga
 *.unity
-*.md
 *.lighting
 *.terrainlayer
 *.controller

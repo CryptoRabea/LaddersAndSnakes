@@ -29,7 +29,13 @@
 
 ### First Time Setup
 
-Run these commands in order from the **LAS** menu:
+**Option 1: Use the All-in-One Tool (Recommended)**
+
+1. `LAS > Board > Create Default Board Config` - Creates default board configuration
+2. `LAS > Setup > Complete Game Setup (All-in-One)` - Opens the unified setup tool
+3. Click "SETUP COMPLETE GAME NOW" - Creates a fully playable game!
+
+**Option 2: Manual Step-by-Step**
 
 1. `LAS > Scenes > Build All Scenes` - Creates MainMenu and Game scenes
 2. `LAS > Board > Create Default Board Config` - Creates default board configuration
@@ -37,7 +43,35 @@ Run these commands in order from the **LAS** menu:
 
 ## Quick Setup
 
-### Complete Scene Setup (One Command)
+### ⭐ COMPLETE GAME SETUP (RECOMMENDED - All-in-One Tool)
+
+**The fastest way to get a playable game:**
+
+```
+LAS > Setup > Complete Game Setup (All-in-One)
+```
+
+This opens a comprehensive setup window where you can:
+- **Configure all prefabs** (board, player pieces, dice)
+- **Assign configuration assets** (BoardConfig, GameConfig, DiceConfig)
+- **Choose setup options** (enable AI, number of players, auto-bind UI)
+- **One-click setup** that creates a fully playable game
+
+**What it does:**
+1. Sets up GameController and NetworkManager
+2. Creates board with 100 squares
+3. Spawns player pieces with correct colors
+4. Configures dice system
+5. Builds complete UI with buttons and indicators
+6. Sets up MovementSystem and event handling
+7. Optionally enables AI opponent
+8. Auto-binds all UI references
+
+**Result:** A complete, playable game ready to test immediately!
+
+---
+
+### Alternative: Complete Scene Setup (Creates Empty Scenes)
 
 ```
 LAS > Scenes > Build All Scenes

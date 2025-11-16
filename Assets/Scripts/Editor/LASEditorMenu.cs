@@ -154,7 +154,13 @@ namespace LAS.Editor
 
         #region Setup Menu
 
-        [MenuItem(MENU_ROOT + "Setup/Quick Scene Setup", false, PRIORITY_SETUP + 1)]
+        [MenuItem(MENU_ROOT + "Setup/Complete Game Setup (All-in-One)", false, PRIORITY_SETUP + 1)]
+        public static void OpenCompleteGameSetup()
+        {
+            CompleteGameSetupWindow.ShowWindow();
+        }
+
+        [MenuItem(MENU_ROOT + "Setup/Quick Scene Setup", false, PRIORITY_SETUP + 11)]
         public static void QuickSceneSetup()
         {
             QuickUISetup.SetupRuntimeUIBuilder();

@@ -21,7 +21,7 @@ namespace LAS.Networking
         public bool IsHost => Mode == NetworkMode.Host;
         public int LocalPlayerId { get; private set; } = 0;
         public int PlayerCount => connectedPlayers.Count;
-        public bool IsSinglePlayerAI { get; private set; } = false;
+        public bool IsSinglePlayerAI => isSinglePlayerAI;
 
         private List<int> connectedPlayers = new List<int>();
         private Dictionary<int, PlayerData> playerDataMap = new Dictionary<int, PlayerData>();
@@ -30,6 +30,7 @@ namespace LAS.Networking
         [SerializeField] private int maxPlayers = 4;
         [SerializeField] private string serverAddress = "127.0.0.1";
         [SerializeField] private int serverPort = 7777;
+        [SerializeField] private bool isSinglePlayerAI = false;
 
         public event Action<int> OnPlayerConnected;
         public event Action<int> OnPlayerDisconnected;
@@ -98,7 +99,7 @@ namespace LAS.Networking
         {
             Mode = NetworkMode.Host;
             LocalPlayerId = 0;
-            IsSinglePlayerAI = false;
+            isSinglePlayerAI = false;
 
             connectedPlayers.Clear();
             for (int i = 0; i < Mathf.Min(playerCount, maxPlayers); i++)
@@ -123,7 +124,7 @@ namespace LAS.Networking
         {
             Mode = NetworkMode.Host;
             LocalPlayerId = 0;
-            IsSinglePlayerAI = true;
+            isSinglePlayerAI = true;
 
             connectedPlayers.Clear();
 
@@ -156,7 +157,7 @@ namespace LAS.Networking
         {
             Debug.Log("[NetworkManager] Disconnecting...");
             Mode = NetworkMode.Offline;
-            IsSinglePlayerAI = false;
+            isSinglePlayerAI = false;
             connectedPlayers.Clear();
             playerDataMap.Clear();
         }

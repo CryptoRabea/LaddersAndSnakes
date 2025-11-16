@@ -17,26 +17,55 @@ namespace LAS.Editor
     [InitializeOnLoad]
     public class GameSceneSetup : EditorWindow
     {
+        private static bool autoSetupEnabled = false; // Disabled by default to prevent unwanted auto-saves
+        private static bool hasShownSetupPrompt = false;
+
         static GameSceneSetup()
         {
-            // Subscribe to scene opened event
-            EditorSceneManager.sceneOpened += OnSceneOpened;
+            if (autoSetupEnabled)
+            {
+                // Subscribe to scene opened event only if enabled
+                EditorSceneManager.sceneOpened += OnSceneOpened;
+            }
         }
 
         private static void OnSceneOpened(Scene scene, OpenSceneMode mode)
         {
+            if (!autoSetupEnabled) return;
+
             // Check if this is the GameScene
             if (scene.name == "GameScene")
             {
+                // Prevent issues during play mode or compilation
+                if (EditorApplication.isPlayingOrWillChangePlaymode || EditorApplication.isCompiling)
+                {
+                    return;
+                }
+
                 // Check if UI is missing
                 if (GameObject.Find("GameCanvas") == null)
                 {
-                    Debug.Log("[GameSceneSetup] GameScene opened without UI. Auto-configuring...");
-                    SetupSceneQuietly();
+                    // Ask user before auto-configuring (only once per session)
+                    if (!hasShownSetupPrompt)
+                    {
+                        hasShownSetupPrompt = true;
+                        if (EditorUtility.DisplayDialog("GameScene Setup",
+                            "GameScene is missing UI elements. Would you like to auto-configure it?",
+                            "Yes", "No"))
+                        {
+                            Debug.Log("[GameSceneSetup] Auto-configuring GameScene...");
+                            SetupSceneQuietly();
 
-                    // Auto-save the scene after setup
-                    EditorSceneManager.SaveScene(scene);
-                    Debug.Log("[GameSceneSetup] GameScene auto-saved with new configuration");
+                            // Ask before saving
+                            if (EditorUtility.DisplayDialog("Save Scene?",
+                                "Would you like to save the scene with the new configuration?",
+                                "Yes", "No"))
+                            {
+                                EditorSceneManager.SaveScene(scene);
+                                Debug.Log("[GameSceneSetup] GameScene saved with new configuration");
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -484,57 +513,76 @@ namespace LAS.Editor
 
         private static void WireUIReferences(GameObject canvasObj)
         {
+            if (canvasObj == null)
+            {
+                Debug.LogError("[GameSceneSetup] Cannot wire UI references - canvasObj is null");
+                return;
+            }
+
             var uiManager = canvasObj.GetComponent<GameUIManager>();
             if (uiManager == null)
+            {
+                Debug.LogWarning("[GameSceneSetup] GameUIManager component not found");
                 return;
+            }
 
             var canvas = canvasObj.transform;
 
             // Use SerializedObject to set private fields
             SerializedObject so = new SerializedObject(uiManager);
 
-            // Set button references
+            // Set button references with null checks
             var rollDiceButton = canvas.Find("RollDiceButton")?.GetComponent<Button>();
-            if (rollDiceButton != null)
-                so.FindProperty("rollDiceButton").objectReferenceValue = rollDiceButton;
+            var rollDiceButtonProp = so.FindProperty("rollDiceButton");
+            if (rollDiceButton != null && rollDiceButtonProp != null)
+                rollDiceButtonProp.objectReferenceValue = rollDiceButton;
 
-            // Set text references
+            // Set text references with null checks
             var turnIndicatorText = canvas.Find("TurnIndicator")?.GetComponent<TextMeshProUGUI>();
-            if (turnIndicatorText != null)
-                so.FindProperty("turnIndicatorText").objectReferenceValue = turnIndicatorText;
+            var turnIndicatorProp = so.FindProperty("turnIndicatorText");
+            if (turnIndicatorText != null && turnIndicatorProp != null)
+                turnIndicatorProp.objectReferenceValue = turnIndicatorText;
 
             var diceResultText = canvas.Find("DiceResultText")?.GetComponent<TextMeshProUGUI>();
-            if (diceResultText != null)
-                so.FindProperty("diceResultText").objectReferenceValue = diceResultText;
+            var diceResultProp = so.FindProperty("diceResultText");
+            if (diceResultText != null && diceResultProp != null)
+                diceResultProp.objectReferenceValue = diceResultText;
 
-            // Set game over panel references
+            // Set game over panel references with null checks
             var gameOverPanel = canvas.Find("GameOverPanel")?.gameObject;
             if (gameOverPanel != null)
             {
-                so.FindProperty("gameOverPanel").objectReferenceValue = gameOverPanel;
+                var gameOverPanelProp = so.FindProperty("gameOverPanel");
+                if (gameOverPanelProp != null)
+                    gameOverPanelProp.objectReferenceValue = gameOverPanel;
 
                 var winnerText = gameOverPanel.transform.Find("WinnerText")?.GetComponent<TextMeshProUGUI>();
-                if (winnerText != null)
-                    so.FindProperty("winnerText").objectReferenceValue = winnerText;
+                var winnerTextProp = so.FindProperty("winnerText");
+                if (winnerText != null && winnerTextProp != null)
+                    winnerTextProp.objectReferenceValue = winnerText;
 
                 var playAgainButton = gameOverPanel.transform.Find("PlayAgainButton")?.GetComponent<Button>();
-                if (playAgainButton != null)
-                    so.FindProperty("playAgainButton").objectReferenceValue = playAgainButton;
+                var playAgainButtonProp = so.FindProperty("playAgainButton");
+                if (playAgainButton != null && playAgainButtonProp != null)
+                    playAgainButtonProp.objectReferenceValue = playAgainButton;
 
                 var mainMenuButton = gameOverPanel.transform.Find("MainMenuButton")?.GetComponent<Button>();
-                if (mainMenuButton != null)
-                    so.FindProperty("mainMenuButton").objectReferenceValue = mainMenuButton;
+                var mainMenuButtonProp = so.FindProperty("mainMenuButton");
+                if (mainMenuButton != null && mainMenuButtonProp != null)
+                    mainMenuButtonProp.objectReferenceValue = mainMenuButton;
             }
 
-            // Find and set DiceModel reference
+            // Find and set DiceModel reference with null checks
             var diceModel = GameObject.FindObjectOfType<DiceModel>();
-            if (diceModel != null)
-                so.FindProperty("diceModel").objectReferenceValue = diceModel;
+            var diceModelProp = so.FindProperty("diceModel");
+            if (diceModel != null && diceModelProp != null)
+                diceModelProp.objectReferenceValue = diceModel;
 
-            // Find and set GameController reference
+            // Find and set GameController reference with null checks
             var gameController = GameObject.FindObjectOfType<GameController>();
-            if (gameController != null)
-                so.FindProperty("gameController").objectReferenceValue = gameController;
+            var gameControllerProp = so.FindProperty("gameController");
+            if (gameController != null && gameControllerProp != null)
+                gameControllerProp.objectReferenceValue = gameController;
 
             so.ApplyModifiedProperties();
 

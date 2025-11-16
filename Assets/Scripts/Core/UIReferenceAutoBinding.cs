@@ -74,8 +74,18 @@ namespace LaddersAndSnakes.Core
         }
 
 #if UNITY_EDITOR
+        // Track last validation to prevent excessive OnValidate calls
+        private int lastValidationFrame = -1;
+
         private void OnValidate()
         {
+            // Prevent OnValidate from running multiple times in the same frame
+            // This prevents Unity crashes from repeated expensive operations
+            if (lastValidationFrame == UnityEngine.Time.frameCount)
+                return;
+
+            lastValidationFrame = UnityEngine.Time.frameCount;
+
             // Auto-populate specificComponents if not binding all
             if (!bindAllComponents && (specificComponents == null || specificComponents.Length == 0))
             {

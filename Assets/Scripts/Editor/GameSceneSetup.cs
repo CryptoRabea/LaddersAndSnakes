@@ -33,6 +33,10 @@ namespace LAS.Editor
                 {
                     Debug.Log("[GameSceneSetup] GameScene opened without UI. Auto-configuring...");
                     SetupSceneQuietly();
+
+                    // Auto-save the scene after setup
+                    EditorSceneManager.SaveScene(scene);
+                    Debug.Log("[GameSceneSetup] GameScene auto-saved with new configuration");
                 }
             }
         }
@@ -41,6 +45,11 @@ namespace LAS.Editor
         public static void SetupScene()
         {
             SetupSceneInternal(true);
+
+            // Save the scene after manual setup
+            var activeScene = SceneManager.GetActiveScene();
+            EditorSceneManager.SaveScene(activeScene);
+            Debug.Log("[GameSceneSetup] Scene saved");
         }
 
         private static void SetupSceneQuietly()

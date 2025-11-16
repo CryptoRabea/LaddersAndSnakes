@@ -19,6 +19,17 @@ namespace LaddersAndSnakes
         [SerializeField] private Material tileMaterial;
         [SerializeField] private bool generateOnStart = true;
 
+        // Public properties for external configuration
+        public Material boardMaterial
+        {
+            get => tileMaterial;
+            set => tileMaterial = value;
+        }
+
+        public Material ladderMaterial { get; set; }
+        public Material snakeMaterial { get; set; }
+        public BoardConfig config { get; set; }
+
         [Header("Board Colors")]
         private Color[] tileColors = new Color[]
         {
@@ -224,9 +235,18 @@ namespace LaddersAndSnakes
             line.positionCount = 10;
             line.startWidth = 0.3f;
             line.endWidth = 0.2f;
-            line.material = new Material(Shader.Find("Sprites/Default"));
-            line.startColor = new Color(0f, 0.5f, 0f); // Dark green
-            line.endColor = new Color(0.5f, 0.8f, 0f); // Light green
+
+            // Use custom material if available, otherwise use default
+            if (snakeMaterial != null)
+            {
+                line.material = snakeMaterial;
+            }
+            else
+            {
+                line.material = new Material(Shader.Find("Sprites/Default"));
+                line.startColor = new Color(0f, 0.5f, 0f); // Dark green
+                line.endColor = new Color(0.5f, 0.8f, 0f); // Light green
+            }
 
             // Create curved path
             for (int i = 0; i < line.positionCount; i++)
@@ -311,7 +331,14 @@ namespace LaddersAndSnakes
             side.transform.localScale = new Vector3(0.05f, length / 2f, 0.05f);
 
             Renderer renderer = side.GetComponent<Renderer>();
-            renderer.material.color = new Color(0.6f, 0f, 1f); // Purple
+            if (ladderMaterial != null)
+            {
+                renderer.material = ladderMaterial;
+            }
+            else
+            {
+                renderer.material.color = new Color(0.6f, 0f, 1f); // Purple
+            }
         }
 
         private void CreateLadderRung(GameObject parent, Vector3 position)
@@ -324,7 +351,14 @@ namespace LaddersAndSnakes
             rung.transform.localScale = new Vector3(0.05f, 0.2f, 0.05f);
 
             Renderer renderer = rung.GetComponent<Renderer>();
-            renderer.material.color = Color.white;
+            if (ladderMaterial != null)
+            {
+                renderer.material = ladderMaterial;
+            }
+            else
+            {
+                renderer.material.color = Color.white;
+            }
         }
 
         private void CreateBoardBorder()

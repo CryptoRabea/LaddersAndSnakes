@@ -10,7 +10,7 @@ namespace LAS.Editor
 {
     /// <summary>
     /// Editor window for managing UI references in the scene
-    /// Access via Window > Ladders & Snakes > UI Reference Tool
+    /// Access via LAS > UI > UI Reference Tool Window
     /// </summary>
     public class UIReferenceToolWindow : EditorWindow
     {
@@ -21,7 +21,7 @@ namespace LAS.Editor
         private bool autoBindOnLoad = true;
         private bool showSuccessful = false;
 
-        [MenuItem("Window/Ladders & Snakes/UI Reference Tool")]
+        // Removed [MenuItem] - now accessed via LASEditorMenu
         public static void ShowWindow()
         {
             UIReferenceToolWindow window = GetWindow<UIReferenceToolWindow>();

@@ -7,7 +7,7 @@ namespace LAS.Editor
 {
     /// <summary>
     /// Editor window for generating UI elements
-    /// Access via Window > Ladders & Snakes > UI Generator
+    /// Access via LAS > UI > UI Generator Window
     /// </summary>
     public class UIGeneratorWindow : EditorWindow
     {
@@ -20,7 +20,7 @@ namespace LAS.Editor
         private Vector2 customPosition = Vector2.zero;
         private bool useCustomPosition = false;
 
-        [MenuItem("Window/Ladders & Snakes/UI Generator")]
+        // Removed [MenuItem] - now accessed via LASEditorMenu
         public static void ShowWindow()
         {
             UIGeneratorWindow window = GetWindow<UIGeneratorWindow>();

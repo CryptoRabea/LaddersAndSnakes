@@ -10,10 +10,11 @@ namespace LAS.Editor
 {
     /// <summary>
     /// Editor menu items and utilities for UI Reference system
+    /// Now accessed via centralized LAS menu (LASEditorMenu.cs)
     /// </summary>
     public static class UIReferenceEditorMenu
     {
-        [MenuItem("Tools/Ladders & Snakes/Bind All UI References in Scene")]
+        // Removed [MenuItem] attributes - now called by LASEditorMenu
         public static void BindAllUIReferencesInScene()
         {
             List<MonoBehaviour> components = UIReferenceBinder.GetAllUIReferenceBehaviours();
@@ -40,7 +41,6 @@ namespace LAS.Editor
                 $"Successfully bound {totalBound} UI references across {components.Count} components.", "OK");
         }
 
-        [MenuItem("Tools/Ladders & Snakes/Validate All UI References")]
         public static void ValidateAllUIReferences()
         {
             UIReferenceBinder.ValidationResult result = UIReferenceBinder.ValidateAllReferences();
@@ -70,7 +70,6 @@ namespace LAS.Editor
                 "OK");
         }
 
-        [MenuItem("Tools/Ladders & Snakes/Bind Selected GameObject UI References")]
         public static void BindSelectedUIReferences()
         {
             if (Selection.activeGameObject == null)
@@ -110,7 +109,6 @@ namespace LAS.Editor
             }
         }
 
-        [MenuItem("Tools/Ladders & Snakes/Add Auto-Binding Component")]
         public static void AddAutoBindingComponent()
         {
             if (Selection.activeGameObject == null)
@@ -131,13 +129,12 @@ namespace LAS.Editor
                 "UIReferenceAutoBinding component added successfully.", "OK");
         }
 
-        [MenuItem("GameObject/UI/Add UI Reference Auto-Binding", false, 10)]
+        // Removed [MenuItem] - now accessed via LASEditorMenu
         public static void AddAutoBindingViaGameObjectMenu()
         {
             AddAutoBindingComponent();
         }
 
-        [MenuItem("Tools/Ladders & Snakes/Generate UI from Selected Component")]
         public static void GenerateUIFromSelectedComponent()
         {
             if (Selection.activeGameObject == null)

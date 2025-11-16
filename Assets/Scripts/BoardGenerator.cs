@@ -104,7 +104,16 @@ namespace LaddersAndSnakes
             Transform existingBoard = transform.Find("BoardParent");
             if (existingBoard != null)
             {
-                DestroyImmediate(existingBoard.gameObject);
+                // Use Destroy instead of DestroyImmediate to avoid inspector null reference issues
+                // DestroyImmediate should only be used in editor scripts
+                if (Application.isPlaying)
+                {
+                    Destroy(existingBoard.gameObject);
+                }
+                else
+                {
+                    DestroyImmediate(existingBoard.gameObject);
+                }
             }
         }
 

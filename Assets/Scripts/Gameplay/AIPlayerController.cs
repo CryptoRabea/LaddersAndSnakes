@@ -29,21 +29,31 @@ namespace LAS.Gameplay
 
         private void Start()
         {
-            // Find the DiceModel in the scene
-            diceModel = FindFirstObjectByType<DiceModel>();
-            if (diceModel == null)
-            {
-                Debug.LogWarning("[AIPlayerController] DiceModel not found in scene");
-            }
-
             // Subscribe to turn events
             if (eventBus != null)
             {
                 eventBus.Subscribe<TurnEndedEvent>(OnTurnEnded);
             }
+            else
+            {
+                Debug.LogWarning("[AIPlayerController] EventBus not found in ServiceLocator");
+            }
 
             // Check if AI should go first (unlikely in single player, but handle it)
             StartCoroutine(CheckInitialTurn());
+        }
+
+        private void EnsureDiceModel()
+        {
+            // Lazy initialization of DiceModel
+            if (diceModel == null)
+            {
+                diceModel = FindFirstObjectByType<DiceModel>();
+                if (diceModel == null)
+                {
+                    Debug.LogWarning("[AIPlayerController] DiceModel not found in scene");
+                }
+            }
         }
 
         private IEnumerator CheckInitialTurn()
@@ -107,6 +117,9 @@ namespace LAS.Gameplay
             // Wait a bit to simulate "thinking"
             yield return new WaitForSeconds(thinkDelay);
 
+            // Ensure we have a reference to DiceModel
+            EnsureDiceModel();
+
             // Roll the dice for the AI player
             if (diceModel != null)
             {
@@ -115,7 +128,7 @@ namespace LAS.Gameplay
             }
             else
             {
-                Debug.LogError("[AIPlayerController] Cannot roll dice - DiceModel is null");
+                Debug.LogError("[AIPlayerController] Cannot roll dice - DiceModel is still null after search");
             }
 
             isProcessing = false;

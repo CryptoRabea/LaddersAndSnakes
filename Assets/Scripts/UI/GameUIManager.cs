@@ -49,18 +49,37 @@ namespace LAS.UI
         private void Start()
         {
             eventBus = ServiceLocator.Get<IEventBus>();
+            if (eventBus == null)
+            {
+                Debug.LogWarning("[GameUIManager] EventBus not found in ServiceLocator");
+            }
 
             // Auto-find references if not assigned
             if (diceModel == null)
+            {
                 diceModel = FindObjectOfType<DiceModel>();
+                if (diceModel == null)
+                {
+                    Debug.LogWarning("[GameUIManager] DiceModel not found in scene");
+                }
+            }
 
             if (gameController == null)
+            {
                 gameController = FindObjectOfType<GameController>();
+                if (gameController == null)
+                {
+                    Debug.LogWarning("[GameUIManager] GameController not found in scene");
+                }
+            }
 
             // Subscribe to events
-            eventBus?.Subscribe<DiceRolledEvent>(OnDiceRolled);
-            eventBus?.Subscribe<TurnEndedEvent>(OnTurnEnded);
-            eventBus?.Subscribe<GameOverEvent>(OnGameOver);
+            if (eventBus != null)
+            {
+                eventBus.Subscribe<DiceRolledEvent>(OnDiceRolled);
+                eventBus.Subscribe<TurnEndedEvent>(OnTurnEnded);
+                eventBus.Subscribe<GameOverEvent>(OnGameOver);
+            }
 
             UpdateTurnIndicator();
             UpdateDiceButton();

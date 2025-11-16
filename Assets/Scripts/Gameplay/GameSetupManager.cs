@@ -174,6 +174,19 @@ namespace LAS.Gameplay
                 Color.yellow
             };
 
+            // Validate squareTransforms before using it
+            if (squareTransforms == null || squareTransforms.Length == 0)
+            {
+                Debug.LogError("[GameSetupManager] squareTransforms is null or empty. Cannot position player pieces.");
+                return;
+            }
+
+            if (squareTransforms[0] == null)
+            {
+                Debug.LogError("[GameSetupManager] First square transform is null. Cannot position player pieces.");
+                return;
+            }
+
             for (int i = 0; i < playerCount; i++)
             {
                 GameObject pieceObj;
@@ -327,11 +340,25 @@ namespace LAS.Gameplay
                 movementSystem = movementObj.AddComponent<MovementSystem>();
             }
 
-            // Assign references
+            // Validate playerPieces before assigning
+            if (playerPieces == null || playerPieces.Length == 0)
+            {
+                Debug.LogError("[GameSetupManager] playerPieces is null or empty. Cannot setup movement system.");
+                return;
+            }
+
+            // Assign references with null checking
             movementSystem.playerPieces = new Transform[playerPieces.Length];
             for (int i = 0; i < playerPieces.Length; i++)
             {
-                movementSystem.playerPieces[i] = playerPieces[i].transform;
+                if (playerPieces[i] != null)
+                {
+                    movementSystem.playerPieces[i] = playerPieces[i].transform;
+                }
+                else
+                {
+                    Debug.LogError($"[GameSetupManager] playerPieces[{i}] is null. Movement system may not work correctly.");
+                }
             }
 
             movementSystem.squareTransforms = squareTransforms;

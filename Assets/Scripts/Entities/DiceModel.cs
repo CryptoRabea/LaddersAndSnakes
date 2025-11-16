@@ -12,7 +12,17 @@ namespace LAS.Entities
         public DiceConfig config;
         public DiceView diceView;
         IEventBus bus; PoolManager pool; public GameObject dicePrefab;
-        void Awake() { bus = ServiceLocator.Get<IEventBus>(); pool = ServiceLocator.Get<PoolManager>(); }
+        void Awake()
+        {
+            bus = ServiceLocator.Get<IEventBus>();
+            if (bus == null)
+            {
+                Debug.LogWarning("[DiceModel] EventBus not found in ServiceLocator");
+            }
+
+            pool = ServiceLocator.Get<PoolManager>();
+            // PoolManager is optional, so no warning needed
+        }
 
         // Simple roll method for UI
         public void Roll() { StartCoroutine(RollRoutine(0)); }
@@ -20,6 +30,13 @@ namespace LAS.Entities
         public void RollDice(int who) { StartCoroutine(RollRoutine(who)); }
         IEnumerator RollRoutine(int who)
         {
+            // Validate config before use
+            if (config == null)
+            {
+                Debug.LogError("[DiceModel] DiceConfig is null, cannot roll dice");
+                yield break;
+            }
+
             int raw = UnityEngine.Random.Range(1, config.sides + 1);
 
             // Use pooling if available, otherwise use attached view

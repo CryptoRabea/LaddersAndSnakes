@@ -198,33 +198,50 @@ namespace LaddersAndSnakes.Editor
 
     /// <summary>
     /// Custom inspector for components with UI references
+    /// NOTE: Disabled to prevent performance issues. Use the UI Reference Tool Window instead.
     /// </summary>
+    // CRITICAL FIX: Removed [CustomEditor(typeof(MonoBehaviour), true)] as it was applying to ALL MonoBehaviours
+    // causing massive performance issues and Unity crashes from repeated reflection calls.
+    // Users should use the UI Reference Tool Window (Window > Ladders & Snakes > UI Reference Tool) instead.
+    /*
     [CustomEditor(typeof(MonoBehaviour), true)]
     [CanEditMultipleObjects]
     public class UIReferenceInspector : UnityEditor.Editor
     {
+        private static Dictionary<Type, bool> typeHasUIReferences = new Dictionary<Type, bool>();
+
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
 
             MonoBehaviour monoBehaviour = (MonoBehaviour)target;
+            if (monoBehaviour == null) return;
 
-            // Check if this component has any UIReference attributes
-            var fields = monoBehaviour.GetType().GetFields(
-                System.Reflection.BindingFlags.Public |
-                System.Reflection.BindingFlags.NonPublic |
-                System.Reflection.BindingFlags.Instance);
+            Type type = monoBehaviour.GetType();
 
-            bool hasUIReferences = false;
-            foreach (var field in fields)
+            // Cache the check per type to avoid repeated reflection
+            if (!typeHasUIReferences.ContainsKey(type))
             {
-                var attrs = field.GetCustomAttributes(typeof(UIReferenceAttribute), false);
-                if (attrs != null && attrs.Length > 0)
+                var fields = type.GetFields(
+                    System.Reflection.BindingFlags.Public |
+                    System.Reflection.BindingFlags.NonPublic |
+                    System.Reflection.BindingFlags.Instance);
+
+                bool hasUIReferences = false;
+                foreach (var field in fields)
                 {
-                    hasUIReferences = true;
-                    break;
+                    var attrs = field.GetCustomAttributes(typeof(UIReferenceAttribute), false);
+                    if (attrs != null && attrs.Length > 0)
+                    {
+                        hasUIReferences = true;
+                        break;
+                    }
                 }
+
+                typeHasUIReferences[type] = hasUIReferences;
             }
+
+            bool hasUIReferences = typeHasUIReferences[type];
 
             if (hasUIReferences)
             {
@@ -288,22 +305,40 @@ namespace LaddersAndSnakes.Editor
             }
         }
     }
+    */
 
     /// <summary>
-    /// Runs validation when entering play mode
+    /// Runs validation when entering play mode (OPTIMIZED to prevent crashes)
     /// </summary>
     [InitializeOnLoad]
     public static class PlayModeValidator
     {
+        private static bool isEnabled = false; // Disabled by default to prevent performance issues
+        private static float lastValidationTime = 0f;
+        private const float VALIDATION_COOLDOWN = 5f; // Only validate once every 5 seconds
+
         static PlayModeValidator()
         {
-            EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+            if (isEnabled)
+            {
+                EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+            }
         }
 
         private static void OnPlayModeStateChanged(PlayModeStateChange state)
         {
+            if (!isEnabled) return;
+
             if (state == PlayModeStateChange.ExitingEditMode)
             {
+                // Throttle validation to prevent expensive operations
+                float currentTime = (float)EditorApplication.timeSinceStartup;
+                if (currentTime - lastValidationTime < VALIDATION_COOLDOWN)
+                {
+                    return;
+                }
+                lastValidationTime = currentTime;
+
                 // Validate before entering play mode
                 UIReferenceBinder.ValidationResult result = UIReferenceBinder.ValidateAllReferences();
 

@@ -67,10 +67,11 @@ namespace LAS.Editor
             CreateTitle(mainPanel.transform, "SNAKES & LADDERS");
 
             // Create Main Menu Buttons
-            GameObject playLocalBtn = CreateButton(mainPanel.transform, "PlayLocalButton", "Play Local Multiplayer", new Vector2(0, 100));
-            GameObject playOnlineBtn = CreateButton(mainPanel.transform, "PlayOnlineButton", "Play Online", new Vector2(0, 0));
-            GameObject settingsBtn = CreateButton(mainPanel.transform, "SettingsButton", "Settings", new Vector2(0, -100));
-            GameObject quitBtn = CreateButton(mainPanel.transform, "QuitButton", "Quit", new Vector2(0, -200));
+            GameObject playLocalBtn = CreateButton(mainPanel.transform, "PlayLocalButton", "Play Local Multiplayer", new Vector2(0, 150));
+            GameObject playAIBtn = CreateButton(mainPanel.transform, "PlayAIButton", "Play vs AI", new Vector2(0, 50));
+            GameObject playOnlineBtn = CreateButton(mainPanel.transform, "PlayOnlineButton", "Play Online", new Vector2(0, -50));
+            GameObject settingsBtn = CreateButton(mainPanel.transform, "SettingsButton", "Settings", new Vector2(0, -150));
+            GameObject quitBtn = CreateButton(mainPanel.transform, "QuitButton", "Quit", new Vector2(0, -250));
 
             // Create Multiplayer Panel
             GameObject multiplayerPanel = CreatePanel(canvasGO.transform, "MultiplayerPanel");
@@ -108,6 +109,7 @@ namespace LAS.Editor
             so.FindProperty("multiplayerPanel").objectReferenceValue = multiplayerPanel;
             so.FindProperty("settingsPanel").objectReferenceValue = settingsPanel;
             so.FindProperty("playLocalButton").objectReferenceValue = playLocalBtn.GetComponent<Button>();
+            so.FindProperty("playAIButton").objectReferenceValue = playAIBtn.GetComponent<Button>();
             so.FindProperty("playOnlineButton").objectReferenceValue = playOnlineBtn.GetComponent<Button>();
             so.FindProperty("settingsButton").objectReferenceValue = settingsBtn.GetComponent<Button>();
             so.FindProperty("quitButton").objectReferenceValue = quitBtn.GetComponent<Button>();

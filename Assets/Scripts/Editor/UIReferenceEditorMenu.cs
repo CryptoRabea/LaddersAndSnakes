@@ -136,6 +136,64 @@ namespace LaddersAndSnakes.Editor
         {
             AddAutoBindingComponent();
         }
+
+        [MenuItem("Tools/Ladders & Snakes/Generate UI from Selected Component")]
+        public static void GenerateUIFromSelectedComponent()
+        {
+            if (Selection.activeGameObject == null)
+            {
+                EditorUtility.DisplayDialog("No Selection", "Please select a GameObject first.", "OK");
+                return;
+            }
+
+            MonoBehaviour[] components = Selection.activeGameObject.GetComponents<MonoBehaviour>();
+
+            // Find first component with UIReference attributes
+            MonoBehaviour targetComponent = null;
+            foreach (MonoBehaviour component in components)
+            {
+                if (component == null) continue;
+
+                var fields = component.GetType().GetFields(
+                    System.Reflection.BindingFlags.Public |
+                    System.Reflection.BindingFlags.NonPublic |
+                    System.Reflection.BindingFlags.Instance);
+
+                foreach (var field in fields)
+                {
+                    var attrs = field.GetCustomAttributes(typeof(UIReferenceAttribute), false);
+                    if (attrs != null && attrs.Length > 0)
+                    {
+                        targetComponent = component;
+                        break;
+                    }
+                }
+
+                if (targetComponent != null) break;
+            }
+
+            if (targetComponent == null)
+            {
+                EditorUtility.DisplayDialog("No UIReference Attributes",
+                    "No [UIReference] attributes found on the selected GameObject's components.", "OK");
+                return;
+            }
+
+            List<GameObject> created = UIElementGenerator.GenerateUIFromComponent(targetComponent);
+
+            if (created.Count > 0)
+            {
+                EditorUtility.DisplayDialog("Generation Complete",
+                    $"Successfully created {created.Count} UI element(s)!", "OK");
+
+                // Ask if user wants to bind references
+                if (EditorUtility.DisplayDialog("Bind References?",
+                    "Would you like to bind the references now?", "Yes", "No"))
+                {
+                    UIReferenceBinder.BindUIReferences(targetComponent);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -173,7 +231,30 @@ namespace LaddersAndSnakes.Editor
                 EditorGUILayout.Space();
                 EditorGUILayout.LabelField("UI Reference Tools", EditorStyles.boldLabel);
 
+                // First row: Generate and Bind
                 EditorGUILayout.BeginHorizontal();
+
+                if (GUILayout.Button("Generate UI"))
+                {
+                    List<GameObject> created = UIElementGenerator.GenerateUIFromComponent(monoBehaviour);
+                    if (created.Count > 0)
+                    {
+                        Debug.Log($"Generated {created.Count} UI elements for {monoBehaviour.GetType().Name}");
+
+                        // Auto-bind after generation
+                        if (EditorUtility.DisplayDialog("Bind References?",
+                            $"Generated {created.Count} UI elements. Bind them now?", "Yes", "No"))
+                        {
+                            Undo.RecordObject(monoBehaviour, "Bind UI References");
+                            UIReferenceBinder.BindUIReferences(monoBehaviour, true);
+                            EditorUtility.SetDirty(monoBehaviour);
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogWarning("No UI elements were generated", monoBehaviour);
+                    }
+                }
 
                 if (GUILayout.Button("Bind References"))
                 {
@@ -183,7 +264,10 @@ namespace LaddersAndSnakes.Editor
                     Debug.Log($"Bound {count} UI references on {monoBehaviour.GetType().Name}");
                 }
 
-                if (GUILayout.Button("Validate"))
+                EditorGUILayout.EndHorizontal();
+
+                // Second row: Validate
+                if (GUILayout.Button("Validate References"))
                 {
                     UIReferenceBinder.ValidationResult result = new UIReferenceBinder.ValidationResult();
                     UIReferenceBinder.ValidateComponent(monoBehaviour, result);
@@ -201,8 +285,6 @@ namespace LaddersAndSnakes.Editor
                         Debug.Log($"Validation passed: {result.Success.Count} references OK", monoBehaviour);
                     }
                 }
-
-                EditorGUILayout.EndHorizontal();
             }
         }
     }

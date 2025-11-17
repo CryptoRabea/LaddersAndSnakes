@@ -10,9 +10,14 @@ using TMPro;
 /// <summary>
 /// Manages room creation and listing for multiplayer
 /// Handles session discovery via Photon Fusion
+/// Optimized for mobile devices with scrollable list and touch-friendly controls
 /// </summary>
 public class RoomListingManager : MonoBehaviour, INetworkRunnerCallbacks
 {
+    [Header("Mobile Optimization")]
+    [SerializeField] private bool enableMobileOptimizations = true;
+    [SerializeField] private float mobileButtonScaleMultiplier = 1.2f;
+    [SerializeField] private ScrollRect roomListScrollRect;
     [Header("UI References")]
     [SerializeField] private Transform roomListContainer;
     [SerializeField] private GameObject roomListItemPrefab;
@@ -32,8 +37,85 @@ public class RoomListingManager : MonoBehaviour, INetworkRunnerCallbacks
 
     void Start()
     {
+        // Apply mobile optimizations if on mobile device
+        if (enableMobileOptimizations && Application.isMobilePlatform)
+        {
+            ApplyMobileOptimizations();
+        }
+
         SetupUI();
         StartLobbyRunner();
+    }
+
+    /// <summary>
+    /// Apply mobile-specific optimizations to room listing UI
+    /// </summary>
+    void ApplyMobileOptimizations()
+    {
+        Debug.Log("Applying mobile optimizations to room listing...");
+
+        // Enlarge input fields for easier touch interaction
+        if (createRoomNameInput != null)
+        {
+            RectTransform inputRect = createRoomNameInput.GetComponent<RectTransform>();
+            if (inputRect != null)
+            {
+                inputRect.sizeDelta = new Vector2(inputRect.sizeDelta.x, Mathf.Max(inputRect.sizeDelta.y, 80f));
+            }
+            createRoomNameInput.textComponent.fontSize = Mathf.Max(createRoomNameInput.textComponent.fontSize, 36f);
+        }
+
+        if (maxPlayersInput != null)
+        {
+            RectTransform inputRect = maxPlayersInput.GetComponent<RectTransform>();
+            if (inputRect != null)
+            {
+                inputRect.sizeDelta = new Vector2(inputRect.sizeDelta.x, Mathf.Max(inputRect.sizeDelta.y, 80f));
+            }
+            maxPlayersInput.textComponent.fontSize = Mathf.Max(maxPlayersInput.textComponent.fontSize, 36f);
+        }
+
+        // Enlarge buttons for better touch targets
+        Button[] buttons = new Button[] { refreshButton, createRoomButton };
+        foreach (var button in buttons)
+        {
+            if (button != null)
+            {
+                RectTransform buttonRect = button.GetComponent<RectTransform>();
+                if (buttonRect != null)
+                {
+                    buttonRect.localScale *= mobileButtonScaleMultiplier;
+                }
+
+                LayoutElement layoutElement = button.GetComponent<LayoutElement>();
+                if (layoutElement == null)
+                {
+                    layoutElement = button.gameObject.AddComponent<LayoutElement>();
+                }
+                layoutElement.minHeight = 100f;
+            }
+        }
+
+        // Ensure room list has a scroll rect for mobile
+        if (roomListContainer != null && roomListScrollRect == null)
+        {
+            roomListScrollRect = roomListContainer.GetComponentInParent<ScrollRect>();
+            if (roomListScrollRect != null)
+            {
+                // Optimize scroll for mobile
+                roomListScrollRect.scrollSensitivity = 30f; // Increase scroll sensitivity for touch
+                roomListScrollRect.inertia = true;
+                roomListScrollRect.decelerationRate = 0.135f;
+            }
+        }
+
+        // Enlarge status text
+        if (statusText != null)
+        {
+            statusText.fontSize *= 1.2f;
+        }
+
+        Debug.Log("Mobile optimizations applied to room listing");
     }
 
     void SetupUI()

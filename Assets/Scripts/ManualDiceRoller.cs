@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Manual dice roller with hold-to-shake, release-to-throw mechanics
-/// Supports both button (hold/release) and spacebar
+/// Uses Unity New Input System for mobile and desktop support
+/// Supports touch, mouse, and keyboard input with haptic feedback
 /// </summary>
-public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class ManualDiceRoller : MonoBehaviour
 {
     [Header("Dice Setup")]
     [SerializeField] private GameObject dicePrefab;
@@ -30,19 +31,88 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     [SerializeField] private float drag = 0.5f;
     [SerializeField] private float angularDrag = 0.5f;
 
-    [Header("Input")]
-    [SerializeField] private KeyCode rollKey = KeyCode.Space;
-    [SerializeField] private bool enableKeyboardInput = true;
+    [Header("Mobile Optimization")]
+    [SerializeField] private bool enableHapticFeedback = true;
+    [SerializeField] private bool enableSwipeToRoll = false;
 
     private List<GameObject> currentDice = new List<GameObject>();
     private bool isHolding = false;
     private bool isRolling = false;
-    private bool wasSpacePressed = false;
     private System.Action<int> onRollComplete;
+    private MobileInputHelper mobileInput;
+
+    // New Input System actions
+    private InputAction dicePressAction;
+    private InputAction touchPositionAction;
+    private InputAction alternateRollAction;
+
+    void Awake()
+    {
+        // Setup mobile input helper
+        mobileInput = gameObject.AddComponent<MobileInputHelper>();
+
+        if (enableSwipeToRoll)
+        {
+            mobileInput.OnSwipeUp += OnSwipeDetected;
+        }
+    }
+
+    void OnEnable()
+    {
+        // Initialize Input Actions
+        if (dicePressAction == null)
+        {
+            dicePressAction = new InputAction("DicePress", binding: "<Touchscreen>/primaryTouch/press");
+            dicePressAction.AddBinding("<Mouse>/leftButton");
+        }
+
+        if (touchPositionAction == null)
+        {
+            touchPositionAction = new InputAction("TouchPosition", binding: "<Touchscreen>/primaryTouch/position");
+            touchPositionAction.AddBinding("<Mouse>/position");
+        }
+
+        if (alternateRollAction == null)
+        {
+            alternateRollAction = new InputAction("AlternateRoll", binding: "<Keyboard>/space");
+        }
+
+        // Setup callbacks
+        dicePressAction.started += OnDicePressStarted;
+        dicePressAction.canceled += OnDicePressCanceled;
+        alternateRollAction.performed += OnAlternateRoll;
+
+        // Enable actions
+        dicePressAction.Enable();
+        touchPositionAction.Enable();
+        alternateRollAction.Enable();
+    }
+
+    void OnDisable()
+    {
+        // Cleanup callbacks
+        if (dicePressAction != null)
+        {
+            dicePressAction.started -= OnDicePressStarted;
+            dicePressAction.canceled -= OnDicePressCanceled;
+            dicePressAction.Disable();
+        }
+
+        if (alternateRollAction != null)
+        {
+            alternateRollAction.performed -= OnAlternateRoll;
+            alternateRollAction.Disable();
+        }
+
+        if (touchPositionAction != null)
+        {
+            touchPositionAction.Disable();
+        }
+    }
 
     void Update()
     {
-        if (!isHolding) return;  // 🔥 prevents shaking after release
+        if (!isHolding) return;  // prevents shaking after release
         if (currentDice.Count == 0) return;
 
         foreach (var dice in currentDice)
@@ -57,21 +127,48 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         }
     }
 
-
-    public void OnPointerDown(PointerEventData eventData)
+    // New Input System callbacks
+    private void OnDicePressStarted(InputAction.CallbackContext context)
     {
         if (!isRolling && !isHolding)
         {
             StartHolding();
+
+            // Haptic feedback on press
+            if (enableHapticFeedback && mobileInput != null)
+            {
+                mobileInput.TriggerHapticFeedback(HapticFeedbackType.LightImpact);
+            }
         }
     }
 
-    // Button release
-    public void OnPointerUp(PointerEventData eventData)
+    private void OnDicePressCanceled(InputAction.CallbackContext context)
     {
         if (isHolding)
         {
             ThrowDice();
+
+            // Haptic feedback on throw
+            if (enableHapticFeedback && mobileInput != null)
+            {
+                mobileInput.TriggerHapticFeedback(HapticFeedbackType.MediumImpact);
+            }
+        }
+    }
+
+    private void OnAlternateRoll(InputAction.CallbackContext context)
+    {
+        if (!isRolling && !isHolding)
+        {
+            StartCoroutine(AutoRollSequence());
+        }
+    }
+
+    private void OnSwipeDetected()
+    {
+        if (!isRolling && !isHolding)
+        {
+            StartCoroutine(AutoRollSequence());
         }
     }
 
@@ -332,6 +429,22 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     void OnDestroy()
     {
         ClearDice();
+
+        // Cleanup input actions
+        if (dicePressAction != null)
+        {
+            dicePressAction.Dispose();
+        }
+
+        if (touchPositionAction != null)
+        {
+            touchPositionAction.Dispose();
+        }
+
+        if (alternateRollAction != null)
+        {
+            alternateRollAction.Dispose();
+        }
     }
 
     // Debug visualization

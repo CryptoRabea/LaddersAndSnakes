@@ -3,11 +3,16 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-    /// <summary>
-    /// Main menu controller for game setup and multiplayer options
-    /// </summary>
-    public class MainMenuController : MonoBehaviour
-    {
+/// <summary>
+/// Main menu controller for game setup and multiplayer options
+/// Optimized for mobile devices with responsive UI and touch-friendly controls
+/// </summary>
+public class MainMenuController : MonoBehaviour
+{
+    [Header("Mobile Optimization")]
+    [SerializeField] private bool enableMobileOptimizations = true;
+    [SerializeField] private float mobileButtonScaleMultiplier = 1.2f;
+    [SerializeField] private SafeAreaHandler safeAreaHandler;
         [Header("UI Panels")]
         [SerializeField] private GameObject mainPanel;
         [SerializeField] private GameObject multiplayerPanel;
@@ -33,12 +38,76 @@ using TMPro;
         [SerializeField] private string mainMenuSceneName = "MainMenu";
         [SerializeField] private Button settingsBackButton;
 
-        private void Start()
+    private void Start()
+    {
+        // Apply mobile optimizations if on mobile device
+        if (enableMobileOptimizations && Application.isMobilePlatform)
         {
-            InitializeUI();
-            SetupEventListeners();
-            ShowMainPanel();
+            ApplyMobileOptimizations();
         }
+
+        InitializeUI();
+        SetupEventListeners();
+        ShowMainPanel();
+    }
+
+    /// <summary>
+    /// Apply mobile-specific optimizations to menu buttons and UI
+    /// </summary>
+    private void ApplyMobileOptimizations()
+    {
+        Debug.Log("Applying mobile optimizations to main menu...");
+
+        // Enlarge all buttons for touch-friendly interaction
+        Button[] allButtons = new Button[]
+        {
+            playLocalButton, playAIButton, playOnlineButton, settingsButton, quitButton,
+            hostGameButton, joinGameButton, backButton, settingsBackButton
+        };
+
+        foreach (var button in allButtons)
+        {
+            if (button != null)
+            {
+                RectTransform buttonRect = button.GetComponent<RectTransform>();
+                if (buttonRect != null)
+                {
+                    buttonRect.localScale *= mobileButtonScaleMultiplier;
+                }
+
+                // Increase button minimum size for better touch targets
+                LayoutElement layoutElement = button.GetComponent<LayoutElement>();
+                if (layoutElement == null)
+                {
+                    layoutElement = button.gameObject.AddComponent<LayoutElement>();
+                }
+                layoutElement.minHeight = 100f; // Minimum 100 pixels for touch
+            }
+        }
+
+        // Enlarge input fields for easier typing on mobile
+        if (serverAddressInput != null)
+        {
+            RectTransform inputRect = serverAddressInput.GetComponent<RectTransform>();
+            if (inputRect != null)
+            {
+                inputRect.sizeDelta = new Vector2(inputRect.sizeDelta.x, Mathf.Max(inputRect.sizeDelta.y, 80f));
+            }
+            serverAddressInput.textComponent.fontSize = Mathf.Max(serverAddressInput.textComponent.fontSize, 32f);
+        }
+
+        // Enlarge dropdown for easier selection
+        if (playerCountDropdown != null)
+        {
+            RectTransform dropdownRect = playerCountDropdown.GetComponent<RectTransform>();
+            if (dropdownRect != null)
+            {
+                dropdownRect.sizeDelta = new Vector2(dropdownRect.sizeDelta.x, Mathf.Max(dropdownRect.sizeDelta.y, 80f));
+            }
+        }
+
+        Debug.Log("Mobile optimizations applied to main menu");
+    }
 
         private void InitializeUI()
         {

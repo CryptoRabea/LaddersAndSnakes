@@ -36,6 +36,7 @@ public class ManualGameManager : MonoBehaviour
     [Header("Multiplayer")]
     [SerializeField] private bool isMultiplayer = false;
     [SerializeField] private int localPlayerIndex = 0;
+    [SerializeField] private NetworkGameState networkState; // Network state sync
 
     [Header("UI References")]
     [SerializeField] private Button rollDiceButton;
@@ -89,6 +90,30 @@ public class ManualGameManager : MonoBehaviour
     void Start()
     {
         InitializeGame();
+    }
+
+    /// <summary>
+    /// Configure game for multiplayer mode
+    /// Call this from NetworkGameManager when network is ready
+    /// </summary>
+    public void ConfigureMultiplayer(NetworkGameState netState, int playerIndex, int totalPlayers)
+    {
+        isMultiplayer = true;
+        localPlayerIndex = playerIndex;
+        numberOfPlayers = totalPlayers;
+        networkState = netState;
+
+        // Subscribe to network events
+        if (networkState != null)
+        {
+            networkState.OnDiceRolled += OnNetworkDiceRolled;
+            networkState.OnTurnChanged += OnNetworkTurnChanged;
+            networkState.OnGameEnded += OnNetworkGameEnded;
+            networkState.SetGameManager(this);
+        }
+
+        Debug.Log($"Multiplayer configured: Player {localPlayerIndex} of {totalPlayers}");
+        UpdateUI();
     }
 
     void InitializeGame()
@@ -203,7 +228,16 @@ public class ManualGameManager : MonoBehaviour
                 rollDiceButton.interactable = false;
             }
 
-            diceRoller.RollDice(OnDiceRolled);
+            // Use network state if multiplayer
+            if (isMultiplayer && networkState != null)
+            {
+                networkState.RequestRollDice();
+            }
+            else
+            {
+                // Local single-player roll
+                diceRoller.RollDice(OnDiceRolled);
+            }
         }
     }
 
@@ -289,6 +323,14 @@ public class ManualGameManager : MonoBehaviour
 
     void NextTurn()
     {
+        // Use network state if multiplayer
+        if (isMultiplayer && networkState != null)
+        {
+            networkState.NextTurn();
+            return; // Network will call OnNetworkTurnChanged
+        }
+
+        // Local single-player
         currentPlayer = (currentPlayer + 1) % numberOfPlayers;
         isRolling = false;
 
@@ -352,6 +394,14 @@ public class ManualGameManager : MonoBehaviour
 
     void GameOver(int winnerIndex)
     {
+        // Use network state if multiplayer
+        if (isMultiplayer && networkState != null && !networkState.GameEnded)
+        {
+            networkState.EndGame(winnerIndex);
+            return; // Network will call OnNetworkGameEnded
+        }
+
+        // Local game over display
         if (winPanel != null)
         {
             winPanel.SetActive(true);
@@ -394,8 +444,91 @@ public class ManualGameManager : MonoBehaviour
         }
     }
 
+    #region Network Event Handlers
+
+    /// <summary>
+    /// Called when network dice roll result is received
+    /// </summary>
+    void OnNetworkDiceRolled(int result)
+    {
+        Debug.Log($"Network dice rolled: {result}");
+
+        if (diceText != null)
+        {
+            diceText.text = "Rolled: " + result;
+        }
+
+        ShowMessage($"Player {currentPlayer + 1} rolled {result}!");
+
+        // Show visual dice roll (non-interactive)
+        if (diceRoller != null)
+        {
+            // Visual only - result already determined by network
+            StartCoroutine(ShowNetworkDiceRoll(result));
+        }
+        else
+        {
+            // No visual roller, just move immediately
+            StartCoroutine(MovePlayer(currentPlayer, result));
+        }
+    }
+
+    /// <summary>
+    /// Show dice animation for network result
+    /// </summary>
+    System.Collections.IEnumerator ShowNetworkDiceRoll(int result)
+    {
+        // Brief visual shake/animation
+        yield return new WaitForSeconds(0.5f);
+
+        if (diceText != null)
+        {
+            diceText.text = "Rolled: " + result;
+        }
+
+        // Start movement
+        StartCoroutine(MovePlayer(currentPlayer, result));
+    }
+
+    /// <summary>
+    /// Called when turn changes on network
+    /// </summary>
+    void OnNetworkTurnChanged(int newPlayer)
+    {
+        Debug.Log($"Network turn changed to: {newPlayer}");
+        currentPlayer = newPlayer;
+        isRolling = false;
+
+        if (rollDiceButton != null)
+        {
+            rollDiceButton.interactable = true;
+        }
+
+        UpdateUI();
+        CheckAITurn();
+    }
+
+    /// <summary>
+    /// Called when game ends on network
+    /// </summary>
+    void OnNetworkGameEnded(int winnerIndex)
+    {
+        Debug.Log($"Network game ended. Winner: {winnerIndex}");
+        GameOver(winnerIndex);
+    }
+
+    #endregion
+
     void OnDestroy()
     {
+        // Unsubscribe from network events
+        if (networkState != null)
+        {
+            networkState.OnDiceRolled -= OnNetworkDiceRolled;
+            networkState.OnTurnChanged -= OnNetworkTurnChanged;
+            networkState.OnGameEnded -= OnNetworkGameEnded;
+        }
+
         if (rollDiceButton != null)
         {
             rollDiceButton.onClick.RemoveAllListeners();

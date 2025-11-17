@@ -250,49 +250,7 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     }
 }
 
-/// <summary>
-/// Optional: Attach to dice prefab to read face values
-/// Detects which face is pointing up
-/// </summary>
-public class DiceFace : MonoBehaviour
-{
-    [System.Serializable]
-    public class Face
-    {
-        public Vector3 upDirection;
-        public int value;
-    }
-
-    [SerializeField]
-    private Face[] faces = new Face[]
-    {
-        new Face { upDirection = Vector3.up, value = 1 },
-        new Face { upDirection = Vector3.down, value = 6 },
-        new Face { upDirection = Vector3.forward, value = 2 },
-        new Face { upDirection = Vector3.back, value = 5 },
-        new Face { upDirection = Vector3.right, value = 3 },
-        new Face { upDirection = Vector3.left, value = 4 }
-    };
-
-    public int GetTopFaceValue()
-    {
-        float maxDot = -1f;
-        int topValue = 1;
-
-        foreach (var face in faces)
-        {
-            Vector3 worldUp = transform.TransformDirection(face.upDirection);
-            float dot = Vector3.Dot(worldUp, Vector3.up);
-
-            if (dot > maxDot)
-            {
-                maxDot = dot;
-                topValue = face.value;
-            }
-        }
-
-        return topValue;
-    }
 
 
-}
+
+

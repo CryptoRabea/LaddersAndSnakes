@@ -1,7 +1,7 @@
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Collections;
-using System.Collections.Generic;
 
 /// <summary>
 /// Manual dice roller with hold-to-shake, release-to-throw mechanics
@@ -34,22 +34,21 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     void Update()
     {
-        if (isHolding && currentDice.Count > 0)
-        {
-            // Shake dice while holding
-            foreach (var dice in currentDice)
-            {
-                if (dice != null)
-                {
-                    float shakeX = Mathf.Sin(Time.time * shakeSpeed) * shakeIntensity;
-                    float shakeY = Mathf.Cos(Time.time * shakeSpeed * 1.3f) * shakeIntensity;
-                    float shakeZ = Mathf.Sin(Time.time * shakeSpeed * 0.7f) * shakeIntensity;
+        if (!isHolding) return;  // 🔥 prevents shaking after release
+        if (currentDice.Count == 0) return;
 
-                    dice.transform.localRotation = Quaternion.Euler(shakeX * 30, shakeY * 30, shakeZ * 30);
-                }
-            }
+        foreach (var dice in currentDice)
+        {
+            if (dice == null) continue;
+
+            float shakeX = Mathf.Sin(Time.time * shakeSpeed) * shakeIntensity;
+            float shakeY = Mathf.Cos(Time.time * shakeSpeed * 1.3f) * shakeIntensity;
+            float shakeZ = Mathf.Sin(Time.time * shakeSpeed * 0.7f) * shakeIntensity;
+
+            dice.transform.localRotation = Quaternion.Euler(shakeX * 30, shakeY * 30, shakeZ * 30);
         }
     }
+
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -123,6 +122,8 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
         isHolding = false;
         isRolling = true;
+
+
 
         if (usePhysics)
         {
@@ -262,7 +263,8 @@ public class DiceFace : MonoBehaviour
         public int value;
     }
 
-    [SerializeField] private Face[] faces = new Face[]
+    [SerializeField]
+    private Face[] faces = new Face[]
     {
         new Face { upDirection = Vector3.up, value = 1 },
         new Face { upDirection = Vector3.down, value = 6 },
@@ -291,4 +293,6 @@ public class DiceFace : MonoBehaviour
 
         return topValue;
     }
+
+
 }

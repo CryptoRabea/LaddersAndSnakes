@@ -12,9 +12,14 @@ using System.Collections.Generic;
 /// - Configure dice manually
 /// - Adjust camera yourself
 /// NO AUTOMATIC GENERATION - You control everything
+/// Optimized for mobile devices with responsive UI
 /// </summary>
 public class ManualGameManager : MonoBehaviour
 {
+    [Header("Mobile Optimization")]
+    [SerializeField] private bool enableMobileOptimizations = true;
+    [SerializeField] private float mobileButtonScaleMultiplier = 1.3f;
+    [SerializeField] private bool enlargeTextOnMobile = true;
     [Header("Manual Board Setup")]
     [Tooltip("Assign the board squares in order 1-100. Leave empty to generate positions logically.")]
     [SerializeField] private Transform[] boardSquares = new Transform[100];
@@ -89,6 +94,12 @@ public class ManualGameManager : MonoBehaviour
 
     void Start()
     {
+        // Apply mobile optimizations first
+        if (enableMobileOptimizations && Application.isMobilePlatform)
+        {
+            ApplyMobileOptimizations();
+        }
+
         // Check if we should configure from GameConfiguration
         if (GameConfiguration.Instance != null)
         {
@@ -96,6 +107,73 @@ public class ManualGameManager : MonoBehaviour
         }
 
         InitializeGame();
+    }
+
+    /// <summary>
+    /// Apply mobile-specific optimizations to UI
+    /// </summary>
+    void ApplyMobileOptimizations()
+    {
+        Debug.Log("Applying mobile optimizations...");
+
+        // Enlarge buttons for easier touch interaction
+        if (rollDiceButton != null)
+        {
+            RectTransform buttonRect = rollDiceButton.GetComponent<RectTransform>();
+            if (buttonRect != null)
+            {
+                buttonRect.localScale *= mobileButtonScaleMultiplier;
+            }
+        }
+
+        if (playAgainButton != null)
+        {
+            RectTransform buttonRect = playAgainButton.GetComponent<RectTransform>();
+            if (buttonRect != null)
+            {
+                buttonRect.localScale *= mobileButtonScaleMultiplier;
+            }
+        }
+
+        if (mainMenuButton != null)
+        {
+            RectTransform buttonRect = mainMenuButton.GetComponent<RectTransform>();
+            if (buttonRect != null)
+            {
+                buttonRect.localScale *= mobileButtonScaleMultiplier;
+            }
+        }
+
+        // Enlarge text for better readability on mobile
+        if (enlargeTextOnMobile)
+        {
+            float textScaleMultiplier = 1.2f;
+
+            if (turnText != null)
+            {
+                turnText.fontSize *= textScaleMultiplier;
+            }
+
+            if (diceText != null)
+            {
+                diceText.fontSize *= textScaleMultiplier;
+            }
+
+            if (messageText != null)
+            {
+                messageText.fontSize *= textScaleMultiplier;
+            }
+
+            if (winnerText != null)
+            {
+                winnerText.fontSize *= textScaleMultiplier;
+            }
+        }
+
+        // Adjust move speed for better visibility on mobile
+        moveSpeed = Mathf.Max(moveSpeed, 3f);
+
+        Debug.Log("Mobile optimizations applied");
     }
 
     /// <summary>

@@ -6,9 +6,13 @@ using TMPro;
 /// <summary>
 /// Handles player setup UI for single player mode
 /// Allows configuring number of human players and AI players
+/// Optimized for mobile devices with larger touch targets and responsive layout
 /// </summary>
 public class PlayerSetupPanel : MonoBehaviour
 {
+    [Header("Mobile Optimization")]
+    [SerializeField] private bool enableMobileOptimizations = true;
+    [SerializeField] private float mobileButtonScaleMultiplier = 1.2f;
     [Header("UI References")]
     [SerializeField] private TMP_InputField humanPlayersInput;
     [SerializeField] private TMP_InputField aiPlayersInput;
@@ -29,10 +33,79 @@ public class PlayerSetupPanel : MonoBehaviour
 
     void OnEnable()
     {
+        // Apply mobile optimizations if on mobile device
+        if (enableMobileOptimizations && Application.isMobilePlatform)
+        {
+            ApplyMobileOptimizations();
+        }
+
         // Reset to default values when panel is shown
         ResetToDefaults();
         SetupListeners();
         UpdateUI();
+    }
+
+    /// <summary>
+    /// Apply mobile-specific optimizations to player setup UI
+    /// </summary>
+    void ApplyMobileOptimizations()
+    {
+        Debug.Log("Applying mobile optimizations to player setup panel...");
+
+        // Enlarge input fields for easier touch interaction
+        if (humanPlayersInput != null)
+        {
+            RectTransform inputRect = humanPlayersInput.GetComponent<RectTransform>();
+            if (inputRect != null)
+            {
+                inputRect.sizeDelta = new Vector2(inputRect.sizeDelta.x, Mathf.Max(inputRect.sizeDelta.y, 80f));
+            }
+            humanPlayersInput.textComponent.fontSize = Mathf.Max(humanPlayersInput.textComponent.fontSize, 36f);
+        }
+
+        if (aiPlayersInput != null)
+        {
+            RectTransform inputRect = aiPlayersInput.GetComponent<RectTransform>();
+            if (inputRect != null)
+            {
+                inputRect.sizeDelta = new Vector2(inputRect.sizeDelta.x, Mathf.Max(inputRect.sizeDelta.y, 80f));
+            }
+            aiPlayersInput.textComponent.fontSize = Mathf.Max(aiPlayersInput.textComponent.fontSize, 36f);
+        }
+
+        // Enlarge buttons for better touch targets
+        Button[] buttons = new Button[] { startGameButton, backButton };
+        foreach (var button in buttons)
+        {
+            if (button != null)
+            {
+                RectTransform buttonRect = button.GetComponent<RectTransform>();
+                if (buttonRect != null)
+                {
+                    buttonRect.localScale *= mobileButtonScaleMultiplier;
+                }
+
+                LayoutElement layoutElement = button.GetComponent<LayoutElement>();
+                if (layoutElement == null)
+                {
+                    layoutElement = button.gameObject.AddComponent<LayoutElement>();
+                }
+                layoutElement.minHeight = 100f;
+            }
+        }
+
+        // Enlarge text for better readability
+        if (totalPlayersText != null)
+        {
+            totalPlayersText.fontSize *= 1.2f;
+        }
+
+        if (errorText != null)
+        {
+            errorText.fontSize *= 1.1f;
+        }
+
+        Debug.Log("Mobile optimizations applied to player setup panel");
     }
 
     void ResetToDefaults()

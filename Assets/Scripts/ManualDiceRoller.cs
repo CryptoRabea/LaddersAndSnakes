@@ -1,7 +1,7 @@
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Collections;
-using System.Collections.Generic;
 
 /// <summary>
 /// Manual dice roller with hold-to-shake, release-to-throw mechanics
@@ -42,46 +42,22 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     void Update()
     {
-        // Handle keyboard input
-        if (enableKeyboardInput && !isRolling)
+        if (!isHolding) return;  // 🔥 prevents shaking after release
+        if (currentDice.Count == 0) return;
+
+        foreach (var dice in currentDice)
         {
-            if (Input.GetKeyDown(rollKey))
-            {
-                if (!isHolding)
-                {
-                    StartHolding();
-                    wasSpacePressed = true;
-                }
-            }
+            if (dice == null) continue;
 
-            if (Input.GetKeyUp(rollKey))
-            {
-                if (isHolding && wasSpacePressed)
-                {
-                    ThrowDice();
-                    wasSpacePressed = false;
-                }
-            }
-        }
+            float shakeX = Mathf.Sin(Time.time * shakeSpeed) * shakeIntensity;
+            float shakeY = Mathf.Cos(Time.time * shakeSpeed * 1.3f) * shakeIntensity;
+            float shakeZ = Mathf.Sin(Time.time * shakeSpeed * 0.7f) * shakeIntensity;
 
-        // Shake dice while holding
-        if (isHolding && currentDice.Count > 0)
-        {
-            foreach (var dice in currentDice)
-            {
-                if (dice != null)
-                {
-                    float shakeX = Mathf.Sin(Time.time * shakeSpeed) * shakeIntensity;
-                    float shakeY = Mathf.Cos(Time.time * shakeSpeed * 1.3f) * shakeIntensity;
-                    float shakeZ = Mathf.Sin(Time.time * shakeSpeed * 0.7f) * shakeIntensity;
-
-                    dice.transform.localRotation = Quaternion.Euler(shakeX * 30, shakeY * 30, shakeZ * 30);
-                }
-            }
+            dice.transform.localRotation = Quaternion.Euler(shakeX * 30, shakeY * 30, shakeZ * 30);
         }
     }
 
-    // Button hold
+
     public void OnPointerDown(PointerEventData eventData)
     {
         if (!isRolling && !isHolding)
@@ -174,6 +150,8 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
         isHolding = false;
         isRolling = true;
+
+
 
         if (usePhysics)
         {
@@ -371,3 +349,8 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         }
     }
 }
+
+
+
+
+

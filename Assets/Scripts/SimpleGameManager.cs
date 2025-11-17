@@ -158,12 +158,7 @@ public class SimpleGameManager : MonoBehaviour
             }
         }
 
-        // Center camera on board
-        if (Camera.main != null)
-        {
-            Camera.main.transform.position = new Vector3(boardWidth * 0.55f, 15f, boardWidth * 0.55f);
-            Camera.main.transform.rotation = Quaternion.Euler(60, 0, 0);
-        }
+       
     }
 
     void SetupPlayers()

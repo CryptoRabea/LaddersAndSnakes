@@ -18,11 +18,7 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private int maxPlayers = 4;
     [SerializeField] private string gameVersion = "1.0";
 
-    [Header("UI References")]
-    [SerializeField] private GameObject lobbyPanel;
-    [SerializeField] private Button hostButton;
-    [SerializeField] private Button joinButton;
-    [SerializeField] private GameObject gamePanel;
+
 
     [Header("Game References")]
     [SerializeField] private ManualGameManager gameManager;
@@ -97,31 +93,7 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
         // Check if auto-starting from configuration
         bool autoStart = GameConfiguration.Instance != null && GameConfiguration.Instance.IsMultiplayer;
 
-        // Show/hide panels based on auto-start
-        if (lobbyPanel != null)
-        {
-            // Hide lobby if auto-starting, show otherwise
-            lobbyPanel.SetActive(!autoStart);
-        }
-
-        if (gamePanel != null)
-        {
-            gamePanel.SetActive(false); // Will be shown when game starts
-        }
-
-        // Setup buttons (only if not auto-starting)
-        if (!autoStart)
-        {
-            if (hostButton != null)
-            {
-                hostButton.onClick.AddListener(() => StartGame(GameMode.Host));
-            }
-
-            if (joinButton != null)
-            {
-                joinButton.onClick.AddListener(() => StartGame(GameMode.Client));
-            }
-        }
+        
     }
 
     async void StartGame(GameMode mode)
@@ -156,9 +128,7 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         _isInitialized = true;
 
-        // Hide lobby, show game
-        if (lobbyPanel != null) lobbyPanel.SetActive(false);
-        if (gamePanel != null) gamePanel.SetActive(true);
+        
 
         // Assign player index based on join order
         if (_runner != null && _runner.LocalPlayer != PlayerRef.None)
@@ -348,8 +318,7 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
         _isInitialized = false;
 
         // Return to lobby
-        if (lobbyPanel != null) lobbyPanel.SetActive(true);
-        if (gamePanel != null) gamePanel.SetActive(false);
+       
     }
 
     public void OnConnectedToServer(NetworkRunner runner)
@@ -416,8 +385,7 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
 
     void OnDestroy()
     {
-        if (hostButton != null) hostButton.onClick.RemoveAllListeners();
-        if (joinButton != null) joinButton.onClick.RemoveAllListeners();
+        
 
         if (_runner != null)
         {

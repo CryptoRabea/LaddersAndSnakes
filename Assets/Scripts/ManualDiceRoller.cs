@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 /// <summary>
 /// Manual dice roller with hold-to-shake, release-to-throw mechanics
-/// Place this on a UI Button or GameObject in your scene
+/// Supports both button (hold/release) and spacebar
 /// </summary>
 public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -19,17 +19,25 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     [SerializeField] private float shakeSpeed = 20f;
 
     [Header("Throw Settings")]
-    [SerializeField] private float throwForce = 5f;
-    [SerializeField] private float throwTorque = 100f;
-    [SerializeField] private float settleTime = 2f;
+    [SerializeField] private float throwForce = 8f;
+    [SerializeField] private float throwTorque = 300f;
+    [SerializeField] private float settleTime = 2.5f;
+    [SerializeField] private Vector3 throwDirection = new Vector3(0, -0.3f, 1f);
 
     [Header("Physics")]
     [SerializeField] private bool usePhysics = true;
-    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private float drag = 0.5f;
+    [SerializeField] private float angularDrag = 0.5f;
+
+    [Header("Input")]
+    [SerializeField] private KeyCode rollKey = KeyCode.Space;
+    [SerializeField] private bool enableKeyboardInput = true;
 
     private List<GameObject> currentDice = new List<GameObject>();
     private bool isHolding = false;
     private bool isRolling = false;
+    private bool wasSpacePressed = false;
     private System.Action<int> onRollComplete;
 
     void Update()
@@ -52,12 +60,13 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (!isRolling)
+        if (!isRolling && !isHolding)
         {
             StartHolding();
         }
     }
 
+    // Button release
     public void OnPointerUp(PointerEventData eventData)
     {
         if (isHolding)
@@ -67,20 +76,21 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     }
 
     /// <summary>
-    /// Call this to roll dice (can also be called from button OnClick)
+    /// Call this to roll dice (for non-interactive rolling)
     /// </summary>
     public void RollDice(System.Action<int> callback)
     {
         if (isRolling) return;
 
         onRollComplete = callback;
-        StartHolding();
+        StartCoroutine(AutoRollSequence());
+    }
 
-        // Auto-throw after short delay if not using pointer events
-        if (!isHolding)
-        {
-            Invoke(nameof(ThrowDice), 0.5f);
-        }
+    IEnumerator AutoRollSequence()
+    {
+        StartHolding();
+        yield return new WaitForSeconds(0.5f);
+        ThrowDice();
     }
 
     void StartHolding()
@@ -100,16 +110,34 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
         for (int i = 0; i < numberOfDice; i++)
         {
-            if (dicePrefab == null) continue;
+            if (dicePrefab == null)
+            {
+                Debug.LogError("ManualDiceRoller: Dice prefab is not assigned!");
+                continue;
+            }
 
             Vector3 offset = new Vector3(i * 0.6f - (numberOfDice - 1) * 0.3f, 0, 0);
-            GameObject dice = Instantiate(dicePrefab, spawnPos + offset, Quaternion.identity);
+            GameObject dice = Instantiate(dicePrefab, spawnPos + offset, Random.rotation);
 
-            // Disable physics while holding
+            // Setup or verify Rigidbody
             Rigidbody rb = dice.GetComponent<Rigidbody>();
-            if (rb != null)
+            if (rb == null)
             {
-                rb.isKinematic = true;
+                rb = dice.AddComponent<Rigidbody>();
+            }
+
+            // Configure Rigidbody
+            rb.mass = 0.1f;
+            rb.drag = drag;
+            rb.angularDrag = angularDrag;
+            rb.useGravity = true;
+            rb.isKinematic = true; // Start kinematic while holding
+
+            // Ensure collider exists
+            if (dice.GetComponent<Collider>() == null)
+            {
+                BoxCollider collider = dice.AddComponent<BoxCollider>();
+                Debug.LogWarning("ManualDiceRoller: Added missing collider to dice!");
             }
 
             currentDice.Add(dice);
@@ -144,17 +172,36 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
             Rigidbody rb = dice.GetComponent<Rigidbody>();
             if (rb != null)
             {
+                // Enable physics
                 rb.isKinematic = false;
+                rb.useGravity = true;
 
-                // Apply throw force
+                // Calculate throw direction with randomness
+                Vector3 baseDir = throwDirection.normalized;
                 Vector3 randomDir = new Vector3(
-                    Random.Range(-0.3f, 0.3f),
-                    1f,
-                    Random.Range(0.5f, 1f)
+                    baseDir.x + Random.Range(-0.2f, 0.2f),
+                    baseDir.y + Random.Range(-0.1f, 0.2f),
+                    baseDir.z + Random.Range(-0.2f, 0.2f)
                 ).normalized;
 
-                rb.AddForce(randomDir * throwForce, ForceMode.Impulse);
-                rb.AddTorque(Random.insideUnitSphere * throwTorque);
+                // Apply force
+                rb.velocity = Vector3.zero; // Clear any existing velocity
+                rb.angularVelocity = Vector3.zero;
+                rb.AddForce(randomDir * throwForce, ForceMode.VelocityChange);
+
+                // Apply torque for spin
+                Vector3 randomTorque = new Vector3(
+                    Random.Range(-1f, 1f),
+                    Random.Range(-1f, 1f),
+                    Random.Range(-1f, 1f)
+                ).normalized * throwTorque;
+                rb.AddTorque(randomTorque, ForceMode.VelocityChange);
+
+                Debug.Log($"Dice thrown with force: {randomDir * throwForce}, torque: {randomTorque}");
+            }
+            else
+            {
+                Debug.LogError("ManualDiceRoller: Dice has no Rigidbody!");
             }
         }
 
@@ -163,26 +210,41 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     IEnumerator ThrowWithAnimation()
     {
-        float elapsed = 0f;
-        float duration = 1f;
+        float duration = 1.5f;
+        List<Vector3> startPositions = new List<Vector3>();
+        List<Vector3> endPositions = new List<Vector3>();
 
         foreach (var dice in currentDice)
         {
             if (dice == null) continue;
 
-            Vector3 startPos = dice.transform.position;
-            Vector3 endPos = startPos + new Vector3(Random.Range(-1f, 1f), -1f, Random.Range(1f, 2f));
+            startPositions.Add(dice.transform.position);
+            Vector3 endPos = dice.transform.position + new Vector3(
+                Random.Range(-1f, 1f),
+                -2f,
+                Random.Range(1f, 3f)
+            );
+            endPositions.Add(endPos);
+        }
 
-            while (elapsed < duration)
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            float curve = Mathf.Sin(t * Mathf.PI); // Arc trajectory
+
+            for (int i = 0; i < currentDice.Count; i++)
             {
-                elapsed += Time.deltaTime;
-                float t = elapsed / duration;
+                if (currentDice[i] == null) continue;
 
-                dice.transform.position = Vector3.Lerp(startPos, endPos, t);
-                dice.transform.Rotate(Random.insideUnitSphere * 360 * Time.deltaTime);
-
-                yield return null;
+                Vector3 pos = Vector3.Lerp(startPositions[i], endPositions[i], t);
+                pos.y += curve * 1f; // Add arc height
+                currentDice[i].transform.position = pos;
+                currentDice[i].transform.Rotate(Random.insideUnitSphere * 720 * Time.deltaTime);
             }
+
+            yield return null;
         }
 
         yield return new WaitForSeconds(0.5f);
@@ -194,9 +256,27 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     IEnumerator WaitForSettle()
     {
+        // Wait for dice to settle
         yield return new WaitForSeconds(settleTime);
 
+        // Stop all dice movement
+        foreach (var dice in currentDice)
+        {
+            if (dice == null) continue;
+
+            Rigidbody rb = dice.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.velocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                rb.isKinematic = true; // Freeze in place
+            }
+        }
+
+        // Read values and complete
         int total = ReadDiceValues();
+        Debug.Log($"Dice settled. Total value: {total}");
+
         onRollComplete?.Invoke(total);
         isRolling = false;
     }
@@ -213,12 +293,16 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
             DiceFace diceFace = dice.GetComponent<DiceFace>();
             if (diceFace != null)
             {
-                total += diceFace.GetTopFaceValue();
+                int value = diceFace.GetTopFaceValue();
+                total += value;
+                Debug.Log($"Dice face value: {value}");
             }
             else
             {
                 // Random value if no DiceFace component
-                total += Random.Range(1, 7);
+                int value = Random.Range(1, 7);
+                total += value;
+                Debug.LogWarning($"DiceFace component missing! Using random value: {value}");
             }
         }
 
@@ -238,6 +322,7 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     }
 
     public bool IsRolling() => isRolling;
+    public bool IsHolding() => isHolding;
 
     public void SetNumberOfDice(int count)
     {
@@ -247,6 +332,21 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     void OnDestroy()
     {
         ClearDice();
+    }
+
+    // Debug visualization
+    void OnDrawGizmos()
+    {
+        if (diceThrowPosition != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(diceThrowPosition.position, 0.2f);
+
+            // Show throw direction
+            Gizmos.color = Color.red;
+            Vector3 throwDir = throwDirection.normalized * 2f;
+            Gizmos.DrawRay(diceThrowPosition.position, throwDir);
+        }
     }
 }
 

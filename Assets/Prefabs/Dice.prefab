@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4515215351162044430}
   - component: {fileID: 3164681498019007378}
   - component: {fileID: 725186401021036382}
+  - component: {fileID: 3376568922416692626}
   m_Layer: 0
   m_Name: Dice
   m_TagString: Untagged
@@ -28,13 +29,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3269510187314585931}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -3.6225276, y: 0.029284336, z: 4.7162685}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &6095470226909717568
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -139,3 +140,30 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3376568922416692626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3269510187314585931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67c2a11edcc413a45940467b4c170cd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DiceFace
+  faces:
+  - localDirection: {x: 0, y: 1, z: 0}
+    value: 3
+  - localDirection: {x: 0, y: -1, z: 0}
+    value: 4
+  - localDirection: {x: 0, y: 0, z: 1}
+    value: 6
+  - localDirection: {x: 0, y: 0, z: -1}
+    value: 1
+  - localDirection: {x: 1, y: 0, z: 0}
+    value: 2
+  - localDirection: {x: -1, y: 0, z: 0}
+    value: 5
+  showDebugGizmos: 1
+  gizmoLength: 0.5

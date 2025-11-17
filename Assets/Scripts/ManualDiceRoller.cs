@@ -128,8 +128,8 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
             // Configure Rigidbody
             rb.mass = 0.1f;
-            rb.drag = drag;
-            rb.angularDrag = angularDrag;
+            rb.linearDamping = drag;
+            rb.angularDamping = angularDrag;
             rb.useGravity = true;
             rb.isKinematic = true; // Start kinematic while holding
 
@@ -185,7 +185,7 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
                 ).normalized;
 
                 // Apply force
-                rb.velocity = Vector3.zero; // Clear any existing velocity
+                rb.linearVelocity = Vector3.zero; // Clear any existing velocity
                 rb.angularVelocity = Vector3.zero;
                 rb.AddForce(randomDir * throwForce, ForceMode.VelocityChange);
 
@@ -267,7 +267,7 @@ public class ManualDiceRoller : MonoBehaviour, IPointerDownHandler, IPointerUpHa
             Rigidbody rb = dice.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.velocity = Vector3.zero;
+                rb.linearVelocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
                 rb.isKinematic = true; // Freeze in place
             }

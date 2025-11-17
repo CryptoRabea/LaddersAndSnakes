@@ -357,9 +357,9 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
         Debug.Log("Connected to server!");
     }
 
-    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
+    public void OnDisconnectedFromServer(NetworkRunner runner)
     {
-        Debug.Log($"Disconnected: {reason}");
+        Debug.Log("Disconnected from server");
     }
 
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)

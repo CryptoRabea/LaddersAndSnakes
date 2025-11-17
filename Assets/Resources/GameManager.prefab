@@ -1,0 +1,214 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8117108958281690716
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 57610774286895190}
+  - component: {fileID: 8537944912694196404}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &57610774286895190
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8117108958281690716}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.04058, y: 0.35231, z: -0.60223}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8537944912694196404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8117108958281690716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35948668e64cd7642ac5b9b66194fff3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ManualGameManager
+  boardSquares:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  boardSize: 100
+  playerPrefabs:
+  - {fileID: 3407222619319978119, guid: 09107614220a7b6448ba70910e8510fd, type: 3}
+  - {fileID: 5923757695060129462, guid: a87b1d4fc4b10b54fa7725635ca63169, type: 3}
+  - {fileID: 2288994984521235295, guid: 9b86c0708fd38694891d19e27b0844d2, type: 3}
+  - {fileID: 194311022162823663, guid: 7c6b1fce5c535f143bb878faf9eae7a4, type: 3}
+  numberOfPlayers: 2
+  isAI: 00000000
+  playerHeightOffset: 0.08
+  playerSpacing: 0.3
+  moveSpeed: 5
+  diceRoller: {fileID: 0}
+  numberOfDice: 1
+  isMultiplayer: 0
+  localPlayerIndex: 0
+  networkState: {fileID: 0}
+  rollDiceButton: {fileID: 0}
+  turnText: {fileID: 0}
+  diceText: {fileID: 0}
+  messageText: {fileID: 0}
+  winPanel: {fileID: 0}
+  winnerText: {fileID: 0}
+  playAgainButton: {fileID: 0}
+  mainMenuButton: {fileID: 0}
+  jumps:
+  - from: 9
+    to: 27
+    isLadder: 1
+  - from: 16
+    to: 7
+    isLadder: 0
+  - from: 18
+    to: 37
+    isLadder: 1
+  - from: 25
+    to: 54
+    isLadder: 1
+  - from: 28
+    to: 51
+    isLadder: 1
+  - from: 59
+    to: 17
+    isLadder: 0
+  - from: 56
+    to: 64
+    isLadder: 1
+  - from: 68
+    to: 88
+    isLadder: 1
+  - from: 67
+    to: 30
+    isLadder: 0
+  - from: 76
+    to: 97
+    isLadder: 1
+  - from: 79
+    to: 100
+    isLadder: 1
+  - from: 93
+    to: 69
+    isLadder: 0
+  - from: 95
+    to: 75
+    isLadder: 0
+  - from: 99
+    to: 77
+    isLadder: 0

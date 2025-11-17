@@ -305,7 +305,12 @@ public class ManualGameManager : MonoBehaviour
         {
             ShowMessage($"Player {playerIndex + 1} needs exact roll!");
             yield return new WaitForSeconds(1.5f);
-            NextTurn();
+
+            // Only host advances turn in multiplayer
+            if (!isMultiplayer || (networkState != null && networkState.Object.HasStateAuthority))
+            {
+                NextTurn();
+            }
             yield break;
         }
 
@@ -344,7 +349,11 @@ public class ManualGameManager : MonoBehaviour
             yield break;
         }
 
-        NextTurn();
+        // Only host advances turn in multiplayer
+        if (!isMultiplayer || (networkState != null && networkState.Object.HasStateAuthority))
+        {
+            NextTurn();
+        }
     }
 
     IEnumerator MoveTo(GameObject obj, Vector3 target)
@@ -589,13 +598,8 @@ public class ManualGameManager : MonoBehaviour
         currentPlayer = newPlayer;
         isRolling = false;
 
-        if (rollDiceButton != null)
-        {
-            rollDiceButton.interactable = true;
-        }
-
+        // UpdateUI will handle button state correctly based on whose turn it is
         UpdateUI();
-        CheckAITurn();
     }
 
     /// <summary>

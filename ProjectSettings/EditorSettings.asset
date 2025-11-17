@@ -19,10 +19,10 @@ EditorSettings:
   m_EtcTextureBestCompressor: 4
   m_ProjectGenerationIncludedExtensions: txt;xml;fnt;cd;asmdef;rsp;asmref
   m_ProjectGenerationRootNamespace: 
-  m_EnableTextureStreamingInEditMode: 1
-  m_EnableTextureStreamingInPlayMode: 1
-  m_EnableEditorAsyncCPUTextureLoading: 1
-  m_AsyncShaderCompilation: 1
+  m_EnableTextureStreamingInEditMode: 0
+  m_EnableTextureStreamingInPlayMode: 0
+  m_EnableEditorAsyncCPUTextureLoading: 0
+  m_AsyncShaderCompilation: 0
   m_PrefabModeAllowAutoSave: 1
   m_EnterPlayModeOptionsEnabled: 1
   m_EnterPlayModeOptions: 0
@@ -47,4 +47,4 @@ EditorSettings:
   m_CacheServerDownloadBatchSize: 128
   m_EnableEnlightenBakedGI: 0
   m_ReferencedClipsExactNaming: 1
-  m_ForceAssetUnloadAndGCOnSceneLoad: 1
+  m_ForceAssetUnloadAndGCOnSceneLoad: 0

@@ -45,10 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02e6166a1a64f2a478c2e6a992f499bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NetworkGameState
-  _CurrentPlayer: 2
+  _CurrentPlayer: 0
   _LastDiceRoll: 0
   _IsRolling: 0
-  _NumberOfPlayers: 0
+  _NumberOfPlayers: 2
   _WinnerIndex: 0
   _GameEnded: 0
   _Player0Position: 0
@@ -69,7 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
   SortKey: 1014369039
   ObjectInterest: 1
-  Flags: 262145
+  Flags: 786433
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 2917860647344995755}

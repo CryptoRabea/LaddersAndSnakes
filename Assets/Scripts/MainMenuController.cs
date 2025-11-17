@@ -146,6 +146,12 @@ using TMPro;
             LoadGameScene();
         }
 
+    public void ReturnToMainMenu()
+    {
+        Debug.Log($"[MainMenu] Loading scene: {mainMenuSceneName}");
+        SceneManager.LoadScene(mainMenuSceneName);
+    }
+
         private void OnSettings()
         {
             Debug.Log("[MainMenu] Opening settings");

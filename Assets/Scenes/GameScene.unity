@@ -966,7 +966,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2169,7 +2169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2487,10 +2487,10 @@ MonoBehaviour:
   playerSpacing: 0.3
   moveSpeed: 5
   diceRoller: {fileID: 1215512009}
-  numberOfDice: 2
+  numberOfDice: 1
   isMultiplayer: 1
   localPlayerIndex: 0
-  networkState: {fileID: 0}
+  networkState: {fileID: 2917860647344995755, guid: 35a386b591548f24a88c22835fad3dba, type: 3}
   rollDiceButton: {fileID: 609340419}
   turnText: {fileID: 1600491616}
   diceText: {fileID: 1536615766}

@@ -156,7 +156,13 @@ public class ManualGameManager : MonoBehaviour
         }
 
         UpdateUI();
-        CheckAITurn();
+
+        // Only check AI turn if NOT in multiplayer mode
+        // In multiplayer, this will be called after ConfigureMultiplayer
+        if (!isMultiplayer)
+        {
+            CheckAITurn();
+        }
     }
 
     void SpawnPlayers()
@@ -345,6 +351,12 @@ public class ManualGameManager : MonoBehaviour
 
     void CheckAITurn()
     {
+        // Disable AI in multiplayer mode
+        if (isMultiplayer)
+        {
+            return;
+        }
+
         if (currentPlayer < isAI.Length && isAI[currentPlayer])
         {
             // AI turn
@@ -374,13 +386,55 @@ public class ManualGameManager : MonoBehaviour
     {
         if (turnText != null)
         {
-            string playerType = (currentPlayer < isAI.Length && isAI[currentPlayer]) ? " (AI)" : "";
+            string playerType = "";
+
+            if (isMultiplayer)
+            {
+                // Show if it's the local player's turn
+                if (currentPlayer == localPlayerIndex)
+                {
+                    playerType = " (YOUR TURN)";
+                }
+                else
+                {
+                    playerType = " (Waiting...)";
+                }
+            }
+            else if (currentPlayer < isAI.Length && isAI[currentPlayer])
+            {
+                playerType = " (AI)";
+            }
+
             turnText.text = $"Player {currentPlayer + 1}'s Turn{playerType}";
         }
 
-        if (messageText != null && messageText.text == "")
+        // Update roll button state in multiplayer
+        if (rollDiceButton != null && isMultiplayer)
         {
-            messageText.text = "Press and hold to shake dice, release to throw!";
+            // Only enable button if it's the local player's turn and not currently rolling
+            rollDiceButton.interactable = (currentPlayer == localPlayerIndex) && !isRolling;
+        }
+
+        // Update message text for multiplayer state
+        if (messageText != null)
+        {
+            // Don't override specific messages, only update default state
+            if (messageText.text == "" || messageText.text.Contains("Press and hold") ||
+                messageText.text.Contains("Waiting for") || messageText.text.Contains("Your turn"))
+            {
+                if (isMultiplayer && currentPlayer == localPlayerIndex)
+                {
+                    messageText.text = "Your turn! Press and hold to shake dice, release to throw!";
+                }
+                else if (isMultiplayer)
+                {
+                    messageText.text = "Waiting for other player...";
+                }
+                else
+                {
+                    messageText.text = "Press and hold to shake dice, release to throw!";
+                }
+            }
         }
     }
 

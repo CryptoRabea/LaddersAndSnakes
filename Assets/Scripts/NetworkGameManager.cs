@@ -4,6 +4,7 @@ using Fusion;
 using Fusion.Sockets;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 /// <summary>
@@ -99,13 +100,20 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
         // Assign player index based on join order
         if (_runner != null && _runner.LocalPlayer != PlayerRef.None)
         {
-            LocalPlayerIndex = _runner.LocalPlayer.PlayerId;
-            Debug.Log($"Local player index: {LocalPlayerIndex}");
+            // Convert Fusion PlayerRef (1-based) to game logic player index (0-based)
+            LocalPlayerIndex = _runner.LocalPlayer.PlayerId - 1;
+            Debug.Log($"Local player index: {LocalPlayerIndex} (PlayerRef: {_runner.LocalPlayer.PlayerId})");
 
             // Spawn network state (host only)
             if (IsHost)
             {
                 SpawnNetworkState();
+            }
+            else
+            {
+                // Client - try to find existing network state
+                // If not found yet, will be found in OnPlayerJoined
+                TryFindNetworkState();
             }
         }
     }
@@ -140,6 +148,52 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
         }
     }
 
+    void TryFindNetworkState()
+    {
+        if (_networkState != null)
+        {
+            return; // Already found
+        }
+
+        // Try to find the network state object
+        _networkState = FindFirstObjectByType<NetworkGameState>();
+
+        if (_networkState != null)
+        {
+            Debug.Log("Client found NetworkGameState!");
+            ConfigureGameManager();
+        }
+        else
+        {
+            // Network state not spawned yet, try again shortly
+            Debug.Log("NetworkGameState not found yet, will retry...");
+            StartCoroutine(RetryFindNetworkState());
+        }
+    }
+
+    System.Collections.IEnumerator RetryFindNetworkState()
+    {
+        int retries = 0;
+        while (_networkState == null && retries < 20) // Try for up to 2 seconds
+        {
+            yield return new WaitForSeconds(0.1f);
+            retries++;
+
+            _networkState = FindFirstObjectByType<NetworkGameState>();
+            if (_networkState != null)
+            {
+                Debug.Log($"Client found NetworkGameState after {retries} retries!");
+                ConfigureGameManager();
+                yield break;
+            }
+        }
+
+        if (_networkState == null)
+        {
+            Debug.LogError("Failed to find NetworkGameState after retries!");
+        }
+    }
+
     void ConfigureGameManager()
     {
         if (gameManager == null)
@@ -156,7 +210,12 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
 
         // Configure the game manager for multiplayer
         gameManager.ConfigureMultiplayer(_networkState, LocalPlayerIndex, maxPlayers);
-        _networkState.SetNumberOfPlayers(maxPlayers);
+
+        // Only host sets the number of players
+        if (IsHost)
+        {
+            _networkState.SetNumberOfPlayers(maxPlayers);
+        }
 
         Debug.Log($"Game manager configured for multiplayer. Local player: {LocalPlayerIndex}");
     }
@@ -187,26 +246,22 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        Debug.Log($"Player {player.PlayerId} joined!");
-        PlayerCount++;
+        Debug.Log($"Player {player.PlayerId} joined (0-based index: {player.PlayerId - 1})!");
 
-        // If we're a client and don't have network state yet, find it
+        // Get actual player count from runner
+        PlayerCount = runner.ActivePlayers.Count();
+
+        // If we're a client and don't have network state yet, try to find it
         if (!IsHost && _networkState == null)
         {
-            // Find the network state object in the scene
-            _networkState = FindFirstObjectByType<NetworkGameState>();
-
-            if (_networkState != null)
-            {
-                Debug.Log("Client found NetworkGameState!");
-                ConfigureGameManager();
-            }
+            TryFindNetworkState();
         }
 
-        // Update player count
+        // Update player count (host only)
         if (_networkState != null && IsHost)
         {
             _networkState.SetNumberOfPlayers(PlayerCount);
+            Debug.Log($"Updated network player count to: {PlayerCount}");
         }
     }
 

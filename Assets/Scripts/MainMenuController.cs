@@ -111,15 +111,19 @@ using TMPro;
             Debug.Log("[MainMenu] Starting local multiplayer");
             int playerCount = playerCountDropdown != null ? playerCountDropdown.value + 2 : 2;
 
-           
+            // Configure for local multiplayer (all human players)
+            GameConfiguration.Instance.SetSinglePlayerMode(playerCount, 0);
             LoadGameScene();
         }
 
-    private void OnPlayAI()
-    {
-        Debug.Log("[MainMenu] Starting single player vs AI");
+        private void OnPlayAI()
+        {
+            Debug.Log("[MainMenu] Starting single player vs AI");
 
-    }
+            // Configure for single player with 1 human and 1 AI
+            GameConfiguration.Instance.SetSinglePlayerMode(1, 1);
+            LoadGameScene();
+        }
 
         private void OnPlayOnline()
         {
@@ -131,8 +135,10 @@ using TMPro;
         {
             Debug.Log("[MainMenu] Hosting game");
 
-            // Ensure NetworkManager exists
-           
+            // Configure for multiplayer as host
+            int maxPlayers = playerCountDropdown != null ? playerCountDropdown.value + 2 : 2;
+            GameConfiguration.Instance.SetMultiplayerMode(isHost: true, maxPlayers: maxPlayers);
+
             LoadGameScene();
         }
 
@@ -141,8 +147,10 @@ using TMPro;
             string serverAddress = serverAddressInput != null ? serverAddressInput.text : "127.0.0.1";
             Debug.Log($"[MainMenu] Joining game at {serverAddress}");
 
-            // Ensure NetworkManager exists
-            
+            // Configure for multiplayer as client
+            int maxPlayers = playerCountDropdown != null ? playerCountDropdown.value + 2 : 2;
+            GameConfiguration.Instance.SetMultiplayerMode(isHost: false, maxPlayers: maxPlayers);
+
             LoadGameScene();
         }
 

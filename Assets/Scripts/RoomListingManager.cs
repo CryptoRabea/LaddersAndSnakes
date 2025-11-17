@@ -300,4 +300,9 @@ public class RoomListingManager : MonoBehaviour, INetworkRunnerCallbacks
             _lobbyRunner.Shutdown();
         }
     }
+
+    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
+    {
+        throw new NotImplementedException();
+    }
 }

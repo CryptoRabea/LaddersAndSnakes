@@ -89,7 +89,43 @@ public class ManualGameManager : MonoBehaviour
 
     void Start()
     {
+        // Check if we should configure from GameConfiguration
+        if (GameConfiguration.Instance != null)
+        {
+            ApplyGameConfiguration();
+        }
+
         InitializeGame();
+    }
+
+    /// <summary>
+    /// Apply settings from GameConfiguration singleton
+    /// </summary>
+    void ApplyGameConfiguration()
+    {
+        var config = GameConfiguration.Instance;
+
+        if (config.IsMultiplayer)
+        {
+            // Multiplayer mode - will be configured by NetworkGameManager
+            Debug.Log("Multiplayer mode detected - waiting for NetworkGameManager configuration");
+            isMultiplayer = true;
+            numberOfPlayers = config.MaxMultiplayerPlayers;
+        }
+        else
+        {
+            // Single player mode
+            Debug.Log($"Single player mode: {config.HumanPlayers} human, {config.AIPlayers} AI");
+            isMultiplayer = false;
+            numberOfPlayers = config.TotalPlayers;
+
+            // Configure AI players
+            bool[] aiConfig = config.GetAIPlayerArray();
+            for (int i = 0; i < numberOfPlayers && i < isAI.Length; i++)
+            {
+                isAI[i] = aiConfig[i];
+            }
+        }
     }
 
     /// <summary>

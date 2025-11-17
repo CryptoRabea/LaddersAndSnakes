@@ -40,24 +40,87 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
 
     void Start()
     {
+        // Apply configuration from GameConfiguration if available
+        ApplyGameConfiguration();
+
         SetupUI();
+
+        // Auto-start if we have configuration
+        if (GameConfiguration.Instance != null && GameConfiguration.Instance.IsMultiplayer)
+        {
+            AutoStartFromConfiguration();
+        }
+    }
+
+    /// <summary>
+    /// Apply settings from GameConfiguration singleton
+    /// </summary>
+    void ApplyGameConfiguration()
+    {
+        var config = GameConfiguration.Instance;
+        if (config != null && config.IsMultiplayer)
+        {
+            roomName = config.RoomName;
+            maxPlayers = config.MaxMultiplayerPlayers;
+            Debug.Log($"Network configured from GameConfiguration: Room={roomName}, Max={maxPlayers}, IsHost={config.IsHost}");
+        }
+    }
+
+    /// <summary>
+    /// Auto-start game based on configuration
+    /// </summary>
+    void AutoStartFromConfiguration()
+    {
+        var config = GameConfiguration.Instance;
+        if (config == null || !config.IsMultiplayer)
+        {
+            return;
+        }
+
+        // Determine game mode based on configuration
+        GameMode mode = config.IsHost ? GameMode.Host : GameMode.Client;
+
+        Debug.Log($"Auto-starting multiplayer as {mode}...");
+
+        // Small delay to ensure UI is ready
+        StartCoroutine(DelayedStart(mode));
+    }
+
+    System.Collections.IEnumerator DelayedStart(GameMode mode)
+    {
+        yield return new WaitForSeconds(0.5f);
+        StartGame(mode);
     }
 
     void SetupUI()
     {
-        // Show lobby, hide game initially
-        if (lobbyPanel != null) lobbyPanel.SetActive(true);
-        if (gamePanel != null) gamePanel.SetActive(false);
+        // Check if auto-starting from configuration
+        bool autoStart = GameConfiguration.Instance != null && GameConfiguration.Instance.IsMultiplayer;
 
-        // Setup buttons
-        if (hostButton != null)
+        // Show/hide panels based on auto-start
+        if (lobbyPanel != null)
         {
-            hostButton.onClick.AddListener(() => StartGame(GameMode.Host));
+            // Hide lobby if auto-starting, show otherwise
+            lobbyPanel.SetActive(!autoStart);
         }
 
-        if (joinButton != null)
+        if (gamePanel != null)
         {
-            joinButton.onClick.AddListener(() => StartGame(GameMode.Client));
+            gamePanel.SetActive(false); // Will be shown when game starts
+        }
+
+        // Setup buttons (only if not auto-starting)
+        if (!autoStart)
+        {
+            if (hostButton != null)
+            {
+                hostButton.onClick.AddListener(() => StartGame(GameMode.Host));
+            }
+
+            if (joinButton != null)
+            {
+                joinButton.onClick.AddListener(() => StartGame(GameMode.Client));
+            }
         }
     }
 

@@ -6,6 +6,7 @@ using TMPro;
 /// <summary>
 /// Handles multiplayer setup UI
 /// Allows player to host or join a game
+/// Now includes room listing functionality
 /// </summary>
 public class MultiplayerSetupPanel : MonoBehaviour
 {
@@ -19,12 +20,20 @@ public class MultiplayerSetupPanel : MonoBehaviour
     [SerializeField] private Button joinButton;
     [SerializeField] private Button backButton;
 
+    [Header("Room Listing")]
+    [SerializeField] private GameObject roomListingPanel;
+    [SerializeField] private GameObject manualJoinPanel;
+    [SerializeField] private Button showRoomListButton;
+    [SerializeField] private Button showManualJoinButton;
+    [SerializeField] private RoomListingManager roomListingManager;
+
     [Header("Settings")]
     [SerializeField] private string gameSceneName = "GameScene";
     [SerializeField] private int defaultMaxPlayers = 4;
 
     private string roomName = "LaddersAndSnakes";
     private int maxPlayers = 4;
+    private bool showingRoomList = true;
 
     void OnEnable()
     {
@@ -80,6 +89,19 @@ public class MultiplayerSetupPanel : MonoBehaviour
         {
             backButton.onClick.AddListener(OnBackClicked);
         }
+
+        if (showRoomListButton != null)
+        {
+            showRoomListButton.onClick.AddListener(ShowRoomList);
+        }
+
+        if (showManualJoinButton != null)
+        {
+            showManualJoinButton.onClick.AddListener(ShowManualJoin);
+        }
+
+        // Show room list by default
+        ShowRoomList();
     }
 
     void OnRoomNameChanged(string value)
@@ -165,6 +187,50 @@ public class MultiplayerSetupPanel : MonoBehaviour
         }
     }
 
+    void ShowRoomList()
+    {
+        showingRoomList = true;
+
+        if (roomListingPanel != null)
+        {
+            roomListingPanel.SetActive(true);
+        }
+
+        if (manualJoinPanel != null)
+        {
+            manualJoinPanel.SetActive(false);
+        }
+
+        if (statusText != null)
+        {
+            statusText.text = "Browse available rooms or create your own";
+        }
+
+        Debug.Log("Showing room list view");
+    }
+
+    void ShowManualJoin()
+    {
+        showingRoomList = false;
+
+        if (roomListingPanel != null)
+        {
+            roomListingPanel.SetActive(false);
+        }
+
+        if (manualJoinPanel != null)
+        {
+            manualJoinPanel.SetActive(true);
+        }
+
+        if (statusText != null)
+        {
+            statusText.text = "Enter room name to join";
+        }
+
+        Debug.Log("Showing manual join view");
+    }
+
     void OnDisable()
     {
         // Clean up listeners
@@ -191,6 +257,16 @@ public class MultiplayerSetupPanel : MonoBehaviour
         if (backButton != null)
         {
             backButton.onClick.RemoveAllListeners();
+        }
+
+        if (showRoomListButton != null)
+        {
+            showRoomListButton.onClick.RemoveAllListeners();
+        }
+
+        if (showManualJoinButton != null)
+        {
+            showManualJoinButton.onClick.RemoveAllListeners();
         }
     }
 }

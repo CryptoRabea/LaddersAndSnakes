@@ -104,13 +104,22 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
         _runner = gameObject.AddComponent<NetworkRunner>();
         _runner.ProvideInput = true;
 
+        // Configure session properties for room listing
+        var sessionProperties = new Dictionary<string, SessionProperty>();
+        sessionProperties["GameVersion"] = gameVersion;
+        sessionProperties["MaxPlayers"] = maxPlayers;
+
         // Start game
         var result = await _runner.StartGame(new StartGameArgs()
         {
             GameMode = mode,
             SessionName = roomName,
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>(),
-            PlayerCount = maxPlayers
+            PlayerCount = maxPlayers,
+            SessionProperties = sessionProperties,
+            // Make session visible in lobby
+            IsVisible = true,
+            IsOpen = true
         });
 
         if (result.Ok)
@@ -347,6 +356,8 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
+        Debug.Log($"[NetworkGameManager] Session list updated: {sessionList.Count} sessions found");
+        // This callback is handled by RoomListingManager for room discovery
     }
 
     public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data)

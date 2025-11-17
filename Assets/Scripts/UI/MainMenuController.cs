@@ -3,11 +3,13 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using LAS.Networking;
+using Unity.Netcode;
 
 namespace LAS.UI
 {
     /// <summary>
     /// Main menu controller for game setup and multiplayer options
+    /// Supports both local and networked multiplayer using Unity Netcode
     /// </summary>
     public class MainMenuController : MonoBehaviour
     {
@@ -151,15 +153,34 @@ namespace LAS.UI
         {
             Debug.Log("[MainMenu] Hosting game");
 
-            // Ensure NetworkManager exists
-            if (NetworkManager.Instance == null)
+            // Ensure Unity Netcode NetworkManager exists
+            if (Unity.Netcode.NetworkManager.Singleton == null)
             {
-                var nmGO = new GameObject("NetworkManager");
-                nmGO.AddComponent<NetworkManager>();
+                Debug.LogError("[MainMenu] Unity Netcode NetworkManager not found in scene! Please add a NetworkManager GameObject.");
+                return;
             }
 
-            NetworkManager.Instance.StartHost();
-            LoadGameScene();
+            // Ensure NetworkedGameManager exists
+            if (NetworkedGameManager.Instance == null)
+            {
+                var ngmGO = new GameObject("NetworkedGameManager");
+                var ngm = ngmGO.AddComponent<NetworkedGameManager>();
+
+                // Subscribe to connection events
+                ngm.OnConnectionSuccess += OnNetworkConnectionSuccess;
+                ngm.OnConnectionFailed += OnNetworkConnectionFailed;
+            }
+
+            // Start hosting
+            bool success = NetworkedGameManager.Instance.StartHost();
+            if (success)
+            {
+                LoadGameScene();
+            }
+            else
+            {
+                Debug.LogError("[MainMenu] Failed to start host");
+            }
         }
 
         private void OnJoinGame()
@@ -167,15 +188,44 @@ namespace LAS.UI
             string serverAddress = serverAddressInput != null ? serverAddressInput.text : "127.0.0.1";
             Debug.Log($"[MainMenu] Joining game at {serverAddress}");
 
-            // Ensure NetworkManager exists
-            if (NetworkManager.Instance == null)
+            // Ensure Unity Netcode NetworkManager exists
+            if (Unity.Netcode.NetworkManager.Singleton == null)
             {
-                var nmGO = new GameObject("NetworkManager");
-                nmGO.AddComponent<NetworkManager>();
+                Debug.LogError("[MainMenu] Unity Netcode NetworkManager not found in scene! Please add a NetworkManager GameObject.");
+                return;
             }
 
-            NetworkManager.Instance.StartClient(serverAddress);
-            LoadGameScene();
+            // Ensure NetworkedGameManager exists
+            if (NetworkedGameManager.Instance == null)
+            {
+                var ngmGO = new GameObject("NetworkedGameManager");
+                var ngm = ngmGO.AddComponent<NetworkedGameManager>();
+
+                // Subscribe to connection events
+                ngm.OnConnectionSuccess += OnNetworkConnectionSuccess;
+                ngm.OnConnectionFailed += OnNetworkConnectionFailed;
+            }
+
+            // Start client connection
+            bool success = NetworkedGameManager.Instance.StartClient(serverAddress);
+            if (success)
+            {
+                LoadGameScene();
+            }
+            else
+            {
+                Debug.LogError($"[MainMenu] Failed to connect to {serverAddress}");
+            }
+        }
+
+        private void OnNetworkConnectionSuccess()
+        {
+            Debug.Log("[MainMenu] Network connection successful!");
+        }
+
+        private void OnNetworkConnectionFailed(string reason)
+        {
+            Debug.LogError($"[MainMenu] Network connection failed: {reason}");
         }
 
         private void OnSettings()

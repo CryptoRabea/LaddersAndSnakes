@@ -68,15 +68,11 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
         _runner = gameObject.AddComponent<NetworkRunner>();
         _runner.ProvideInput = true;
 
-        // Setup scene info
-        var sceneInfo = new NetworkSceneInfo();
-
         // Start game
         var result = await _runner.StartGame(new StartGameArgs()
         {
             GameMode = mode,
             SessionName = roomName,
-            Scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex,
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>(),
             PlayerCount = maxPlayers
         });
@@ -101,7 +97,7 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
         if (gamePanel != null) gamePanel.SetActive(true);
 
         // Assign player index based on join order
-        if (_runner != null && _runner.LocalPlayer.IsValid)
+        if (_runner != null && _runner.LocalPlayer != PlayerRef.None)
         {
             LocalPlayerIndex = _runner.LocalPlayer.PlayerId;
             Debug.Log($"Local player index: {LocalPlayerIndex}");
@@ -198,7 +194,7 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
         if (!IsHost && _networkState == null)
         {
             // Find the network state object in the scene
-            _networkState = FindObjectOfType<NetworkGameState>();
+            _networkState = FindFirstObjectByType<NetworkGameState>();
 
             if (_networkState != null)
             {
@@ -295,14 +291,6 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
     }
 
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
-    {
-    }
-
-    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason disconnectReason)
-    {
-    }
-
-    public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason failedReason)
     {
     }
 

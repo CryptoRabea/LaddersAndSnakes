@@ -4,23 +4,22 @@ using UnityEditor;
 using TMPro;
 
 /// <summary>
-/// Editor tool to set up and validate room listing UI components
-/// Helps create the required UI hierarchy and automatically assigns references
+/// Complete main menu setup tool - creates ALL UI components
 /// </summary>
 public class RoomListingSetupTool : EditorWindow
 {
     private MainMenuController mainMenuController;
-    private GameObject multiplayerPanel;
+    private GameObject canvasRoot;
 
     private Vector2 scrollPosition;
     private bool showValidation = true;
     private bool showSetup = true;
     private bool showPrefabGenerator = true;
 
-    [MenuItem("Tools/Room Listing Setup Tool")]
+    [MenuItem("Tools/Main Menu Setup Tool")]
     public static void ShowWindow()
     {
-        GetWindow<RoomListingSetupTool>("Room Listing Setup");
+        GetWindow<RoomListingSetupTool>("Main Menu Setup");
     }
 
     private void OnGUI()
@@ -28,20 +27,20 @@ public class RoomListingSetupTool : EditorWindow
         scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
 
         EditorGUILayout.Space(10);
-        EditorGUILayout.LabelField("Room Listing Setup Tool", EditorStyles.boldLabel);
-        EditorGUILayout.HelpBox("This tool helps you set up the room listing UI components for the main menu.", MessageType.Info);
+        EditorGUILayout.LabelField("COMPLETE MAIN MENU SETUP TOOL", EditorStyles.boldLabel);
+        EditorGUILayout.HelpBox("This tool creates ALL main menu UI components automatically.", MessageType.Info);
 
         EditorGUILayout.Space(10);
 
         // Reference section
-        EditorGUILayout.LabelField("Main References", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("References", EditorStyles.boldLabel);
         mainMenuController = (MainMenuController)EditorGUILayout.ObjectField("Main Menu Controller", mainMenuController, typeof(MainMenuController), true);
-        multiplayerPanel = (GameObject)EditorGUILayout.ObjectField("Multiplayer Panel", multiplayerPanel, typeof(GameObject), true);
+        canvasRoot = (GameObject)EditorGUILayout.ObjectField("Canvas Root (Optional)", canvasRoot, typeof(GameObject), true);
 
         EditorGUILayout.Space(10);
 
         // Setup section
-        showSetup = EditorGUILayout.Foldout(showSetup, "Setup UI Components", true);
+        showSetup = EditorGUILayout.Foldout(showSetup, "Create UI Components", true);
         if (showSetup)
         {
             EditorGUI.indentLevel++;
@@ -52,7 +51,7 @@ public class RoomListingSetupTool : EditorWindow
         EditorGUILayout.Space(10);
 
         // Prefab generator section
-        showPrefabGenerator = EditorGUILayout.Foldout(showPrefabGenerator, "Room List Item Prefab Generator", true);
+        showPrefabGenerator = EditorGUILayout.Foldout(showPrefabGenerator, "Prefab Generator", true);
         if (showPrefabGenerator)
         {
             EditorGUI.indentLevel++;
@@ -76,34 +75,47 @@ public class RoomListingSetupTool : EditorWindow
 
     private void DrawSetupSection()
     {
-        EditorGUILayout.HelpBox("Click the buttons below to create the required UI hierarchy automatically.", MessageType.Info);
+        EditorGUILayout.HelpBox("ONE-CLICK SETUP - Creates EVERYTHING!", MessageType.Info);
 
         EditorGUILayout.Space(5);
 
-        if (GUILayout.Button("Create Room List Panel"))
+        GUI.backgroundColor = Color.green;
+        if (GUILayout.Button("CREATE COMPLETE MAIN MENU", GUILayout.Height(40)))
         {
-            CreateRoomListPanel();
+            CreateCompleteMainMenu();
+        }
+        GUI.backgroundColor = Color.white;
+
+        EditorGUILayout.Space(10);
+        EditorGUILayout.LabelField("Or create individual components:", EditorStyles.miniLabel);
+
+        if (GUILayout.Button("1. Create Main Panel"))
+        {
+            CreateMainPanel();
         }
 
-        if (GUILayout.Button("Create Room Panel"))
+        if (GUILayout.Button("2. Create Multiplayer Panel"))
         {
-            CreateRoomPanel();
+            CreateMultiplayerPanel();
+        }
+
+        if (GUILayout.Button("3. Create Settings Panel"))
+        {
+            CreateSettingsPanel();
         }
 
         EditorGUILayout.Space(5);
 
-        if (GUILayout.Button("Auto-Assign All References"))
+        GUI.backgroundColor = Color.cyan;
+        if (GUILayout.Button("Auto-Assign All References", GUILayout.Height(30)))
         {
             AutoAssignReferences();
         }
+        GUI.backgroundColor = Color.white;
     }
 
     private void DrawPrefabGeneratorSection()
     {
-        EditorGUILayout.HelpBox("Generate a room list item prefab with the correct structure.", MessageType.Info);
-
-        EditorGUILayout.Space(5);
-
         if (GUILayout.Button("Generate Room List Item Prefab"))
         {
             GenerateRoomListItemPrefab();
@@ -114,39 +126,51 @@ public class RoomListingSetupTool : EditorWindow
     {
         if (mainMenuController == null)
         {
-            EditorGUILayout.HelpBox("Please assign the Main Menu Controller reference above.", MessageType.Warning);
+            EditorGUILayout.HelpBox("Assign Main Menu Controller above.", MessageType.Warning);
             return;
         }
 
-        EditorGUILayout.Space(5);
-
-        bool allValid = true;
-
-        // Validate references
         SerializedObject so = new SerializedObject(mainMenuController);
 
-        allValid &= ValidateReference(so, "roomListPanel", "Room List Panel");
-        allValid &= ValidateReference(so, "roomListContainer", "Room List Container");
-        allValid &= ValidateReference(so, "roomListItemPrefab", "Room List Item Prefab");
-        allValid &= ValidateReference(so, "roomListStatusText", "Room List Status Text");
-        allValid &= ValidateReference(so, "roomListScrollRect", "Room List Scroll Rect");
-        allValid &= ValidateReference(so, "createRoomPanel", "Create Room Panel");
-        allValid &= ValidateReference(so, "roomNameInput", "Room Name Input");
-        allValid &= ValidateReference(so, "playerCountDropdown", "Player Count Dropdown");
-        allValid &= ValidateReference(so, "refreshRoomListButton", "Refresh Room List Button");
-        allValid &= ValidateReference(so, "showCreateRoomButton", "Show Create Room Button");
-        allValid &= ValidateReference(so, "showRoomListButton", "Show Room List Button");
+        EditorGUILayout.LabelField("UI Panels:", EditorStyles.boldLabel);
+        ValidateReference(so, "mainPanel", "Main Panel");
+        ValidateReference(so, "multiplayerPanel", "Multiplayer Panel");
+        ValidateReference(so, "settingsPanel", "Settings Panel");
 
         EditorGUILayout.Space(5);
+        EditorGUILayout.LabelField("Main Menu Buttons:", EditorStyles.boldLabel);
+        ValidateReference(so, "playLocalButton", "Play Local Button");
+        ValidateReference(so, "playAIButton", "Play AI Button");
+        ValidateReference(so, "playOnlineButton", "Play Online Button");
+        ValidateReference(so, "settingsButton", "Settings Button");
+        ValidateReference(so, "quitButton", "Quit Button");
 
-        if (allValid)
-        {
-            EditorGUILayout.HelpBox("✓ All required references are assigned!", MessageType.Info);
-        }
-        else
-        {
-            EditorGUILayout.HelpBox("Some references are missing. Use the Auto-Assign button or manually assign them.", MessageType.Warning);
-        }
+        EditorGUILayout.Space(5);
+        EditorGUILayout.LabelField("Multiplayer Buttons:", EditorStyles.boldLabel);
+        ValidateReference(so, "hostGameButton", "Host Game Button");
+        ValidateReference(so, "joinGameButton", "Join Game Button");
+        ValidateReference(so, "backButton", "Back Button");
+        ValidateReference(so, "refreshRoomListButton", "Refresh Room List Button");
+        ValidateReference(so, "showCreateRoomButton", "Show Create Room Button");
+        ValidateReference(so, "showRoomListButton", "Show Room List Button");
+
+        EditorGUILayout.Space(5);
+        EditorGUILayout.LabelField("Room Listing:", EditorStyles.boldLabel);
+        ValidateReference(so, "roomListPanel", "Room List Panel");
+        ValidateReference(so, "roomListContainer", "Room List Container");
+        ValidateReference(so, "roomListItemPrefab", "Room List Item Prefab");
+        ValidateReference(so, "roomListStatusText", "Room List Status Text");
+        ValidateReference(so, "roomListScrollRect", "Room List Scroll Rect");
+
+        EditorGUILayout.Space(5);
+        EditorGUILayout.LabelField("Room Creation:", EditorStyles.boldLabel);
+        ValidateReference(so, "createRoomPanel", "Create Room Panel");
+        ValidateReference(so, "roomNameInput", "Room Name Input");
+        ValidateReference(so, "playerCountDropdown", "Player Count Dropdown");
+
+        EditorGUILayout.Space(5);
+        EditorGUILayout.LabelField("Settings:", EditorStyles.boldLabel);
+        ValidateReference(so, "settingsBackButton", "Settings Back Button");
     }
 
     private bool ValidateReference(SerializedObject so, string propertyName, string displayName)
@@ -160,83 +184,197 @@ public class RoomListingSetupTool : EditorWindow
         }
         else
         {
-            EditorGUILayout.LabelField($"✗ {displayName} (Missing)", EditorStyles.miniLabel);
+            EditorGUILayout.LabelField($"✗ {displayName} (Missing)", new GUIStyle(EditorStyles.miniLabel) { normal = { textColor = Color.red } });
             return false;
         }
     }
 
-    private void CreateRoomListPanel()
+    private void CreateCompleteMainMenu()
     {
-        if (multiplayerPanel == null)
+        if (canvasRoot == null)
         {
-            EditorUtility.DisplayDialog("Error", "Please assign the Multiplayer Panel reference first.", "OK");
+            if (EditorUtility.DisplayDialog("Create Canvas?", "No canvas root specified. Create a new Canvas?", "Yes", "No"))
+            {
+                GameObject canvasObj = new GameObject("Canvas");
+                Canvas canvas = canvasObj.AddComponent<Canvas>();
+                canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+                canvasObj.AddComponent<CanvasScaler>();
+                canvasObj.AddComponent<GraphicRaycaster>();
+                canvasRoot = canvasObj;
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        CreateMainPanel();
+        CreateMultiplayerPanel();
+        CreateSettingsPanel();
+
+        EditorUtility.DisplayDialog("Success!", "Complete main menu created successfully!\n\nNow click 'Auto-Assign All References'", "OK");
+    }
+
+    private void CreateMainPanel()
+    {
+        GameObject root = canvasRoot ?? FindCanvasRoot();
+        if (root == null)
+        {
+            EditorUtility.DisplayDialog("Error", "No Canvas found. Assign Canvas Root first.", "OK");
             return;
         }
 
+        GameObject mainPanel = new GameObject("MainPanel");
+        mainPanel.transform.SetParent(root.transform, false);
+
+        RectTransform rect = mainPanel.AddComponent<RectTransform>();
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.offsetMin = Vector2.zero;
+        rect.offsetMax = Vector2.zero;
+
+        Image bg = mainPanel.AddComponent<Image>();
+        bg.color = new Color(0.1f, 0.1f, 0.15f, 1f);
+
+        // Create vertical layout for buttons
+        GameObject buttonContainer = new GameObject("ButtonContainer");
+        buttonContainer.transform.SetParent(mainPanel.transform, false);
+        RectTransform containerRect = buttonContainer.AddComponent<RectTransform>();
+        containerRect.anchorMin = new Vector2(0.5f, 0.5f);
+        containerRect.anchorMax = new Vector2(0.5f, 0.5f);
+        containerRect.pivot = new Vector2(0.5f, 0.5f);
+        containerRect.anchoredPosition = Vector2.zero;
+        containerRect.sizeDelta = new Vector2(400, 600);
+
+        VerticalLayoutGroup layout = buttonContainer.AddComponent<VerticalLayoutGroup>();
+        layout.spacing = 20;
+        layout.childControlWidth = true;
+        layout.childControlHeight = false;
+        layout.childForceExpandWidth = true;
+
+        // Create buttons
+        CreateButton("PlayLocalButton", "Play Local", buttonContainer.transform, 80);
+        CreateButton("PlayAIButton", "Play vs AI", buttonContainer.transform, 80);
+        CreateButton("PlayOnlineButton", "Play Online", buttonContainer.transform, 80);
+        CreateButton("SettingsButton", "Settings", buttonContainer.transform, 80);
+        CreateButton("QuitButton", "Quit", buttonContainer.transform, 80);
+
+        Debug.Log("Main Panel created!");
+    }
+
+    private void CreateMultiplayerPanel()
+    {
+        GameObject root = canvasRoot ?? FindCanvasRoot();
+        if (root == null)
+        {
+            EditorUtility.DisplayDialog("Error", "No Canvas found. Assign Canvas Root first.", "OK");
+            return;
+        }
+
+        GameObject multiplayerPanel = new GameObject("MultiplayerPanel");
+        multiplayerPanel.transform.SetParent(root.transform, false);
+
+        RectTransform rect = multiplayerPanel.AddComponent<RectTransform>();
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.offsetMin = Vector2.zero;
+        rect.offsetMax = Vector2.zero;
+
+        Image bg = multiplayerPanel.AddComponent<Image>();
+        bg.color = new Color(0.1f, 0.1f, 0.15f, 1f);
+
+        multiplayerPanel.SetActive(false);
+
         // Create room list panel
+        CreateRoomListPanel(multiplayerPanel);
+
+        // Create create room panel
+        CreateCreateRoomPanel(multiplayerPanel);
+
+        // Create back button
+        GameObject backBtn = CreateButton("BackButton", "Back to Main Menu", multiplayerPanel.transform, 60);
+        RectTransform backRect = backBtn.GetComponent<RectTransform>();
+        backRect.anchorMin = new Vector2(0, 0);
+        backRect.anchorMax = new Vector2(0, 0);
+        backRect.pivot = new Vector2(0, 0);
+        backRect.anchoredPosition = new Vector2(20, 20);
+        backRect.sizeDelta = new Vector2(200, 60);
+
+        // Create join button (for room list)
+        GameObject joinBtn = CreateButton("JoinGameButton", "Join Selected Room", multiplayerPanel.transform, 60);
+        RectTransform joinRect = joinBtn.GetComponent<RectTransform>();
+        joinRect.anchorMin = new Vector2(1, 0);
+        joinRect.anchorMax = new Vector2(1, 0);
+        joinRect.pivot = new Vector2(1, 0);
+        joinRect.anchoredPosition = new Vector2(-20, 20);
+        joinRect.sizeDelta = new Vector2(250, 60);
+
+        Debug.Log("Multiplayer Panel created!");
+    }
+
+    private void CreateRoomListPanel(GameObject parent)
+    {
         GameObject roomListPanel = new GameObject("RoomListPanel");
-        roomListPanel.transform.SetParent(multiplayerPanel.transform, false);
+        roomListPanel.transform.SetParent(parent.transform, false);
 
         RectTransform rect = roomListPanel.AddComponent<RectTransform>();
-        rect.anchorMin = new Vector2(0, 0);
-        rect.anchorMax = new Vector2(1, 0.8f);
+        rect.anchorMin = new Vector2(0, 0.1f);
+        rect.anchorMax = new Vector2(1, 0.95f);
         rect.offsetMin = new Vector2(20, 20);
         rect.offsetMax = new Vector2(-20, -20);
 
-        // Add background
         Image bg = roomListPanel.AddComponent<Image>();
-        bg.color = new Color(0.1f, 0.1f, 0.1f, 0.9f);
+        bg.color = new Color(0.15f, 0.15f, 0.2f, 0.95f);
 
-        // Create header
+        // Header
         GameObject header = new GameObject("Header");
         header.transform.SetParent(roomListPanel.transform, false);
         RectTransform headerRect = header.AddComponent<RectTransform>();
         headerRect.anchorMin = new Vector2(0, 1);
         headerRect.anchorMax = new Vector2(1, 1);
         headerRect.pivot = new Vector2(0.5f, 1);
-        headerRect.anchoredPosition = Vector2.zero;
         headerRect.sizeDelta = new Vector2(0, 80);
 
         TextMeshProUGUI headerText = header.AddComponent<TextMeshProUGUI>();
         headerText.text = "Available Rooms";
-        headerText.fontSize = 36;
+        headerText.fontSize = 48;
         headerText.alignment = TextAlignmentOptions.Center;
         headerText.color = Color.white;
+        headerText.fontStyle = FontStyles.Bold;
 
-        // Create status text
-        GameObject statusObj = new GameObject("StatusText");
+        // Status text
+        GameObject statusObj = new GameObject("RoomListStatusText");
         statusObj.transform.SetParent(roomListPanel.transform, false);
         RectTransform statusRect = statusObj.AddComponent<RectTransform>();
         statusRect.anchorMin = new Vector2(0, 1);
         statusRect.anchorMax = new Vector2(1, 1);
         statusRect.pivot = new Vector2(0.5f, 1);
-        statusRect.anchoredPosition = new Vector2(0, -80);
-        statusRect.sizeDelta = new Vector2(-40, 50);
+        statusRect.anchoredPosition = new Vector2(0, -90);
+        statusRect.sizeDelta = new Vector2(-40, 40);
 
         TextMeshProUGUI statusText = statusObj.AddComponent<TextMeshProUGUI>();
         statusText.text = "Connecting...";
-        statusText.fontSize = 24;
+        statusText.fontSize = 28;
         statusText.alignment = TextAlignmentOptions.Center;
         statusText.color = Color.yellow;
 
-        // Create scroll view
+        // Scroll view
         GameObject scrollView = new GameObject("ScrollView");
         scrollView.transform.SetParent(roomListPanel.transform, false);
         RectTransform scrollRect = scrollView.AddComponent<RectTransform>();
-        scrollRect.anchorMin = new Vector2(0, 0);
+        scrollRect.anchorMin = new Vector2(0, 0.15f);
         scrollRect.anchorMax = new Vector2(1, 1);
-        scrollRect.offsetMin = new Vector2(20, 100);
+        scrollRect.offsetMin = new Vector2(20, 20);
         scrollRect.offsetMax = new Vector2(-20, -150);
 
         ScrollRect scroll = scrollView.AddComponent<ScrollRect>();
         scroll.horizontal = false;
         scroll.vertical = true;
-        scroll.movementType = ScrollRect.MovementType.Elastic;
 
         Image scrollBg = scrollView.AddComponent<Image>();
-        scrollBg.color = new Color(0.05f, 0.05f, 0.05f, 0.8f);
+        scrollBg.color = new Color(0.08f, 0.08f, 0.12f, 0.9f);
 
-        // Create viewport
+        // Viewport
         GameObject viewport = new GameObject("Viewport");
         viewport.transform.SetParent(scrollView.transform, false);
         RectTransform viewportRect = viewport.AddComponent<RectTransform>();
@@ -245,107 +383,82 @@ public class RoomListingSetupTool : EditorWindow
         viewportRect.offsetMin = Vector2.zero;
         viewportRect.offsetMax = Vector2.zero;
 
-        Mask mask = viewport.AddComponent<Mask>();
-        mask.showMaskGraphic = false;
-        viewport.AddComponent<Image>();
+        viewport.AddComponent<Mask>();
+        viewport.AddComponent<Image>().color = Color.clear;
 
-        // Create content
+        // Content
         GameObject content = new GameObject("Content");
         content.transform.SetParent(viewport.transform, false);
         RectTransform contentRect = content.AddComponent<RectTransform>();
         contentRect.anchorMin = new Vector2(0, 1);
         contentRect.anchorMax = new Vector2(1, 1);
         contentRect.pivot = new Vector2(0.5f, 1);
-        contentRect.anchoredPosition = Vector2.zero;
         contentRect.sizeDelta = new Vector2(0, 0);
 
-        VerticalLayoutGroup layout = content.AddComponent<VerticalLayoutGroup>();
-        layout.spacing = 10;
-        layout.padding = new RectOffset(10, 10, 10, 10);
-        layout.childControlWidth = true;
-        layout.childControlHeight = false;
-        layout.childForceExpandWidth = true;
-        layout.childForceExpandHeight = false;
+        VerticalLayoutGroup contentLayout = content.AddComponent<VerticalLayoutGroup>();
+        contentLayout.spacing = 15;
+        contentLayout.padding = new RectOffset(15, 15, 15, 15);
+        contentLayout.childControlWidth = true;
+        contentLayout.childControlHeight = false;
+        contentLayout.childForceExpandWidth = true;
 
-        ContentSizeFitter fitter = content.AddComponent<ContentSizeFitter>();
-        fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+        content.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
 
         scroll.content = contentRect;
         scroll.viewport = viewportRect;
 
-        // Create buttons panel
+        // Buttons panel
         GameObject buttonsPanel = new GameObject("ButtonsPanel");
         buttonsPanel.transform.SetParent(roomListPanel.transform, false);
         RectTransform buttonsRect = buttonsPanel.AddComponent<RectTransform>();
         buttonsRect.anchorMin = new Vector2(0, 0);
-        buttonsRect.anchorMax = new Vector2(1, 0);
-        buttonsRect.pivot = new Vector2(0.5f, 0);
-        buttonsRect.anchoredPosition = Vector2.zero;
-        buttonsRect.sizeDelta = new Vector2(0, 80);
+        buttonsRect.anchorMax = new Vector2(1, 0.15f);
+        buttonsRect.offsetMin = new Vector2(20, 10);
+        buttonsRect.offsetMax = new Vector2(-20, -10);
 
         HorizontalLayoutGroup buttonLayout = buttonsPanel.AddComponent<HorizontalLayoutGroup>();
         buttonLayout.spacing = 20;
-        buttonLayout.padding = new RectOffset(20, 20, 10, 10);
         buttonLayout.childControlWidth = true;
         buttonLayout.childControlHeight = true;
         buttonLayout.childForceExpandWidth = true;
-        buttonLayout.childForceExpandHeight = true;
 
-        // Create refresh button
-        GameObject refreshBtn = CreateButton("RefreshButton", "Refresh");
-        refreshBtn.transform.SetParent(buttonsPanel.transform, false);
-
-        // Create show create room button
-        GameObject showCreateBtn = CreateButton("ShowCreateRoomButton", "Create Room");
-        showCreateBtn.transform.SetParent(buttonsPanel.transform, false);
-
-        EditorUtility.DisplayDialog("Success", "Room List Panel created successfully!", "OK");
-
-        Debug.Log("Room List Panel created at: " + GetGameObjectPath(roomListPanel));
+        CreateButton("RefreshRoomListButton", "Refresh", buttonsPanel.transform, 60);
+        CreateButton("ShowCreateRoomButton", "Create Room", buttonsPanel.transform, 60);
     }
 
-    private void CreateRoomPanel()
+    private void CreateCreateRoomPanel(GameObject parent)
     {
-        if (multiplayerPanel == null)
-        {
-            EditorUtility.DisplayDialog("Error", "Please assign the Multiplayer Panel reference first.", "OK");
-            return;
-        }
-
-        // Create create room panel
         GameObject createPanel = new GameObject("CreateRoomPanel");
-        createPanel.transform.SetParent(multiplayerPanel.transform, false);
+        createPanel.transform.SetParent(parent.transform, false);
 
         RectTransform rect = createPanel.AddComponent<RectTransform>();
-        rect.anchorMin = new Vector2(0, 0);
-        rect.anchorMax = new Vector2(1, 0.8f);
+        rect.anchorMin = new Vector2(0, 0.1f);
+        rect.anchorMax = new Vector2(1, 0.95f);
         rect.offsetMin = new Vector2(20, 20);
         rect.offsetMax = new Vector2(-20, -20);
 
-        // Add background
         Image bg = createPanel.AddComponent<Image>();
-        bg.color = new Color(0.1f, 0.1f, 0.1f, 0.9f);
+        bg.color = new Color(0.15f, 0.15f, 0.2f, 0.95f);
 
-        // Initially hide it
         createPanel.SetActive(false);
 
-        // Create header
+        // Header
         GameObject header = new GameObject("Header");
         header.transform.SetParent(createPanel.transform, false);
         RectTransform headerRect = header.AddComponent<RectTransform>();
         headerRect.anchorMin = new Vector2(0, 1);
         headerRect.anchorMax = new Vector2(1, 1);
         headerRect.pivot = new Vector2(0.5f, 1);
-        headerRect.anchoredPosition = Vector2.zero;
         headerRect.sizeDelta = new Vector2(0, 80);
 
         TextMeshProUGUI headerText = header.AddComponent<TextMeshProUGUI>();
-        headerText.text = "Create Room";
-        headerText.fontSize = 36;
+        headerText.text = "Create New Room";
+        headerText.fontSize = 48;
         headerText.alignment = TextAlignmentOptions.Center;
         headerText.color = Color.white;
+        headerText.fontStyle = FontStyles.Bold;
 
-        // Create content area
+        // Content area
         GameObject contentArea = new GameObject("ContentArea");
         contentArea.transform.SetParent(createPanel.transform, false);
         RectTransform contentRect = contentArea.AddComponent<RectTransform>();
@@ -355,60 +468,106 @@ public class RoomListingSetupTool : EditorWindow
         contentRect.offsetMax = Vector2.zero;
 
         VerticalLayoutGroup layout = contentArea.AddComponent<VerticalLayoutGroup>();
-        layout.spacing = 30;
-        layout.padding = new RectOffset(20, 20, 20, 20);
+        layout.spacing = 40;
+        layout.padding = new RectOffset(30, 30, 30, 30);
         layout.childControlWidth = true;
         layout.childControlHeight = false;
-        layout.childForceExpandWidth = true;
 
         // Room name input
-        GameObject roomNameObj = CreateInputField("RoomNameInput", "Room Name");
+        GameObject roomNameObj = CreateInputField("RoomNameInput", "Enter Room Name");
         roomNameObj.transform.SetParent(contentArea.transform, false);
-        LayoutElement roomNameLayout = roomNameObj.AddComponent<LayoutElement>();
-        roomNameLayout.preferredHeight = 80;
+        roomNameObj.AddComponent<LayoutElement>().preferredHeight = 80;
 
         // Player count dropdown
         GameObject dropdownObj = CreateDropdown("PlayerCountDropdown", "Max Players");
         dropdownObj.transform.SetParent(contentArea.transform, false);
-        LayoutElement dropdownLayout = dropdownObj.AddComponent<LayoutElement>();
-        dropdownLayout.preferredHeight = 80;
+        dropdownObj.AddComponent<LayoutElement>().preferredHeight = 80;
 
-        // Buttons panel
+        // Buttons
         GameObject buttonsPanel = new GameObject("ButtonsPanel");
         buttonsPanel.transform.SetParent(contentArea.transform, false);
-        LayoutElement buttonsLayout = buttonsPanel.AddComponent<LayoutElement>();
-        buttonsLayout.preferredHeight = 100;
+        buttonsPanel.AddComponent<LayoutElement>().preferredHeight = 80;
 
         HorizontalLayoutGroup buttonLayout = buttonsPanel.AddComponent<HorizontalLayoutGroup>();
-        buttonLayout.spacing = 20;
+        buttonLayout.spacing = 30;
         buttonLayout.childControlWidth = true;
         buttonLayout.childControlHeight = true;
         buttonLayout.childForceExpandWidth = true;
 
-        // Host button
-        GameObject hostBtn = CreateButton("HostGameButton", "Host Game");
-        hostBtn.transform.SetParent(buttonsPanel.transform, false);
-
-        // Show room list button
-        GameObject showListBtn = CreateButton("ShowRoomListButton", "Back to List");
-        showListBtn.transform.SetParent(buttonsPanel.transform, false);
-
-        EditorUtility.DisplayDialog("Success", "Create Room Panel created successfully!", "OK");
-
-        Debug.Log("Create Room Panel created at: " + GetGameObjectPath(createPanel));
+        CreateButton("HostGameButton", "Host Game", buttonsPanel.transform, 80);
+        CreateButton("ShowRoomListButton", "Back to List", buttonsPanel.transform, 80);
     }
 
-    private GameObject CreateButton(string name, string text)
+    private void CreateSettingsPanel()
+    {
+        GameObject root = canvasRoot ?? FindCanvasRoot();
+        if (root == null)
+        {
+            EditorUtility.DisplayDialog("Error", "No Canvas found. Assign Canvas Root first.", "OK");
+            return;
+        }
+
+        GameObject settingsPanel = new GameObject("SettingsPanel");
+        settingsPanel.transform.SetParent(root.transform, false);
+
+        RectTransform rect = settingsPanel.AddComponent<RectTransform>();
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.offsetMin = Vector2.zero;
+        rect.offsetMax = Vector2.zero;
+
+        Image bg = settingsPanel.AddComponent<Image>();
+        bg.color = new Color(0.1f, 0.1f, 0.15f, 1f);
+
+        settingsPanel.SetActive(false);
+
+        // Header
+        GameObject header = new GameObject("Header");
+        header.transform.SetParent(settingsPanel.transform, false);
+        RectTransform headerRect = header.AddComponent<RectTransform>();
+        headerRect.anchorMin = new Vector2(0, 1);
+        headerRect.anchorMax = new Vector2(1, 1);
+        headerRect.pivot = new Vector2(0.5f, 1);
+        headerRect.sizeDelta = new Vector2(0, 100);
+
+        TextMeshProUGUI headerText = header.AddComponent<TextMeshProUGUI>();
+        headerText.text = "Settings";
+        headerText.fontSize = 54;
+        headerText.alignment = TextAlignmentOptions.Center;
+        headerText.color = Color.white;
+        headerText.fontStyle = FontStyles.Bold;
+
+        // Back button
+        GameObject backBtn = CreateButton("SettingsBackButton", "Back", settingsPanel.transform, 60);
+        RectTransform backRect = backBtn.GetComponent<RectTransform>();
+        backRect.anchorMin = new Vector2(0, 0);
+        backRect.anchorMax = new Vector2(0, 0);
+        backRect.pivot = new Vector2(0, 0);
+        backRect.anchoredPosition = new Vector2(20, 20);
+        backRect.sizeDelta = new Vector2(200, 60);
+
+        Debug.Log("Settings Panel created!");
+    }
+
+    private GameObject CreateButton(string name, string text, Transform parent, float height)
     {
         GameObject btnObj = new GameObject(name);
+        btnObj.transform.SetParent(parent, false);
+
         RectTransform rect = btnObj.AddComponent<RectTransform>();
-        rect.sizeDelta = new Vector2(200, 60);
+        rect.sizeDelta = new Vector2(200, height);
 
         Image img = btnObj.AddComponent<Image>();
-        img.color = new Color(0.2f, 0.4f, 0.8f, 1f);
+        img.color = new Color(0.2f, 0.5f, 0.9f, 1f);
 
         Button btn = btnObj.AddComponent<Button>();
         btn.targetGraphic = img;
+
+        // Button color transitions
+        ColorBlock colors = btn.colors;
+        colors.highlightedColor = new Color(0.3f, 0.6f, 1f, 1f);
+        colors.pressedColor = new Color(0.15f, 0.4f, 0.75f, 1f);
+        btn.colors = colors;
 
         GameObject textObj = new GameObject("Text");
         textObj.transform.SetParent(btnObj.transform, false);
@@ -420,9 +579,10 @@ public class RoomListingSetupTool : EditorWindow
 
         TextMeshProUGUI tmp = textObj.AddComponent<TextMeshProUGUI>();
         tmp.text = text;
-        tmp.fontSize = 28;
+        tmp.fontSize = height * 0.4f;
         tmp.alignment = TextAlignmentOptions.Center;
         tmp.color = Color.white;
+        tmp.fontStyle = FontStyles.Bold;
 
         return btnObj;
     }
@@ -430,11 +590,12 @@ public class RoomListingSetupTool : EditorWindow
     private GameObject CreateInputField(string name, string placeholder)
     {
         GameObject inputObj = new GameObject(name);
+
         RectTransform rect = inputObj.AddComponent<RectTransform>();
         rect.sizeDelta = new Vector2(400, 60);
 
         Image img = inputObj.AddComponent<Image>();
-        img.color = new Color(0.15f, 0.15f, 0.15f, 1f);
+        img.color = new Color(0.2f, 0.2f, 0.25f, 1f);
 
         TMP_InputField input = inputObj.AddComponent<TMP_InputField>();
 
@@ -455,7 +616,7 @@ public class RoomListingSetupTool : EditorWindow
         textRect.offsetMax = Vector2.zero;
 
         TextMeshProUGUI tmp = textObj.AddComponent<TextMeshProUGUI>();
-        tmp.fontSize = 28;
+        tmp.fontSize = 32;
         tmp.color = Color.white;
 
         GameObject placeholderObj = new GameObject("Placeholder");
@@ -468,8 +629,8 @@ public class RoomListingSetupTool : EditorWindow
 
         TextMeshProUGUI placeholderTmp = placeholderObj.AddComponent<TextMeshProUGUI>();
         placeholderTmp.text = placeholder;
-        placeholderTmp.fontSize = 28;
-        placeholderTmp.color = new Color(0.5f, 0.5f, 0.5f, 1f);
+        placeholderTmp.fontSize = 32;
+        placeholderTmp.color = new Color(0.6f, 0.6f, 0.6f, 0.7f);
         placeholderTmp.fontStyle = FontStyles.Italic;
 
         input.textViewport = textAreaRect;
@@ -482,11 +643,12 @@ public class RoomListingSetupTool : EditorWindow
     private GameObject CreateDropdown(string name, string label)
     {
         GameObject dropdownObj = new GameObject(name);
+
         RectTransform rect = dropdownObj.AddComponent<RectTransform>();
         rect.sizeDelta = new Vector2(400, 60);
 
         Image img = dropdownObj.AddComponent<Image>();
-        img.color = new Color(0.15f, 0.15f, 0.15f, 1f);
+        img.color = new Color(0.2f, 0.2f, 0.25f, 1f);
 
         TMP_Dropdown dropdown = dropdownObj.AddComponent<TMP_Dropdown>();
 
@@ -495,15 +657,22 @@ public class RoomListingSetupTool : EditorWindow
         RectTransform labelRect = labelObj.AddComponent<RectTransform>();
         labelRect.anchorMin = Vector2.zero;
         labelRect.anchorMax = Vector2.one;
-        labelRect.offsetMin = new Vector2(10, 0);
+        labelRect.offsetMin = new Vector2(15, 0);
         labelRect.offsetMax = new Vector2(-30, 0);
 
         TextMeshProUGUI labelTmp = labelObj.AddComponent<TextMeshProUGUI>();
         labelTmp.text = label;
-        labelTmp.fontSize = 28;
+        labelTmp.fontSize = 32;
         labelTmp.color = Color.white;
 
         dropdown.captionText = labelTmp;
+
+        // Add options
+        dropdown.options.Add(new TMP_Dropdown.OptionData("2 Players"));
+        dropdown.options.Add(new TMP_Dropdown.OptionData("3 Players"));
+        dropdown.options.Add(new TMP_Dropdown.OptionData("4 Players"));
+        dropdown.options.Add(new TMP_Dropdown.OptionData("6 Players"));
+        dropdown.options.Add(new TMP_Dropdown.OptionData("8 Players"));
 
         return dropdownObj;
     }
@@ -512,42 +681,56 @@ public class RoomListingSetupTool : EditorWindow
     {
         if (mainMenuController == null)
         {
-            EditorUtility.DisplayDialog("Error", "Please assign the Main Menu Controller reference first.", "OK");
+            EditorUtility.DisplayDialog("Error", "Assign Main Menu Controller first.", "OK");
             return;
         }
 
         SerializedObject so = new SerializedObject(mainMenuController);
+        int assigned = 0;
 
-        int assignedCount = 0;
+        // Panels
+        assigned += TryAssign(so, "mainPanel", "MainPanel");
+        assigned += TryAssign(so, "multiplayerPanel", "MultiplayerPanel");
+        assigned += TryAssign(so, "settingsPanel", "SettingsPanel");
 
-        // Find and assign references
-        assignedCount += TryAssignReference(so, "roomListPanel", "RoomListPanel");
-        assignedCount += TryAssignReference(so, "roomListContainer", "Content", typeof(Transform));
-        assignedCount += TryAssignReference(so, "roomListStatusText", "StatusText", typeof(TextMeshProUGUI));
-        assignedCount += TryAssignReference(so, "roomListScrollRect", "ScrollView", typeof(ScrollRect));
-        assignedCount += TryAssignReference(so, "createRoomPanel", "CreateRoomPanel");
-        assignedCount += TryAssignReference(so, "roomNameInput", "RoomNameInput", typeof(TMP_InputField));
-        assignedCount += TryAssignReference(so, "playerCountDropdown", "PlayerCountDropdown", typeof(TMP_Dropdown));
-        assignedCount += TryAssignReference(so, "refreshRoomListButton", "RefreshButton", typeof(Button));
-        assignedCount += TryAssignReference(so, "showCreateRoomButton", "ShowCreateRoomButton", typeof(Button));
-        assignedCount += TryAssignReference(so, "showRoomListButton", "ShowRoomListButton", typeof(Button));
-        assignedCount += TryAssignReference(so, "hostGameButton", "HostGameButton", typeof(Button));
-        assignedCount += TryAssignReference(so, "joinGameButton", "JoinGameButton", typeof(Button));
+        // Main menu buttons
+        assigned += TryAssign(so, "playLocalButton", "PlayLocalButton", typeof(Button));
+        assigned += TryAssign(so, "playAIButton", "PlayAIButton", typeof(Button));
+        assigned += TryAssign(so, "playOnlineButton", "PlayOnlineButton", typeof(Button));
+        assigned += TryAssign(so, "settingsButton", "SettingsButton", typeof(Button));
+        assigned += TryAssign(so, "quitButton", "QuitButton", typeof(Button));
+
+        // Multiplayer buttons
+        assigned += TryAssign(so, "hostGameButton", "HostGameButton", typeof(Button));
+        assigned += TryAssign(so, "joinGameButton", "JoinGameButton", typeof(Button));
+        assigned += TryAssign(so, "backButton", "BackButton", typeof(Button));
+        assigned += TryAssign(so, "refreshRoomListButton", "RefreshRoomListButton", typeof(Button));
+        assigned += TryAssign(so, "showCreateRoomButton", "ShowCreateRoomButton", typeof(Button));
+        assigned += TryAssign(so, "showRoomListButton", "ShowRoomListButton", typeof(Button));
+        assigned += TryAssign(so, "settingsBackButton", "SettingsBackButton", typeof(Button));
+
+        // Room listing
+        assigned += TryAssign(so, "roomListPanel", "RoomListPanel");
+        assigned += TryAssign(so, "roomListContainer", "Content", typeof(Transform));
+        assigned += TryAssign(so, "roomListStatusText", "RoomListStatusText", typeof(TextMeshProUGUI));
+        assigned += TryAssign(so, "roomListScrollRect", "ScrollView", typeof(ScrollRect));
+        assigned += TryAssign(so, "createRoomPanel", "CreateRoomPanel");
+        assigned += TryAssign(so, "roomNameInput", "RoomNameInput", typeof(TMP_InputField));
+        assigned += TryAssign(so, "playerCountDropdown", "PlayerCountDropdown", typeof(TMP_Dropdown));
 
         so.ApplyModifiedProperties();
 
-        EditorUtility.DisplayDialog("Auto-Assign Complete", $"Successfully assigned {assignedCount} references.", "OK");
+        EditorUtility.DisplayDialog("Complete!", $"Assigned {assigned} references successfully!", "OK");
+        Debug.Log($"Auto-assigned {assigned} references");
     }
 
-    private int TryAssignReference(SerializedObject so, string propertyName, string objectName, System.Type componentType = null)
+    private int TryAssign(SerializedObject so, string propertyName, string objectName, System.Type componentType = null)
     {
         SerializedProperty prop = so.FindProperty(propertyName);
         if (prop == null) return 0;
+        if (prop.objectReferenceValue != null) return 0; // Skip if already assigned
 
-        // Skip if already assigned
-        if (prop.objectReferenceValue != null) return 0;
-
-        GameObject[] allObjects = GameObject.FindObjectsOfType<GameObject>();
+        GameObject[] allObjects = FindObjectsOfType<GameObject>();
         foreach (GameObject go in allObjects)
         {
             if (go.name == objectName)
@@ -555,7 +738,7 @@ public class RoomListingSetupTool : EditorWindow
                 if (componentType == null)
                 {
                     prop.objectReferenceValue = go;
-                    Debug.Log($"Assigned {objectName} to {propertyName}");
+                    Debug.Log($"✓ Assigned {objectName} to {propertyName}");
                     return 1;
                 }
                 else
@@ -564,66 +747,59 @@ public class RoomListingSetupTool : EditorWindow
                     if (comp != null)
                     {
                         prop.objectReferenceValue = comp;
-                        Debug.Log($"Assigned {objectName} ({componentType.Name}) to {propertyName}");
+                        Debug.Log($"✓ Assigned {objectName} ({componentType.Name}) to {propertyName}");
                         return 1;
                     }
                 }
             }
         }
-
         return 0;
     }
 
     private void GenerateRoomListItemPrefab()
     {
-        // Create room list item
         GameObject item = new GameObject("RoomListItem");
         RectTransform rect = item.AddComponent<RectTransform>();
-        rect.sizeDelta = new Vector2(600, 100);
+        rect.sizeDelta = new Vector2(700, 100);
 
         Image bg = item.AddComponent<Image>();
-        bg.color = new Color(0.2f, 0.2f, 0.2f, 0.8f);
+        bg.color = new Color(0.25f, 0.25f, 0.3f, 0.9f);
 
         HorizontalLayoutGroup layout = item.AddComponent<HorizontalLayoutGroup>();
-        layout.padding = new RectOffset(20, 20, 10, 10);
+        layout.padding = new RectOffset(20, 20, 15, 15);
         layout.spacing = 20;
         layout.childControlWidth = false;
         layout.childControlHeight = true;
-        layout.childForceExpandWidth = false;
         layout.childForceExpandHeight = true;
 
-        // Room name text
+        // Room name
         GameObject nameObj = new GameObject("RoomNameText");
         nameObj.transform.SetParent(item.transform, false);
-        LayoutElement nameLayout = nameObj.AddComponent<LayoutElement>();
-        nameLayout.preferredWidth = 300;
-
+        nameObj.AddComponent<LayoutElement>().preferredWidth = 350;
         TextMeshProUGUI nameTmp = nameObj.AddComponent<TextMeshProUGUI>();
         nameTmp.text = "Room Name";
-        nameTmp.fontSize = 32;
+        nameTmp.fontSize = 36;
         nameTmp.alignment = TextAlignmentOptions.MidlineLeft;
         nameTmp.color = Color.white;
+        nameTmp.fontStyle = FontStyles.Bold;
 
-        // Player count text
+        // Player count
         GameObject countObj = new GameObject("PlayerCountText");
         countObj.transform.SetParent(item.transform, false);
-        LayoutElement countLayout = countObj.AddComponent<LayoutElement>();
-        countLayout.preferredWidth = 150;
-
+        countObj.AddComponent<LayoutElement>().preferredWidth = 180;
         TextMeshProUGUI countTmp = countObj.AddComponent<TextMeshProUGUI>();
         countTmp.text = "0/4 Players";
-        countTmp.fontSize = 28;
+        countTmp.fontSize = 32;
         countTmp.alignment = TextAlignmentOptions.Center;
         countTmp.color = Color.green;
 
         // Select button
         GameObject btnObj = new GameObject("SelectButton");
         btnObj.transform.SetParent(item.transform, false);
-        LayoutElement btnLayout = btnObj.AddComponent<LayoutElement>();
-        btnLayout.preferredWidth = 150;
+        btnObj.AddComponent<LayoutElement>().preferredWidth = 150;
 
         Image btnImg = btnObj.AddComponent<Image>();
-        btnImg.color = new Color(0.2f, 0.6f, 0.2f, 1f);
+        btnImg.color = new Color(0.2f, 0.7f, 0.2f, 1f);
 
         Button btn = btnObj.AddComponent<Button>();
         btn.targetGraphic = btnImg;
@@ -638,17 +814,31 @@ public class RoomListingSetupTool : EditorWindow
 
         TextMeshProUGUI btnTmp = btnTextObj.AddComponent<TextMeshProUGUI>();
         btnTmp.text = "Select";
-        btnTmp.fontSize = 28;
+        btnTmp.fontSize = 32;
         btnTmp.alignment = TextAlignmentOptions.Center;
         btnTmp.color = Color.white;
+        btnTmp.fontStyle = FontStyles.Bold;
 
-        // Save as prefab
-        string path = EditorUtility.SaveFilePanelInProject("Save Room List Item Prefab", "RoomListItem", "prefab", "Save the room list item prefab");
+        string path = EditorUtility.SaveFilePanelInProject("Save Room List Item", "RoomListItem", "prefab", "Save prefab");
         if (!string.IsNullOrEmpty(path))
         {
             PrefabUtility.SaveAsPrefabAsset(item, path);
             DestroyImmediate(item);
-            EditorUtility.DisplayDialog("Success", "Room List Item Prefab created successfully at:\n" + path, "OK");
+            EditorUtility.DisplayDialog("Success", "Prefab created at:\n" + path, "OK");
+
+            // Auto-assign to controller
+            if (mainMenuController != null)
+            {
+                GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                SerializedObject so = new SerializedObject(mainMenuController);
+                SerializedProperty prop = so.FindProperty("roomListItemPrefab");
+                if (prop != null)
+                {
+                    prop.objectReferenceValue = prefab;
+                    so.ApplyModifiedProperties();
+                    Debug.Log("✓ Auto-assigned prefab to controller");
+                }
+            }
         }
         else
         {
@@ -656,17 +846,9 @@ public class RoomListingSetupTool : EditorWindow
         }
     }
 
-    private string GetGameObjectPath(GameObject obj)
+    private GameObject FindCanvasRoot()
     {
-        string path = obj.name;
-        Transform current = obj.transform.parent;
-
-        while (current != null)
-        {
-            path = current.name + "/" + path;
-            current = current.parent;
-        }
-
-        return path;
+        Canvas[] canvases = FindObjectsOfType<Canvas>();
+        return canvases.Length > 0 ? canvases[0].gameObject : null;
     }
 }

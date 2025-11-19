@@ -27,7 +27,6 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private int maxConnectionRetries = 3;
 
     private NetworkRunner _runner;
-    private bool _isInitialized = false;
     private NetworkGameState _networkState;
 
     // Network state
@@ -118,7 +117,7 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
         if (_runner != null)
         {
             Debug.LogWarning("Runner already exists! Cleaning up...");
-            _runner.Shutdown();
+            await _runner.Shutdown();
             Destroy(_runner);
             _runner = null;
         }
@@ -256,10 +255,6 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
 
     void OnGameStarted()
     {
-        _isInitialized = true;
-
-        
-
         // Assign player index based on join order
         if (_runner != null && _runner.LocalPlayer != PlayerRef.None)
         {
@@ -445,10 +440,9 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
         Debug.Log($"Shutdown: {shutdownReason}");
-        _isInitialized = false;
 
         // Return to lobby
-       
+
     }
 
     public void OnConnectedToServer(NetworkRunner runner)

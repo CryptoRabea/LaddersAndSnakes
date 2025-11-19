@@ -9,20 +9,13 @@ using System;
 [Serializable]
 public struct NetworkPlayerInfo : INetworkStruct
 {
-    [Networked, Capacity(20)]
-    public NetworkString<_16> PlayerName { get; set; }
-
-    [Networked]
-    public int PlayerIndex { get; set; }
-
-    [Networked]
-    public NetworkBool IsReady { get; set; }
-
-    [Networked]
-    public int ColorIndex { get; set; }
-
-    [Networked]
-    public NetworkBool IsConnected { get; set; }
+    // Using fields instead of properties for blittable types in INetworkStruct
+    // as per Fusion 2 best practices
+    public NetworkString<_16> PlayerName;
+    public int PlayerIndex;
+    public NetworkBool IsReady;
+    public int ColorIndex;
+    public NetworkBool IsConnected;
 
     public static NetworkPlayerInfo Create(string name, int index, int colorIndex = 0)
     {

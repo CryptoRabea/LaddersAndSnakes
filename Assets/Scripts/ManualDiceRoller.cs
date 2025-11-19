@@ -27,7 +27,6 @@ public class ManualDiceRoller : MonoBehaviour
 
     [Header("Physics")]
     [SerializeField] private bool usePhysics = true;
-    [SerializeField] private float gravity = -9.81f;
     [SerializeField] private float drag = 0.5f;
     [SerializeField] private float angularDrag = 0.5f;
 

@@ -37,7 +37,6 @@ public class MultiplayerSetupPanel : MonoBehaviour
 
     private string roomName = "LaddersAndSnakes";
     private int maxPlayers = 4;
-    private bool showingRoomList = true;
 
     void OnEnable()
     {
@@ -262,8 +261,6 @@ public class MultiplayerSetupPanel : MonoBehaviour
 
     void ShowRoomList()
     {
-        showingRoomList = true;
-
         if (roomListingPanel != null)
         {
             roomListingPanel.SetActive(true);
@@ -284,8 +281,6 @@ public class MultiplayerSetupPanel : MonoBehaviour
 
     void ShowManualJoin()
     {
-        showingRoomList = false;
-
         if (roomListingPanel != null)
         {
             roomListingPanel.SetActive(false);

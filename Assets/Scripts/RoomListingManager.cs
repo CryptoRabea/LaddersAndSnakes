@@ -48,8 +48,6 @@ public class RoomListingManager : MonoBehaviour, INetworkRunnerCallbacks
     private float _lastJoinAttemptTime = 0f;
     private const float JOIN_COOLDOWN = 2f;
 
-    public event Action<string, int> OnJoinRoomRequested;
-
     void Start()
     {
         // Apply mobile optimizations if on mobile device

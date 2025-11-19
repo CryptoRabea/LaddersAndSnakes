@@ -602,10 +602,10 @@ public class RoomListingManager : MonoBehaviour, INetworkRunnerCallbacks
         Debug.Log("Lobby runner connected to server!");
     }
 
-    public void OnDisconnectedFromServer(NetworkRunner runner)
+    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
     {
         _isConnectedToLobby = false;
-        Debug.LogWarning("Lobby runner disconnected from server");
+        Debug.LogWarning($"Lobby runner disconnected from server: {reason}");
         UpdateStatusText("Disconnected from server. Retrying...");
 
         // Attempt to reconnect

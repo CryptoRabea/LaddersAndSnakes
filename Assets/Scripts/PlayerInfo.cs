@@ -86,7 +86,7 @@ public class PlayerInfo : MonoBehaviour
     /// <summary>
     /// Generate a random player name
     /// </summary>
-    static string GenerateRandomName()
+    public static string GenerateRandomName()
     {
         string[] adjectives = { "Swift", "Brave", "Clever", "Lucky", "Mighty", "Noble", "Quick", "Wise", "Bold", "Fierce" };
         string[] nouns = { "Tiger", "Eagle", "Dragon", "Wolf", "Lion", "Hawk", "Bear", "Fox", "Falcon", "Panther" };

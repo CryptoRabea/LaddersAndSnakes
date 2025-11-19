@@ -33,6 +33,21 @@ public class RoomListingManager : MonoBehaviour, INetworkRunnerCallbacks
     private List<SessionInfo> _availableRooms = new List<SessionInfo>();
     private List<GameObject> _roomListItems = new List<GameObject>();
 
+    // Auto-refresh settings
+    [SerializeField] private bool autoRefreshEnabled = true;
+    [SerializeField] private float autoRefreshInterval = 3f;
+    private float _lastRefreshTime = 0f;
+
+    // Connection tracking
+    private bool _isConnectedToLobby = false;
+    private int _connectionRetryCount = 0;
+    private const int MAX_CONNECTION_RETRIES = 3;
+
+    // Safety features
+    private HashSet<string> _joinedRooms = new HashSet<string>();
+    private float _lastJoinAttemptTime = 0f;
+    private const float JOIN_COOLDOWN = 2f;
+
     public event Action<string, int> OnJoinRoomRequested;
 
     void Start()
@@ -118,6 +133,41 @@ public class RoomListingManager : MonoBehaviour, INetworkRunnerCallbacks
         Debug.Log("Mobile optimizations applied to room listing");
     }
 
+    void Update()
+    {
+        // Auto-refresh room list
+        if (autoRefreshEnabled && _isConnectedToLobby)
+        {
+            if (Time.time - _lastRefreshTime > autoRefreshInterval)
+            {
+                _lastRefreshTime = Time.time;
+                // The session list will update automatically via OnSessionListUpdated callback
+                Debug.Log("[Auto-Refresh] Waiting for session list update...");
+            }
+        }
+
+        // Update connection status indicator
+        UpdateConnectionStatusUI();
+    }
+
+    void UpdateConnectionStatusUI()
+    {
+        if (statusText == null) return;
+
+        if (!_isConnectedToLobby)
+        {
+            statusText.color = Color.red;
+        }
+        else if (_availableRooms.Count == 0)
+        {
+            statusText.color = Color.yellow;
+        }
+        else
+        {
+            statusText.color = Color.white;
+        }
+    }
+
     void SetupUI()
     {
         if (refreshButton != null)
@@ -133,43 +183,131 @@ public class RoomListingManager : MonoBehaviour, INetworkRunnerCallbacks
         if (createRoomNameInput != null)
         {
             createRoomNameInput.text = "Room_" + UnityEngine.Random.Range(1000, 9999);
+            createRoomNameInput.characterLimit = 20;
+
+            // Validate input in real-time
+            createRoomNameInput.onValueChanged.AddListener(ValidateRoomNameInput);
         }
 
         if (maxPlayersInput != null)
         {
             maxPlayersInput.text = "4";
+            maxPlayersInput.characterLimit = 1;
+            maxPlayersInput.contentType = TMP_InputField.ContentType.IntegerNumber;
         }
 
         UpdateStatusText("Connecting to server...");
+    }
+
+    void ValidateRoomNameInput(string roomName)
+    {
+        if (string.IsNullOrWhiteSpace(roomName))
+        {
+            createRoomButton.interactable = false;
+            UpdateStatusText("Room name cannot be empty!");
+        }
+        else if (roomName.Length < 3)
+        {
+            createRoomButton.interactable = false;
+            UpdateStatusText("Room name must be at least 3 characters!");
+        }
+        else if (roomName.Length > 20)
+        {
+            createRoomButton.interactable = false;
+            UpdateStatusText("Room name too long (max 20 characters)!");
+        }
+        else
+        {
+            createRoomButton.interactable = true;
+            UpdateStatusText(_isConnectedToLobby ?
+                $"Found {_availableRooms.Count} room(s)" :
+                "Connecting to server...");
+        }
     }
 
     async void StartLobbyRunner()
     {
         if (_lobbyRunner != null)
         {
+            Debug.LogWarning("Lobby runner already exists!");
             return;
         }
 
         Debug.Log("Starting lobby runner for session discovery...");
+        UpdateStatusText("Connecting to server...");
 
-        // Create a NetworkRunner for lobby/session list
-        _lobbyRunner = gameObject.AddComponent<NetworkRunner>();
-        _lobbyRunner.name = "LobbyRunner";
-        _lobbyRunner.AddCallbacks(this);
-
-        var result = await _lobbyRunner.JoinSessionLobby(SessionLobby.Custom);
-
-        if (result.Ok)
+        try
         {
-            Debug.Log("Successfully joined session lobby!");
-            UpdateStatusText("Connected. Searching for rooms...");
-            RefreshRoomList();
+            // Create a NetworkRunner for lobby/session list
+            _lobbyRunner = gameObject.AddComponent<NetworkRunner>();
+            _lobbyRunner.name = "LobbyRunner";
+            _lobbyRunner.AddCallbacks(this);
+
+            var result = await _lobbyRunner.JoinSessionLobby(SessionLobby.Custom);
+
+            if (result.Ok)
+            {
+                _isConnectedToLobby = true;
+                _connectionRetryCount = 0;
+                Debug.Log("Successfully joined session lobby!");
+                UpdateStatusText("Connected. Searching for rooms...");
+                RefreshRoomList();
+            }
+            else
+            {
+                _isConnectedToLobby = false;
+                Debug.LogError($"Failed to join lobby: {result.ShutdownReason}");
+                HandleConnectionFailure(result.ShutdownReason.ToString());
+            }
+        }
+        catch (System.Exception e)
+        {
+            _isConnectedToLobby = false;
+            Debug.LogError($"Exception while starting lobby runner: {e.Message}");
+            HandleConnectionFailure($"Error: {e.Message}");
+        }
+    }
+
+    void HandleConnectionFailure(string reason)
+    {
+        _connectionRetryCount++;
+
+        if (_connectionRetryCount < MAX_CONNECTION_RETRIES)
+        {
+            UpdateStatusText($"Connection failed. Retrying ({_connectionRetryCount}/{MAX_CONNECTION_RETRIES})...");
+            Debug.Log($"Retrying connection in 2 seconds... (Attempt {_connectionRetryCount}/{MAX_CONNECTION_RETRIES})");
+
+            // Retry after delay
+            Invoke(nameof(RetryConnection), 2f);
         }
         else
         {
-            Debug.LogError($"Failed to join lobby: {result.ShutdownReason}");
-            UpdateStatusText($"Connection failed: {result.ShutdownReason}");
+            UpdateStatusText($"Connection failed after {MAX_CONNECTION_RETRIES} attempts. Please check your internet connection.");
+            Debug.LogError($"Failed to connect after {MAX_CONNECTION_RETRIES} attempts");
+
+            // Enable manual retry button
+            if (refreshButton != null)
+            {
+                refreshButton.interactable = true;
+                var buttonText = refreshButton.GetComponentInChildren<TextMeshProUGUI>();
+                if (buttonText != null)
+                {
+                    buttonText.text = "Retry Connection";
+                }
+            }
         }
+    }
+
+    void RetryConnection()
+    {
+        if (_lobbyRunner != null)
+        {
+            _lobbyRunner.Shutdown();
+            Destroy(_lobbyRunner);
+            _lobbyRunner = null;
+        }
+
+        StartLobbyRunner();
     }
 
     void RefreshRoomList()
@@ -261,7 +399,7 @@ public class RoomListingManager : MonoBehaviour, INetworkRunnerCallbacks
 
     void OnCreateRoomClicked()
     {
-        string roomName = createRoomNameInput != null ? createRoomNameInput.text : "DefaultRoom";
+        string roomName = createRoomNameInput != null ? createRoomNameInput.text.Trim() : "DefaultRoom";
         int maxPlayers = 4;
 
         if (maxPlayersInput != null && int.TryParse(maxPlayersInput.text, out int parsedPlayers))
@@ -269,9 +407,36 @@ public class RoomListingManager : MonoBehaviour, INetworkRunnerCallbacks
             maxPlayers = Mathf.Clamp(parsedPlayers, 2, 8);
         }
 
+        // Validate room name
         if (string.IsNullOrWhiteSpace(roomName))
         {
             UpdateStatusText("Please enter a room name!");
+            return;
+        }
+
+        if (roomName.Length < 3)
+        {
+            UpdateStatusText("Room name must be at least 3 characters!");
+            return;
+        }
+
+        if (roomName.Length > 20)
+        {
+            UpdateStatusText("Room name must be 20 characters or less!");
+            return;
+        }
+
+        // Check for duplicate room names
+        if (_availableRooms.Any(r => r.Name.Equals(roomName, System.StringComparison.OrdinalIgnoreCase)))
+        {
+            UpdateStatusText($"Room '{roomName}' already exists! Please choose a different name.");
+            return;
+        }
+
+        // Validate max players
+        if (maxPlayers < 2 || maxPlayers > 8)
+        {
+            UpdateStatusText("Max players must be between 2 and 8!");
             return;
         }
 
@@ -281,7 +446,22 @@ public class RoomListingManager : MonoBehaviour, INetworkRunnerCallbacks
 
     void CreateRoom(string roomName, int maxPlayers)
     {
+        if (!_isConnectedToLobby)
+        {
+            UpdateStatusText("Not connected to server! Please wait...");
+            return;
+        }
+
         UpdateStatusText($"Creating room '{roomName}'...");
+
+        // Sanitize room name
+        roomName = SanitizeRoomName(roomName);
+
+        // Set player name if not set
+        if (string.IsNullOrEmpty(PlayerInfo.LocalPlayerName))
+        {
+            PlayerInfo.LocalPlayerName = PlayerInfo.GenerateRandomName();
+        }
 
         // Configure game for multiplayer as host
         GameConfiguration.Instance.SetMultiplayerMode(true, roomName, maxPlayers);
@@ -298,8 +478,56 @@ public class RoomListingManager : MonoBehaviour, INetworkRunnerCallbacks
 
     void JoinRoom(string roomName, int maxPlayers)
     {
+        // Check join cooldown to prevent spam
+        if (Time.time - _lastJoinAttemptTime < JOIN_COOLDOWN)
+        {
+            float remainingTime = JOIN_COOLDOWN - (Time.time - _lastJoinAttemptTime);
+            UpdateStatusText($"Please wait {remainingTime:F1}s before joining another room...");
+            return;
+        }
+
+        _lastJoinAttemptTime = Time.time;
+
+        // Check if already joined this room
+        if (_joinedRooms.Contains(roomName))
+        {
+            UpdateStatusText("You've already attempted to join this room!");
+            return;
+        }
+
+        // Verify room still exists and isn't full
+        var roomInfo = _availableRooms.FirstOrDefault(r => r.Name == roomName);
+        if (roomInfo == null)
+        {
+            UpdateStatusText($"Room '{roomName}' no longer exists!");
+            RefreshRoomList();
+            return;
+        }
+
+        if (roomInfo.PlayerCount >= roomInfo.MaxPlayers)
+        {
+            UpdateStatusText($"Room '{roomName}' is full!");
+            RefreshRoomList();
+            return;
+        }
+
+        if (!roomInfo.IsOpen)
+        {
+            UpdateStatusText($"Room '{roomName}' is closed!");
+            RefreshRoomList();
+            return;
+        }
+
         Debug.Log($"Joining room: {roomName}");
         UpdateStatusText($"Joining room '{roomName}'...");
+
+        _joinedRooms.Add(roomName);
+
+        // Set player name if not set
+        if (string.IsNullOrEmpty(PlayerInfo.LocalPlayerName))
+        {
+            PlayerInfo.LocalPlayerName = PlayerInfo.GenerateRandomName();
+        }
 
         // Configure game for multiplayer as client
         GameConfiguration.Instance.SetMultiplayerMode(false, roomName, maxPlayers);
@@ -312,6 +540,39 @@ public class RoomListingManager : MonoBehaviour, INetworkRunnerCallbacks
 
         // Load game scene
         UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+    }
+
+    string SanitizeRoomName(string roomName)
+    {
+        if (string.IsNullOrWhiteSpace(roomName))
+        {
+            return "Room_" + UnityEngine.Random.Range(1000, 9999);
+        }
+
+        // Remove invalid characters
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        foreach (char c in roomName)
+        {
+            if (char.IsLetterOrDigit(c) || c == '_' || c == '-' || c == ' ')
+            {
+                sb.Append(c);
+            }
+        }
+
+        string sanitized = sb.ToString().Trim();
+
+        // Enforce length limits
+        if (sanitized.Length > 20)
+        {
+            sanitized = sanitized.Substring(0, 20);
+        }
+
+        if (sanitized.Length < 3)
+        {
+            return "Room_" + UnityEngine.Random.Range(1000, 9999);
+        }
+
+        return sanitized;
     }
 
     void UpdateStatusText(string message)
@@ -343,8 +604,15 @@ public class RoomListingManager : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnDisconnectedFromServer(NetworkRunner runner)
     {
-        Debug.Log("Lobby runner disconnected from server");
-        UpdateStatusText("Disconnected from server");
+        _isConnectedToLobby = false;
+        Debug.LogWarning("Lobby runner disconnected from server");
+        UpdateStatusText("Disconnected from server. Retrying...");
+
+        // Attempt to reconnect
+        if (_connectionRetryCount < MAX_CONNECTION_RETRIES)
+        {
+            Invoke(nameof(RetryConnection), 2f);
+        }
     }
 
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
@@ -377,14 +645,26 @@ public class RoomListingManager : MonoBehaviour, INetworkRunnerCallbacks
 
     void OnDestroy()
     {
+        // Clean up listeners
+        if (createRoomNameInput != null)
+        {
+            createRoomNameInput.onValueChanged.RemoveAllListeners();
+        }
+
+        if (refreshButton != null)
+        {
+            refreshButton.onClick.RemoveAllListeners();
+        }
+
+        if (createRoomButton != null)
+        {
+            createRoomButton.onClick.RemoveAllListeners();
+        }
+
+        // Shutdown lobby runner
         if (_lobbyRunner != null)
         {
             _lobbyRunner.Shutdown();
         }
-    }
-
-    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
-    {
-        throw new NotImplementedException();
     }
 }

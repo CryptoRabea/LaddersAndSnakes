@@ -18,11 +18,13 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private int maxPlayers = 4;
     [SerializeField] private string gameVersion = "1.0";
 
-
-
     [Header("Game References")]
     [SerializeField] private ManualGameManager gameManager;
     [SerializeField] private GameObject networkStatePrefab; // Prefab with NetworkGameState component
+
+    [Header("Safety Settings")]
+    [SerializeField] private float connectionTimeout = 10f;
+    [SerializeField] private int maxConnectionRetries = 3;
 
     private NetworkRunner _runner;
     private bool _isInitialized = false;
@@ -33,6 +35,15 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
     public bool IsConnected => _runner != null && _runner.IsRunning;
     public int LocalPlayerIndex { get; private set; } = -1;
     public int PlayerCount { get; private set; } = 0;
+
+    // Connection tracking
+    private int _connectionAttempts = 0;
+    private float _connectionStartTime = 0f;
+    private bool _isConnecting = false;
+
+    // Error tracking
+    private string _lastErrorMessage = "";
+    public string LastError => _lastErrorMessage;
 
     void Start()
     {
@@ -98,39 +109,149 @@ public class NetworkGameManager : MonoBehaviour, INetworkRunnerCallbacks
 
     async void StartGame(GameMode mode)
     {
-        Debug.Log($"Starting game in {mode} mode...");
-
-        // Create runner
-        _runner = gameObject.AddComponent<NetworkRunner>();
-        _runner.ProvideInput = true;
-
-        // Configure session properties for room listing
-        var sessionProperties = new Dictionary<string, SessionProperty>();
-        sessionProperties["GameVersion"] = gameVersion;
-        sessionProperties["MaxPlayers"] = maxPlayers;
-
-        // Start game
-        var result = await _runner.StartGame(new StartGameArgs()
+        if (_isConnecting)
         {
-            GameMode = mode,
-            SessionName = roomName,
-            SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>(),
-            PlayerCount = maxPlayers,
-            SessionProperties = sessionProperties,
-            // Make session visible in lobby
-            IsVisible = true,
-            IsOpen = true
-        });
+            Debug.LogWarning("Connection already in progress!");
+            return;
+        }
 
-        if (result.Ok)
+        if (_runner != null)
         {
-            Debug.Log($"Successfully started in {mode} mode!");
-            OnGameStarted();
+            Debug.LogWarning("Runner already exists! Cleaning up...");
+            _runner.Shutdown();
+            Destroy(_runner);
+            _runner = null;
+        }
+
+        _isConnecting = true;
+        _connectionStartTime = Time.time;
+        _connectionAttempts++;
+
+        Debug.Log($"Starting game in {mode} mode (Attempt {_connectionAttempts}/{maxConnectionRetries})...");
+        Debug.Log($"Room: {roomName}, Max Players: {maxPlayers}");
+
+        try
+        {
+            // Create runner
+            _runner = gameObject.AddComponent<NetworkRunner>();
+            _runner.name = "GameNetworkRunner";
+            _runner.ProvideInput = true;
+            _runner.AddCallbacks(this);
+
+            // Validate room name
+            if (string.IsNullOrWhiteSpace(roomName))
+            {
+                roomName = "Room_" + UnityEngine.Random.Range(1000, 9999);
+                Debug.LogWarning($"Invalid room name, using generated name: {roomName}");
+            }
+
+            // Configure session properties for room listing
+            var sessionProperties = new Dictionary<string, SessionProperty>();
+            sessionProperties["GameVersion"] = gameVersion;
+            sessionProperties["MaxPlayers"] = maxPlayers;
+            sessionProperties["RoomName"] = roomName;
+            sessionProperties["CreatedAt"] = System.DateTime.UtcNow.Ticks.ToString();
+
+            // Add player name if available
+            if (!string.IsNullOrEmpty(PlayerInfo.LocalPlayerName))
+            {
+                sessionProperties["HostName"] = PlayerInfo.LocalPlayerName;
+            }
+
+            // Start game with comprehensive settings
+            var startArgs = new StartGameArgs()
+            {
+                GameMode = mode,
+                SessionName = roomName,
+                SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>(),
+                PlayerCount = maxPlayers,
+                SessionProperties = sessionProperties,
+
+                // CRITICAL: Make session visible and open for room discovery
+                IsVisible = true,
+                IsOpen = true,
+
+                // Custom lobby name for filtering
+                CustomLobbyName = "LaddersAndSnakesLobby"
+            };
+
+            Debug.Log($"Starting session with IsVisible={startArgs.IsVisible}, IsOpen={startArgs.IsOpen}");
+
+            // Start game with timeout protection
+            var result = await _runner.StartGame(startArgs);
+
+            // Check if timed out
+            if (Time.time - _connectionStartTime > connectionTimeout)
+            {
+                _lastErrorMessage = "Connection timed out";
+                Debug.LogError($"Connection timeout after {connectionTimeout} seconds");
+                HandleConnectionFailure("Connection timeout");
+                return;
+            }
+
+            if (result.Ok)
+            {
+                _isConnecting = false;
+                _connectionAttempts = 0;
+                Debug.Log($"✓ Successfully started in {mode} mode!");
+                Debug.Log($"✓ Session '{roomName}' is now visible to other players");
+                Debug.Log($"✓ Players can join this room from the room list");
+                OnGameStarted();
+            }
+            else
+            {
+                _lastErrorMessage = result.ShutdownReason.ToString();
+                Debug.LogError($"Failed to start: {result.ShutdownReason}");
+                Debug.LogError($"Error details: {result.ErrorMessage}");
+                HandleConnectionFailure(result.ShutdownReason.ToString());
+            }
+        }
+        catch (System.Exception e)
+        {
+            _lastErrorMessage = e.Message;
+            Debug.LogError($"Exception while starting game: {e.Message}");
+            Debug.LogError($"Stack trace: {e.StackTrace}");
+            HandleConnectionFailure($"Exception: {e.Message}");
+        }
+    }
+
+    void HandleConnectionFailure(string reason)
+    {
+        _isConnecting = false;
+
+        if (_connectionAttempts < maxConnectionRetries)
+        {
+            Debug.Log($"Retrying connection in 2 seconds... (Attempt {_connectionAttempts + 1}/{maxConnectionRetries})");
+            Invoke(nameof(RetryConnection), 2f);
         }
         else
         {
-            Debug.LogError($"Failed to start: {result.ShutdownReason}");
+            Debug.LogError($"Failed to connect after {maxConnectionRetries} attempts. Reason: {reason}");
+            ShowConnectionError(reason);
         }
+    }
+
+    void RetryConnection()
+    {
+        var config = GameConfiguration.Instance;
+        if (config != null && config.IsMultiplayer)
+        {
+            GameMode mode = config.IsHost ? GameMode.Host : GameMode.Client;
+            StartGame(mode);
+        }
+    }
+
+    void ShowConnectionError(string reason)
+    {
+        Debug.LogError($"Connection error: {reason}");
+        // TODO: Show UI error message to user
+        // For now, return to main menu after delay
+        Invoke(nameof(ReturnToMainMenu), 5f);
+    }
+
+    void ReturnToMainMenu()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
 
     void OnGameStarted()

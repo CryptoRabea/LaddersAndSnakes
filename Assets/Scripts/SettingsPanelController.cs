@@ -23,7 +23,7 @@ public class SettingsPanelController : MonoBehaviour
     {
         // Get references
         gameConfig = GameConfiguration.Instance;
-        networkGameManager = FindObjectOfType<NetworkGameManager>();
+        networkGameManager = Object.FindAnyObjectByType<NetworkGameManager>();
 
         // Setup button listeners
         if (settingsButton != null)
@@ -149,12 +149,12 @@ public class SettingsPanelController : MonoBehaviour
             networkRunner = networkGameManager.GetComponent<NetworkRunner>();
             if (networkRunner == null)
             {
-                networkRunner = FindObjectOfType<NetworkRunner>();
+                networkRunner = Object.FindAnyObjectByType<NetworkRunner>();
             }
         }
         else
         {
-            networkRunner = FindObjectOfType<NetworkRunner>();
+            networkRunner = Object.FindAnyObjectByType<NetworkRunner>();
         }
 
         if (networkRunner == null)

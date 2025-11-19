@@ -70,8 +70,7 @@ public class RoomListingManager : MonoBehaviour, INetworkRunnerCallbacks
         // Enlarge input fields for easier touch interaction
         if (createRoomNameInput != null)
         {
-            RectTransform inputRect = createRoomNameInput.GetComponent<RectTransform>();
-            if (inputRect != null)
+            if (createRoomNameInput.TryGetComponent<RectTransform>(out var inputRect))
             {
                 inputRect.sizeDelta = new Vector2(inputRect.sizeDelta.x, Mathf.Max(inputRect.sizeDelta.y, 80f));
             }
@@ -80,8 +79,7 @@ public class RoomListingManager : MonoBehaviour, INetworkRunnerCallbacks
 
         if (maxPlayersInput != null)
         {
-            RectTransform inputRect = maxPlayersInput.GetComponent<RectTransform>();
-            if (inputRect != null)
+            if (maxPlayersInput.TryGetComponent<RectTransform>(out var inputRect))
             {
                 inputRect.sizeDelta = new Vector2(inputRect.sizeDelta.x, Mathf.Max(inputRect.sizeDelta.y, 80f));
             }
@@ -94,14 +92,12 @@ public class RoomListingManager : MonoBehaviour, INetworkRunnerCallbacks
         {
             if (button != null)
             {
-                RectTransform buttonRect = button.GetComponent<RectTransform>();
-                if (buttonRect != null)
+                if (button.TryGetComponent<RectTransform>(out var buttonRect))
                 {
                     buttonRect.localScale *= mobileButtonScaleMultiplier;
                 }
 
-                LayoutElement layoutElement = button.GetComponent<LayoutElement>();
-                if (layoutElement == null)
+                if (!button.TryGetComponent<LayoutElement>(out var layoutElement))
                 {
                     layoutElement = button.gameObject.AddComponent<LayoutElement>();
                 }
@@ -362,7 +358,7 @@ public class RoomListingManager : MonoBehaviour, INetworkRunnerCallbacks
         // Get UI components from prefab
         var roomNameText = item.transform.Find("RoomNameText")?.GetComponent<TextMeshProUGUI>();
         var playerCountText = item.transform.Find("PlayerCountText")?.GetComponent<TextMeshProUGUI>();
-        var joinButton = item.transform.Find("JoinButton")?.GetComponent<Button>();
+        Button joinButton = item.transform.Find("JoinButton")?.GetComponent<Button>();
 
         if (roomNameText != null)
         {

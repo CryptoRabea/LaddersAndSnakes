@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Fusion;
+using System.Linq;
 
 /// <summary>
 /// Displays real-time connection status for multiplayer games

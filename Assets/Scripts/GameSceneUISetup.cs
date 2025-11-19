@@ -36,7 +36,7 @@ public class GameSceneUISetup : MonoBehaviour
         // Find or create canvas
         if (canvas == null)
         {
-            canvas = FindObjectOfType<Canvas>();
+            canvas = Object.FindAnyObjectByType<Canvas>();
             if (canvas == null)
             {
                 Debug.LogError("[GameSceneUISetup] No Canvas found in scene!");

@@ -1,0 +1,671 @@
+﻿#include "pch-c.h"
+
+
+#include "codegen/il2cpp-codegen-metadata.h"
+
+
+
+
+
+extern void UnitySourceGeneratedAssemblyMonoScriptTypes_v1_Get_mBA14A5110525E0E2F47A4BF4D0230758E6BF3A60 (void);
+extern void UnitySourceGeneratedAssemblyMonoScriptTypes_v1__ctor_m8DA285E7D6C3ECD5A7CB1444095EC84CCEA0B328 (void);
+extern void VivoxAudioOutputDevice_get_DeviceName_m810DCF6E75E228A3038CC200CE03245BC985DBE8 (void);
+extern void VivoxAudioOutputDevice_get_DeviceID_mAC9AAC8A8F0BCA8092C93FFFA6CA86367F7705F9 (void);
+extern void VivoxAudioOutputDevice__ctor_m1406CDB6612BD43C41E8EADFDD3501C33B4172B2 (void);
+extern void VivoxAudioOutputDevice_SetActiveDeviceAsync_m83B3D70CCB9F679E3BFE6FE4AACB35DFE9B34175 (void);
+extern void U3CSetActiveDeviceAsyncU3Ed__6_MoveNext_mA47359D444D388E807639FAB8301075C9BAD859F (void);
+extern void U3CSetActiveDeviceAsyncU3Ed__6_SetStateMachine_mCB85FB596E5C712D5F02F4E556383E9BE1F00D81 (void);
+extern void VivoxAudioInputDevice_get_DeviceName_m7ECF4AC9EADB16BA0B8AD59B4CEBE4157DAA1718 (void);
+extern void VivoxAudioInputDevice_get_DeviceID_m99A6A835E513B08F8B1BD1393FE257E855440DA8 (void);
+extern void VivoxAudioInputDevice__ctor_m4BEBDE1B075F7754E281629AD86212A6BB2F7A2C (void);
+extern void VivoxAudioInputDevice_SetActiveDeviceAsync_mFCAA35C531321B48927ADA06F14956A7999315B1 (void);
+extern void U3CSetActiveDeviceAsyncU3Ed__6_MoveNext_m6BED40EDFA8B52528234E1890B8E8442620379B5 (void);
+extern void U3CSetActiveDeviceAsyncU3Ed__6_SetStateMachine_m003D43956E3E66108528F46A1AB26F0D1DC7ED5A (void);
+extern void VivoxChatMessage__ctor_mB61F825A4606BD3453457A5DE181A7D61CE0A324 (void);
+extern void VivoxChatMessage_get_SenderPlayerId_m48D50D5FFCBBC52F36A4994A30A8A8F8ED0A1AC1 (void);
+extern void VivoxChatMessage_get_SenderDisplayName_mF7DE43CF7D158F3C26E4930B9EB4309A63A22BF4 (void);
+extern void VivoxChatMessage_get_ChannelName_mDBE8CFAD4F911D4FAC7DA78397397EEBB5F32B8C (void);
+extern void VivoxChatMessage_get_Text_m465BB6B3457F8B743282098EDBFFA3BBFC99B88F (void);
+extern void VivoxChatMessage_get_FromSelf_mF6D3098E8F0F7A91F7463C58CD8F403E052D2094 (void);
+extern void VivoxChatMessage_get_ReceivedTime_mBBE920E6F0857E5A99E89AF8991D5800E643BE87 (void);
+extern void VivoxChatMessage_get_Id_m93134425548FAD64024F1A27E4339773183D75C0 (void);
+extern void VivoxChatParticipant__ctor_mC168C63B7C83D414832BA74F412F36BC98C222D8 (void);
+extern void VivoxChatParticipant_add_OnMuteStateChanged_m7D59834F894022DDFDB58D46FE93B91054579E07 (void);
+extern void VivoxChatParticipant_remove_OnMuteStateChanged_m83A6DA4766B6FACCF2CA07DBE2B79EF2659F5DB6 (void);
+extern void VivoxChatParticipant_add_OnSpeechDetected_m0300A868CD28C0D8188A84A6E38FC1E39FBF64AC (void);
+extern void VivoxChatParticipant_remove_OnSpeechDetected_m093FD0809FDF9B7CB2130375F6C13E427B47E198 (void);
+extern void VivoxChatParticipant_add_OnAudioEnergyChanged_mA2F9C9E73A82DD31D1E71891C70EDEB0BFD5E179 (void);
+extern void VivoxChatParticipant_remove_OnAudioEnergyChanged_mF56DFEF2CA1CC9AB7E9EFB3C26A90D68C3C567D7 (void);
+extern void VivoxChatParticipant_get_Id_m5D5E7A56D94C0B93E3B4A71937A9D9772F82FE32 (void);
+extern void VivoxChatParticipant_get_ChatId_m2613E104F2EA5AD75B22A589C1386DA77511B9F1 (void);
+extern void VivoxChatParticipant_get_IsMuted_m2EA98B1BFAABF575A6DFAB050227A70FAA616C9F (void);
+extern void VivoxChatParticipant_get_AudioEnergy_m7FB5D04C6A584EB7E450E7697B3BABA607FB43ED (void);
+extern void VivoxChatParticipant_get_SpeechDetected_m81FA6C7E7CDA862868D65C85B03A6A2A991D8649 (void);
+extern void VivoxChatParticipant_MuteLocally_m349F772354CEE62707EF8322A58E3C10FF589C14 (void);
+extern void VivoxChatParticipant_U3C_ctorU3Eb__1_0_m10418F4FF07CDE475E431FEA94B8BDA3EA4AE82A (void);
+extern void VivoxChatParticipant_U3C_ctorU3Eb__1_1_m0054B32F361B8FC4FE3714694FF1BB8FB41B054C (void);
+extern void VivoxChatParticipant_U3C_ctorU3Eb__1_2_mACF41361205B070BDCEC4449D63B6C7442B659A5 (void);
+extern void VivoxChatService_add_OnChatJoined_m151F1CBE2BFDFD274AF3DFF460430701252D00CE (void);
+extern void VivoxChatService_remove_OnChatJoined_m38F484ACC605EB666DF7C39270EF6FF6AAE5F95F (void);
+extern void VivoxChatService_add_OnChatLeft_m90BC8C64251D2FFB31D484C764B560715BF0503F (void);
+extern void VivoxChatService_remove_OnChatLeft_m1258266F11D5F1E724D490F88E4A090932DA289D (void);
+extern void VivoxChatService_add_OnPlayerAddedToChat_mD53CA2AC24B9F07ED0AD3AD127C940D6B30CE3A3 (void);
+extern void VivoxChatService_remove_OnPlayerAddedToChat_mCB80B2E98934D4EDC1A9A9CF7B5C080027D5AC1B (void);
+extern void VivoxChatService_add_OnPlayerRemovedFromChat_mF07BE882FC6B6F40A0FFF747BC0D331F8C5F0502 (void);
+extern void VivoxChatService_remove_OnPlayerRemovedFromChat_m9F24EB4BDD757A3F98CA343CDB8769117B3ADAF6 (void);
+extern void VivoxChatService_add_OnChatMessageReceived_m23E55AAE947E9865BCB8815D7FDC3A10E6481EE1 (void);
+extern void VivoxChatService_remove_OnChatMessageReceived_mBF59412805EC4AACA1F91A5242FED6F51C5B6768 (void);
+extern void VivoxChatService_get_InputDeviceVolume_m97BF048AC2E3695B7A98B7D2FECB66CD52227167 (void);
+extern void VivoxChatService_get_OutputDeviceVolume_mCC66A0BACDC886BAFE2003E8CA61E8CCA12AB2B2 (void);
+extern void VivoxChatService_InitializeAsync_mE936DB5F68D81F53B320B28453B7534DDC7AE263 (void);
+extern void VivoxChatService_IsLoggedIn_mD9629A166B9C147A67A2E079804202EAE71F6CB6 (void);
+extern void VivoxChatService_JoinChatAsync_mE196D7BB2BC49651B8DF90F7FBE5A74D9A7ED4C1 (void);
+extern void VivoxChatService_LeaveChatAsync_mAA89EC9EA4727B4EF36A9563C3B833D70F662A37 (void);
+extern void VivoxChatService_GetAvailableInputDevices_m61246E14CB574580BBAB69F653B5FD90339AC5C7 (void);
+extern void VivoxChatService_GetAvailableOutputDevices_mF95D439CD2C1B7CD6085C5A550CD76CF3B9BE8BD (void);
+extern void VivoxChatService_GetActiveInputDevice_m54C8532CE04909EA116507336316DCA22B13D216 (void);
+extern void VivoxChatService_GetActiveOutputDevice_m2913760065BE97A69308786B223D06717A7E968A (void);
+extern void VivoxChatService_SendChatMessageAsync_mC07FFBFC9028E6388E599A991E21AC09B374C304 (void);
+extern void VivoxChatService_SetOutputDeviceVolume_mFBB1CEB2B351ADC91BE929A9D8CB8CD91681551C (void);
+extern void VivoxChatService_SetInputDeviceVolume_mCECE184E4F406CE5D9B53B8145FE47998828F768 (void);
+extern void VivoxChatService__ctor_mAC89919D53E77F7CD2B2B4256C2C4E2B1061CAE2 (void);
+extern void VivoxChatService_U3CInitializeAsyncU3Eb__20_0_mEA0896C371F84F3A51F7FD45E98C2F4EC960BBD3 (void);
+extern void VivoxChatService_U3CInitializeAsyncU3Eb__20_1_mD66B4BD3D0C93B1FE292C5DBC4EDFC17B08915B4 (void);
+extern void VivoxChatService_U3CInitializeAsyncU3Eb__20_2_m7F2D5EBFFBAE6600806BC3940A43BC4375F50815 (void);
+extern void VivoxChatService_U3CInitializeAsyncU3Eb__20_3_mF67A4E1125344AEB231FC5490ED117F7ADB423A4 (void);
+extern void VivoxChatService_U3CInitializeAsyncU3Eb__20_4_m39D17D937C2AC96BE2AAC5723DA1541FCEAE778F (void);
+extern void U3CInitializeAsyncU3Ed__20_MoveNext_m74EAE3D2FFFE06231380352E55C7F89D60759AF3 (void);
+extern void U3CInitializeAsyncU3Ed__20_SetStateMachine_mE7F291758B8F6E1793BFD74D69F7A60C042F9ACB (void);
+extern void U3CJoinChatAsyncU3Ed__22_MoveNext_m9CD3AD7A78EC3B5AA837638CF7B82E44091EEF1F (void);
+extern void U3CJoinChatAsyncU3Ed__22_SetStateMachine_mC623714E8CA51BE8FAF5BD5715FC46BB6D084602 (void);
+extern void U3CLeaveChatAsyncU3Ed__23_MoveNext_m23CE70B5368BD970498BA4DA5B4BDF9B6853FCE8 (void);
+extern void U3CLeaveChatAsyncU3Ed__23_SetStateMachine_m13B4A9A13B99233F29E27D61AD9F6EEA59FD3EB8 (void);
+extern void U3CSendChatMessageAsyncU3Ed__28_MoveNext_mD0B6D65739E0F5EC522073455FF15372B9D72424 (void);
+extern void U3CSendChatMessageAsyncU3Ed__28_SetStateMachine_m9F1DD0A547383261CF771518474AA92DE5EA9268 (void);
+extern void ManagerFactory_get_IsInitialized_m13C26157AB829EC6E500E09AA559C1D5BEB23BE5 (void);
+extern void ManagerFactory_set_IsInitialized_m81DE6EEC34B9384BB9C3CCB806E5889E4BF29A82 (void);
+extern void ManagerFactory_Initialize_mE988AAFFEC99A5297E25872DA707D51F3C795419 (void);
+extern void ManagerFactory_Init_m159CCC3F2E79A788E88F62CE40AA3ACAE89AFF61 (void);
+extern void ManagerFactory_CreateLazySingletonInstance_mEE5EF23219142765D5AD9A9FB448A4F90B467503 (void);
+extern void CustomWidgetsNetworkHandler__ctor_m224296BD04910F80BEBFBB7EB699A036CBE1B174 (void);
+extern void SessionExtensions_GetPlayerName_m3761D35B7CCB80B50F33438AC572DBD0CBAC32F2 (void);
+extern void ISessionLifecycleEvents_OnSessionJoining_m04FA772F67176267B823FC1176623FBEB1A84EE4 (void);
+extern void ISessionLifecycleEvents_OnSessionFailedToJoin_m495B28362AA389C706649144272CA10E658EB0EE (void);
+extern void ISessionLifecycleEvents_OnSessionJoined_m6F541FF2114D7AE07C09D4333D03FDCE1D7977A5 (void);
+extern void ISessionLifecycleEvents_OnSessionLeft_mACC6132620DCFBF01219DAFC5CB3A2417DE4FA4A (void);
+extern void ISessionEvents_OnSessionChanged_mDB2DAA903825D5407C8D54B74BFDE46BBA12EEEE (void);
+extern void ISessionEvents_OnSessionStateChanged_m4CB5D40B5F1164EBE71834FD5307FDC2650648DD (void);
+extern void ISessionEvents_OnPlayerJoinedSession_m411BEEA52087B5E004F27051E1306ED8281F0C47 (void);
+extern void ISessionEvents_OnPlayerLeftSession_m4E7C71330F55810BEEFB5DB899AF0E89CECA4FDC (void);
+extern void ISessionEvents_OnSessionPropertiesChanged_m1BFA58096F3DD905941AB47828785FEC9F560168 (void);
+extern void ISessionEvents_OnPlayerPropertiesChanged_m5538B7E707392A486AA1633B3F06D58E424D7A65 (void);
+extern void ISessionEvents_OnRemovedFromSession_mF66110D6EC98AD21269A1008E7B188D67808319B (void);
+extern void ISessionEvents_OnSessionDeleted_m3C6EBC0E1F0175E7F3D23D31D7BAFEE5E597BE68 (void);
+extern void IChatEvents_OnChatJoined_mFD8BAAF06FEC882D8BDEFF31FDDA20D138A86718 (void);
+extern void IChatEvents_OnChatLeft_m90BE12F118761BAC924C9531F200F78B9C04AB68 (void);
+extern void IChatEvents_OnPlayerAddedToChat_mA115A13C931B2291AC80EC9E495111BF693BEEF5 (void);
+extern void IChatEvents_OnChatMessageReceived_m5A98FB7682F180BE4334890BDE98910444E327DD (void);
+extern void IChatParticipantEvents_OnPlayerAudioEnergyChanged_mC80A9B9ECD30B2AAC1E129C2B86E5636C78F9BC1 (void);
+extern void IChatParticipantEvents_OnPlayerSpeechDetected_m5650506FDF316CD053CC1F9FD6A9BDBF738C38B3 (void);
+extern void IChatParticipantEvents_OnPlayerMuteStateChanged_mF93EE4FBA618B569D80C5EE2D830C42E35DD7F8D (void);
+extern void WidgetBehaviour_get_IsInitialized_mC11AAD8C6EFFA3CAE78F96915E3F75D3E281717F (void);
+extern void WidgetBehaviour_set_IsInitialized_m1DFA3767468E712A365A7A43B7E20EAAD119A6FF (void);
+extern void WidgetBehaviour_OnEnable_m7461627814A08B7F892EB5648A10B46995591825 (void);
+extern void WidgetBehaviour_OnDisable_m2547DB25B70EBFE935BFB39B6657C172F1013750 (void);
+extern void WidgetBehaviour_OnServicesInitialized_m798D86C7A66D51E89473BB972C50AC820EC33424 (void);
+extern void WidgetBehaviour_OnApplicationQuit_m67322E4DDF336873FFB2F80424AB8BBC349C4031 (void);
+extern void WidgetBehaviour__ctor_m8D7701333F12015DED229BB03804E55A35D7B874 (void);
+extern void WidgetEventDispatcher_OnServicesInitialized_m1A5A337C6DC827246F1FC13EDAF0601EA6A70338 (void);
+extern void WidgetEventDispatcher_RegisterWidget_m86C7BF5E93B91958C617823FA932D89DF3D2F12F (void);
+extern void WidgetEventDispatcher_UnregisterWidget_mAAEFF657AF7C4113472715354E187AFE2523948F (void);
+extern void WidgetEventDispatcher_OnSessionJoined_m4F6D8E1D0D1B763766C1DF277091FD321685913C (void);
+extern void WidgetEventDispatcher_OnSessionLeft_m943976FAFDCD6B113646358A131B96FD2AA1BAFE (void);
+extern void WidgetEventDispatcher_OnSessionJoining_mCD524696973D793D743CCF2B09631CED3E10E789 (void);
+extern void WidgetEventDispatcher_OnSessionFailedToJoin_m953A502B8CC4057E8F3AC61E7AEB0A14ED9FC988 (void);
+extern void WidgetEventDispatcher_OnSessionChanged_m64E1044EC6D00207ECAD2200F70DCBAA6A646D90 (void);
+extern void WidgetEventDispatcher_OnSessionStateChanged_m082C9CAE111DBDB9F9AC77D3D7946E26E9663D10 (void);
+extern void WidgetEventDispatcher_OnPlayerJoinedSession_m0534349D8A6F4039A0368E5817FAEE3CBE395080 (void);
+extern void WidgetEventDispatcher_OnPlayerLeftSession_m0A28B331CAE1E7571BB7875D474CD643A74B44A1 (void);
+extern void WidgetEventDispatcher_OnSessionPropertiesChanged_m707F3F850AE98C5617FE908D2B8AD4FA14E970E3 (void);
+extern void WidgetEventDispatcher_OnPlayerPropertiesChanged_m75DAF3244D8EEBA3ACC6D53D969ABA48FDDDFDEC (void);
+extern void WidgetEventDispatcher_OnRemovedFromSession_m5C97AF2FEB827DEE1CBD9937D9929B256F2AD741 (void);
+extern void WidgetEventDispatcher_OnSessionDeleted_m542023B1FE6EBD48ECD5E498096D77F18E0FAFDC (void);
+extern void WidgetEventDispatcher_OnParticipantMuteStateChanged_mB2B75FBF02AB2780523A2B81DF2C4D6880E45731 (void);
+extern void WidgetEventDispatcher_OnParticipantSpeechDetected_m5B622D50C6AFCA42CCF62681848B0F3FD6334CC6 (void);
+extern void WidgetEventDispatcher_OnParticipantAudioEnergyChanged_m9AF1C156BF078DAE439D87C38CC793F36290CCB1 (void);
+extern void WidgetEventDispatcher_OnChatJoined_m0AAC7529E1D6348ACB390A5D6FD5D0752CBE5515 (void);
+extern void WidgetEventDispatcher_OnChatLeft_m74D04300767B78692B047CF543DE7DC980BB2A10 (void);
+extern void WidgetEventDispatcher_OnPlayerAddedToChat_m32A5BDC6F5561B621B886478399696C08F486229 (void);
+extern void WidgetEventDispatcher_OnChatMessageReceived_mAB598E3931F7D91E77CE8090274E559FCD136E3A (void);
+extern void WidgetEventDispatcher__ctor_mC206978405F5022D73C744D5463A0EBF50CE67CC (void);
+extern void WidgetDependencies_Init_mB36952DEBA6D90BF18E11293B6BA1C0E71431CA2 (void);
+extern void WidgetDependencies_get_Instance_mABA090A651C5C4822444147C94138F0AD9E56888 (void);
+extern void WidgetDependencies_get_AuthenticationService_m42A9087EEFBF0C6D300F86A7AD8F7E721B63750D (void);
+extern void WidgetDependencies_set_AuthenticationService_mC13E5E5E1CF9664ABC7BEF62F732280B23E77E8D (void);
+extern void WidgetDependencies_get_ServiceInitialization_m4B4B02E4AA2A5C962AB4A1D11A14205CB8A399AE (void);
+extern void WidgetDependencies_set_ServiceInitialization_m566DA5A7CCB9D700AE985B36C9DBD01BF460AD37 (void);
+extern void WidgetDependencies_get_MultiplayerService_m2075D974B4CBDD5562B8D5F8CD26C4141E754B0D (void);
+extern void WidgetDependencies_set_MultiplayerService_m954A66451F5B3E3F56B81D446B08D8FF28773593 (void);
+extern void WidgetDependencies_get_ChatService_mBC504B5DCFF9903C2E8FA731F7332D7E9DB74CA8 (void);
+extern void WidgetDependencies_set_ChatService_m61C53FBF4608D594CEE77FBFA5DBB6F20EF3E553 (void);
+extern void WidgetDependencies__ctor_m9F7AD31D6670E906BBE6FDFE5FEBE327A3CAB02A (void);
+extern void WidgetServiceInitializationInternal_InitializeAsync_mDE20AA8A0CE1DDBC2E005BBC926300A7DD5A3244 (void);
+extern void WidgetServiceInitializationInternal__ctor_m16EDE0B0162DED10356C08CEAD41FCA170CA774B (void);
+extern void U3CInitializeAsyncU3Ed__0_MoveNext_mE0F2712B94080AC77791325B161855C15AEC7A90 (void);
+extern void U3CInitializeAsyncU3Ed__0_SetStateMachine_m1DFD8EB4E97C70D15A2F2EF1EF70465C3CE374AD (void);
+extern void WidgetServiceInitialization_Init_m7FF65E5558C0B47683C7D3C89E0DB59F286ED680 (void);
+extern void WidgetServiceInitialization_get_IsInitialized_m9A587D24AD8F643AADD147A9EE822C4AAF8D529B (void);
+extern void WidgetServiceInitialization_set_IsInitialized_m697E04F33F72B1A12BAEAC5BE10AC0477685DE36 (void);
+extern void WidgetServiceInitialization_ServicesInitialized_m90EFFEE48D3B2F7BD1F0B77C788C7E53EE3A67E6 (void);
+extern void WidgetConfiguration_OnValidate_m3371A11C6BDA80C458EE75E970F83F0B8D51AD61 (void);
+extern void WidgetConfiguration__ctor_m38F1F1C2FC9C3222F2932511E51479F8D57EA79D (void);
+extern void MultiplayerWidgetsSettings_get_UseCustomServiceInitialization_m4F92969D6949FAD7A294590DBB7E9206F6EE9832 (void);
+extern void MultiplayerWidgetsSettings_set_UseCustomServiceInitialization_m40D57D4442E4837BEE60718C99AD87C34653F7BA (void);
+extern void MultiplayerWidgetsSettings__ctor_mE68BB23D0B0D0254C7CFFE2CBD1365CCDF42D828 (void);
+static Il2CppMethodPointer s_methodPointers[215] = 
+{
+	UnitySourceGeneratedAssemblyMonoScriptTypes_v1_Get_mBA14A5110525E0E2F47A4BF4D0230758E6BF3A60,
+	UnitySourceGeneratedAssemblyMonoScriptTypes_v1__ctor_m8DA285E7D6C3ECD5A7CB1444095EC84CCEA0B328,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	VivoxAudioOutputDevice_get_DeviceName_m810DCF6E75E228A3038CC200CE03245BC985DBE8,
+	VivoxAudioOutputDevice_get_DeviceID_mAC9AAC8A8F0BCA8092C93FFFA6CA86367F7705F9,
+	VivoxAudioOutputDevice__ctor_m1406CDB6612BD43C41E8EADFDD3501C33B4172B2,
+	VivoxAudioOutputDevice_SetActiveDeviceAsync_m83B3D70CCB9F679E3BFE6FE4AACB35DFE9B34175,
+	U3CSetActiveDeviceAsyncU3Ed__6_MoveNext_mA47359D444D388E807639FAB8301075C9BAD859F,
+	U3CSetActiveDeviceAsyncU3Ed__6_SetStateMachine_mCB85FB596E5C712D5F02F4E556383E9BE1F00D81,
+	VivoxAudioInputDevice_get_DeviceName_m7ECF4AC9EADB16BA0B8AD59B4CEBE4157DAA1718,
+	VivoxAudioInputDevice_get_DeviceID_m99A6A835E513B08F8B1BD1393FE257E855440DA8,
+	VivoxAudioInputDevice__ctor_m4BEBDE1B075F7754E281629AD86212A6BB2F7A2C,
+	VivoxAudioInputDevice_SetActiveDeviceAsync_mFCAA35C531321B48927ADA06F14956A7999315B1,
+	U3CSetActiveDeviceAsyncU3Ed__6_MoveNext_m6BED40EDFA8B52528234E1890B8E8442620379B5,
+	U3CSetActiveDeviceAsyncU3Ed__6_SetStateMachine_m003D43956E3E66108528F46A1AB26F0D1DC7ED5A,
+	VivoxChatMessage__ctor_mB61F825A4606BD3453457A5DE181A7D61CE0A324,
+	VivoxChatMessage_get_SenderPlayerId_m48D50D5FFCBBC52F36A4994A30A8A8F8ED0A1AC1,
+	VivoxChatMessage_get_SenderDisplayName_mF7DE43CF7D158F3C26E4930B9EB4309A63A22BF4,
+	VivoxChatMessage_get_ChannelName_mDBE8CFAD4F911D4FAC7DA78397397EEBB5F32B8C,
+	VivoxChatMessage_get_Text_m465BB6B3457F8B743282098EDBFFA3BBFC99B88F,
+	VivoxChatMessage_get_FromSelf_mF6D3098E8F0F7A91F7463C58CD8F403E052D2094,
+	VivoxChatMessage_get_ReceivedTime_mBBE920E6F0857E5A99E89AF8991D5800E643BE87,
+	VivoxChatMessage_get_Id_m93134425548FAD64024F1A27E4339773183D75C0,
+	VivoxChatParticipant__ctor_mC168C63B7C83D414832BA74F412F36BC98C222D8,
+	VivoxChatParticipant_add_OnMuteStateChanged_m7D59834F894022DDFDB58D46FE93B91054579E07,
+	VivoxChatParticipant_remove_OnMuteStateChanged_m83A6DA4766B6FACCF2CA07DBE2B79EF2659F5DB6,
+	VivoxChatParticipant_add_OnSpeechDetected_m0300A868CD28C0D8188A84A6E38FC1E39FBF64AC,
+	VivoxChatParticipant_remove_OnSpeechDetected_m093FD0809FDF9B7CB2130375F6C13E427B47E198,
+	VivoxChatParticipant_add_OnAudioEnergyChanged_mA2F9C9E73A82DD31D1E71891C70EDEB0BFD5E179,
+	VivoxChatParticipant_remove_OnAudioEnergyChanged_mF56DFEF2CA1CC9AB7E9EFB3C26A90D68C3C567D7,
+	VivoxChatParticipant_get_Id_m5D5E7A56D94C0B93E3B4A71937A9D9772F82FE32,
+	VivoxChatParticipant_get_ChatId_m2613E104F2EA5AD75B22A589C1386DA77511B9F1,
+	VivoxChatParticipant_get_IsMuted_m2EA98B1BFAABF575A6DFAB050227A70FAA616C9F,
+	VivoxChatParticipant_get_AudioEnergy_m7FB5D04C6A584EB7E450E7697B3BABA607FB43ED,
+	VivoxChatParticipant_get_SpeechDetected_m81FA6C7E7CDA862868D65C85B03A6A2A991D8649,
+	VivoxChatParticipant_MuteLocally_m349F772354CEE62707EF8322A58E3C10FF589C14,
+	VivoxChatParticipant_U3C_ctorU3Eb__1_0_m10418F4FF07CDE475E431FEA94B8BDA3EA4AE82A,
+	VivoxChatParticipant_U3C_ctorU3Eb__1_1_m0054B32F361B8FC4FE3714694FF1BB8FB41B054C,
+	VivoxChatParticipant_U3C_ctorU3Eb__1_2_mACF41361205B070BDCEC4449D63B6C7442B659A5,
+	VivoxChatService_add_OnChatJoined_m151F1CBE2BFDFD274AF3DFF460430701252D00CE,
+	VivoxChatService_remove_OnChatJoined_m38F484ACC605EB666DF7C39270EF6FF6AAE5F95F,
+	VivoxChatService_add_OnChatLeft_m90BC8C64251D2FFB31D484C764B560715BF0503F,
+	VivoxChatService_remove_OnChatLeft_m1258266F11D5F1E724D490F88E4A090932DA289D,
+	VivoxChatService_add_OnPlayerAddedToChat_mD53CA2AC24B9F07ED0AD3AD127C940D6B30CE3A3,
+	VivoxChatService_remove_OnPlayerAddedToChat_mCB80B2E98934D4EDC1A9A9CF7B5C080027D5AC1B,
+	VivoxChatService_add_OnPlayerRemovedFromChat_mF07BE882FC6B6F40A0FFF747BC0D331F8C5F0502,
+	VivoxChatService_remove_OnPlayerRemovedFromChat_m9F24EB4BDD757A3F98CA343CDB8769117B3ADAF6,
+	VivoxChatService_add_OnChatMessageReceived_m23E55AAE947E9865BCB8815D7FDC3A10E6481EE1,
+	VivoxChatService_remove_OnChatMessageReceived_mBF59412805EC4AACA1F91A5242FED6F51C5B6768,
+	VivoxChatService_get_InputDeviceVolume_m97BF048AC2E3695B7A98B7D2FECB66CD52227167,
+	VivoxChatService_get_OutputDeviceVolume_mCC66A0BACDC886BAFE2003E8CA61E8CCA12AB2B2,
+	VivoxChatService_InitializeAsync_mE936DB5F68D81F53B320B28453B7534DDC7AE263,
+	VivoxChatService_IsLoggedIn_mD9629A166B9C147A67A2E079804202EAE71F6CB6,
+	VivoxChatService_JoinChatAsync_mE196D7BB2BC49651B8DF90F7FBE5A74D9A7ED4C1,
+	VivoxChatService_LeaveChatAsync_mAA89EC9EA4727B4EF36A9563C3B833D70F662A37,
+	VivoxChatService_GetAvailableInputDevices_m61246E14CB574580BBAB69F653B5FD90339AC5C7,
+	VivoxChatService_GetAvailableOutputDevices_mF95D439CD2C1B7CD6085C5A550CD76CF3B9BE8BD,
+	VivoxChatService_GetActiveInputDevice_m54C8532CE04909EA116507336316DCA22B13D216,
+	VivoxChatService_GetActiveOutputDevice_m2913760065BE97A69308786B223D06717A7E968A,
+	VivoxChatService_SendChatMessageAsync_mC07FFBFC9028E6388E599A991E21AC09B374C304,
+	VivoxChatService_SetOutputDeviceVolume_mFBB1CEB2B351ADC91BE929A9D8CB8CD91681551C,
+	VivoxChatService_SetInputDeviceVolume_mCECE184E4F406CE5D9B53B8145FE47998828F768,
+	VivoxChatService__ctor_mAC89919D53E77F7CD2B2B4256C2C4E2B1061CAE2,
+	VivoxChatService_U3CInitializeAsyncU3Eb__20_0_mEA0896C371F84F3A51F7FD45E98C2F4EC960BBD3,
+	VivoxChatService_U3CInitializeAsyncU3Eb__20_1_mD66B4BD3D0C93B1FE292C5DBC4EDFC17B08915B4,
+	VivoxChatService_U3CInitializeAsyncU3Eb__20_2_m7F2D5EBFFBAE6600806BC3940A43BC4375F50815,
+	VivoxChatService_U3CInitializeAsyncU3Eb__20_3_mF67A4E1125344AEB231FC5490ED117F7ADB423A4,
+	VivoxChatService_U3CInitializeAsyncU3Eb__20_4_m39D17D937C2AC96BE2AAC5723DA1541FCEAE778F,
+	U3CInitializeAsyncU3Ed__20_MoveNext_m74EAE3D2FFFE06231380352E55C7F89D60759AF3,
+	U3CInitializeAsyncU3Ed__20_SetStateMachine_mE7F291758B8F6E1793BFD74D69F7A60C042F9ACB,
+	U3CJoinChatAsyncU3Ed__22_MoveNext_m9CD3AD7A78EC3B5AA837638CF7B82E44091EEF1F,
+	U3CJoinChatAsyncU3Ed__22_SetStateMachine_mC623714E8CA51BE8FAF5BD5715FC46BB6D084602,
+	U3CLeaveChatAsyncU3Ed__23_MoveNext_m23CE70B5368BD970498BA4DA5B4BDF9B6853FCE8,
+	U3CLeaveChatAsyncU3Ed__23_SetStateMachine_m13B4A9A13B99233F29E27D61AD9F6EEA59FD3EB8,
+	U3CSendChatMessageAsyncU3Ed__28_MoveNext_mD0B6D65739E0F5EC522073455FF15372B9D72424,
+	U3CSendChatMessageAsyncU3Ed__28_SetStateMachine_m9F1DD0A547383261CF771518474AA92DE5EA9268,
+	ManagerFactory_get_IsInitialized_m13C26157AB829EC6E500E09AA559C1D5BEB23BE5,
+	ManagerFactory_set_IsInitialized_m81DE6EEC34B9384BB9C3CCB806E5889E4BF29A82,
+	ManagerFactory_Initialize_mE988AAFFEC99A5297E25872DA707D51F3C795419,
+	ManagerFactory_Init_m159CCC3F2E79A788E88F62CE40AA3ACAE89AFF61,
+	ManagerFactory_CreateLazySingletonInstance_mEE5EF23219142765D5AD9A9FB448A4F90B467503,
+	NULL,
+	NULL,
+	CustomWidgetsNetworkHandler__ctor_m224296BD04910F80BEBFBB7EB699A036CBE1B174,
+	SessionExtensions_GetPlayerName_m3761D35B7CCB80B50F33438AC572DBD0CBAC32F2,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	ISessionLifecycleEvents_OnSessionJoining_m04FA772F67176267B823FC1176623FBEB1A84EE4,
+	ISessionLifecycleEvents_OnSessionFailedToJoin_m495B28362AA389C706649144272CA10E658EB0EE,
+	ISessionLifecycleEvents_OnSessionJoined_m6F541FF2114D7AE07C09D4333D03FDCE1D7977A5,
+	ISessionLifecycleEvents_OnSessionLeft_mACC6132620DCFBF01219DAFC5CB3A2417DE4FA4A,
+	ISessionEvents_OnSessionChanged_mDB2DAA903825D5407C8D54B74BFDE46BBA12EEEE,
+	ISessionEvents_OnSessionStateChanged_m4CB5D40B5F1164EBE71834FD5307FDC2650648DD,
+	ISessionEvents_OnPlayerJoinedSession_m411BEEA52087B5E004F27051E1306ED8281F0C47,
+	ISessionEvents_OnPlayerLeftSession_m4E7C71330F55810BEEFB5DB899AF0E89CECA4FDC,
+	ISessionEvents_OnSessionPropertiesChanged_m1BFA58096F3DD905941AB47828785FEC9F560168,
+	ISessionEvents_OnPlayerPropertiesChanged_m5538B7E707392A486AA1633B3F06D58E424D7A65,
+	ISessionEvents_OnRemovedFromSession_mF66110D6EC98AD21269A1008E7B188D67808319B,
+	ISessionEvents_OnSessionDeleted_m3C6EBC0E1F0175E7F3D23D31D7BAFEE5E597BE68,
+	IChatEvents_OnChatJoined_mFD8BAAF06FEC882D8BDEFF31FDDA20D138A86718,
+	IChatEvents_OnChatLeft_m90BE12F118761BAC924C9531F200F78B9C04AB68,
+	IChatEvents_OnPlayerAddedToChat_mA115A13C931B2291AC80EC9E495111BF693BEEF5,
+	IChatEvents_OnChatMessageReceived_m5A98FB7682F180BE4334890BDE98910444E327DD,
+	IChatParticipantEvents_OnPlayerAudioEnergyChanged_mC80A9B9ECD30B2AAC1E129C2B86E5636C78F9BC1,
+	IChatParticipantEvents_OnPlayerSpeechDetected_m5650506FDF316CD053CC1F9FD6A9BDBF738C38B3,
+	IChatParticipantEvents_OnPlayerMuteStateChanged_mF93EE4FBA618B569D80C5EE2D830C42E35DD7F8D,
+	WidgetBehaviour_get_IsInitialized_mC11AAD8C6EFFA3CAE78F96915E3F75D3E281717F,
+	WidgetBehaviour_set_IsInitialized_m1DFA3767468E712A365A7A43B7E20EAAD119A6FF,
+	WidgetBehaviour_OnEnable_m7461627814A08B7F892EB5648A10B46995591825,
+	WidgetBehaviour_OnDisable_m2547DB25B70EBFE935BFB39B6657C172F1013750,
+	WidgetBehaviour_OnServicesInitialized_m798D86C7A66D51E89473BB972C50AC820EC33424,
+	WidgetBehaviour_OnApplicationQuit_m67322E4DDF336873FFB2F80424AB8BBC349C4031,
+	WidgetBehaviour__ctor_m8D7701333F12015DED229BB03804E55A35D7B874,
+	WidgetEventDispatcher_OnServicesInitialized_m1A5A337C6DC827246F1FC13EDAF0601EA6A70338,
+	WidgetEventDispatcher_RegisterWidget_m86C7BF5E93B91958C617823FA932D89DF3D2F12F,
+	WidgetEventDispatcher_UnregisterWidget_mAAEFF657AF7C4113472715354E187AFE2523948F,
+	WidgetEventDispatcher_OnSessionJoined_m4F6D8E1D0D1B763766C1DF277091FD321685913C,
+	WidgetEventDispatcher_OnSessionLeft_m943976FAFDCD6B113646358A131B96FD2AA1BAFE,
+	WidgetEventDispatcher_OnSessionJoining_mCD524696973D793D743CCF2B09631CED3E10E789,
+	WidgetEventDispatcher_OnSessionFailedToJoin_m953A502B8CC4057E8F3AC61E7AEB0A14ED9FC988,
+	WidgetEventDispatcher_OnSessionChanged_m64E1044EC6D00207ECAD2200F70DCBAA6A646D90,
+	WidgetEventDispatcher_OnSessionStateChanged_m082C9CAE111DBDB9F9AC77D3D7946E26E9663D10,
+	WidgetEventDispatcher_OnPlayerJoinedSession_m0534349D8A6F4039A0368E5817FAEE3CBE395080,
+	WidgetEventDispatcher_OnPlayerLeftSession_m0A28B331CAE1E7571BB7875D474CD643A74B44A1,
+	WidgetEventDispatcher_OnSessionPropertiesChanged_m707F3F850AE98C5617FE908D2B8AD4FA14E970E3,
+	WidgetEventDispatcher_OnPlayerPropertiesChanged_m75DAF3244D8EEBA3ACC6D53D969ABA48FDDDFDEC,
+	WidgetEventDispatcher_OnRemovedFromSession_m5C97AF2FEB827DEE1CBD9937D9929B256F2AD741,
+	WidgetEventDispatcher_OnSessionDeleted_m542023B1FE6EBD48ECD5E498096D77F18E0FAFDC,
+	WidgetEventDispatcher_OnParticipantMuteStateChanged_mB2B75FBF02AB2780523A2B81DF2C4D6880E45731,
+	WidgetEventDispatcher_OnParticipantSpeechDetected_m5B622D50C6AFCA42CCF62681848B0F3FD6334CC6,
+	WidgetEventDispatcher_OnParticipantAudioEnergyChanged_m9AF1C156BF078DAE439D87C38CC793F36290CCB1,
+	WidgetEventDispatcher_OnChatJoined_m0AAC7529E1D6348ACB390A5D6FD5D0752CBE5515,
+	WidgetEventDispatcher_OnChatLeft_m74D04300767B78692B047CF543DE7DC980BB2A10,
+	WidgetEventDispatcher_OnPlayerAddedToChat_m32A5BDC6F5561B621B886478399696C08F486229,
+	WidgetEventDispatcher_OnChatMessageReceived_mAB598E3931F7D91E77CE8090274E559FCD136E3A,
+	WidgetEventDispatcher__ctor_mC206978405F5022D73C744D5463A0EBF50CE67CC,
+	WidgetDependencies_Init_mB36952DEBA6D90BF18E11293B6BA1C0E71431CA2,
+	WidgetDependencies_get_Instance_mABA090A651C5C4822444147C94138F0AD9E56888,
+	WidgetDependencies_get_AuthenticationService_m42A9087EEFBF0C6D300F86A7AD8F7E721B63750D,
+	WidgetDependencies_set_AuthenticationService_mC13E5E5E1CF9664ABC7BEF62F732280B23E77E8D,
+	WidgetDependencies_get_ServiceInitialization_m4B4B02E4AA2A5C962AB4A1D11A14205CB8A399AE,
+	WidgetDependencies_set_ServiceInitialization_m566DA5A7CCB9D700AE985B36C9DBD01BF460AD37,
+	WidgetDependencies_get_MultiplayerService_m2075D974B4CBDD5562B8D5F8CD26C4141E754B0D,
+	WidgetDependencies_set_MultiplayerService_m954A66451F5B3E3F56B81D446B08D8FF28773593,
+	WidgetDependencies_get_ChatService_mBC504B5DCFF9903C2E8FA731F7332D7E9DB74CA8,
+	WidgetDependencies_set_ChatService_m61C53FBF4608D594CEE77FBFA5DBB6F20EF3E553,
+	WidgetDependencies__ctor_m9F7AD31D6670E906BBE6FDFE5FEBE327A3CAB02A,
+	NULL,
+	WidgetServiceInitializationInternal_InitializeAsync_mDE20AA8A0CE1DDBC2E005BBC926300A7DD5A3244,
+	WidgetServiceInitializationInternal__ctor_m16EDE0B0162DED10356C08CEAD41FCA170CA774B,
+	U3CInitializeAsyncU3Ed__0_MoveNext_mE0F2712B94080AC77791325B161855C15AEC7A90,
+	U3CInitializeAsyncU3Ed__0_SetStateMachine_m1DFD8EB4E97C70D15A2F2EF1EF70465C3CE374AD,
+	WidgetServiceInitialization_Init_m7FF65E5558C0B47683C7D3C89E0DB59F286ED680,
+	WidgetServiceInitialization_get_IsInitialized_m9A587D24AD8F643AADD147A9EE822C4AAF8D529B,
+	WidgetServiceInitialization_set_IsInitialized_m697E04F33F72B1A12BAEAC5BE10AC0477685DE36,
+	WidgetServiceInitialization_ServicesInitialized_m90EFFEE48D3B2F7BD1F0B77C788C7E53EE3A67E6,
+	WidgetConfiguration_OnValidate_m3371A11C6BDA80C458EE75E970F83F0B8D51AD61,
+	WidgetConfiguration__ctor_m38F1F1C2FC9C3222F2932511E51479F8D57EA79D,
+	MultiplayerWidgetsSettings_get_UseCustomServiceInitialization_m4F92969D6949FAD7A294590DBB7E9206F6EE9832,
+	MultiplayerWidgetsSettings_set_UseCustomServiceInitialization_m40D57D4442E4837BEE60718C99AD87C34653F7BA,
+	MultiplayerWidgetsSettings__ctor_mE68BB23D0B0D0254C7CFFE2CBD1365CCDF42D828,
+};
+extern void U3CSetActiveDeviceAsyncU3Ed__6_MoveNext_mA47359D444D388E807639FAB8301075C9BAD859F_AdjustorThunk (void);
+extern void U3CSetActiveDeviceAsyncU3Ed__6_SetStateMachine_mCB85FB596E5C712D5F02F4E556383E9BE1F00D81_AdjustorThunk (void);
+extern void U3CSetActiveDeviceAsyncU3Ed__6_MoveNext_m6BED40EDFA8B52528234E1890B8E8442620379B5_AdjustorThunk (void);
+extern void U3CSetActiveDeviceAsyncU3Ed__6_SetStateMachine_m003D43956E3E66108528F46A1AB26F0D1DC7ED5A_AdjustorThunk (void);
+extern void U3CInitializeAsyncU3Ed__20_MoveNext_m74EAE3D2FFFE06231380352E55C7F89D60759AF3_AdjustorThunk (void);
+extern void U3CInitializeAsyncU3Ed__20_SetStateMachine_mE7F291758B8F6E1793BFD74D69F7A60C042F9ACB_AdjustorThunk (void);
+extern void U3CJoinChatAsyncU3Ed__22_MoveNext_m9CD3AD7A78EC3B5AA837638CF7B82E44091EEF1F_AdjustorThunk (void);
+extern void U3CJoinChatAsyncU3Ed__22_SetStateMachine_mC623714E8CA51BE8FAF5BD5715FC46BB6D084602_AdjustorThunk (void);
+extern void U3CLeaveChatAsyncU3Ed__23_MoveNext_m23CE70B5368BD970498BA4DA5B4BDF9B6853FCE8_AdjustorThunk (void);
+extern void U3CLeaveChatAsyncU3Ed__23_SetStateMachine_m13B4A9A13B99233F29E27D61AD9F6EEA59FD3EB8_AdjustorThunk (void);
+extern void U3CSendChatMessageAsyncU3Ed__28_MoveNext_mD0B6D65739E0F5EC522073455FF15372B9D72424_AdjustorThunk (void);
+extern void U3CSendChatMessageAsyncU3Ed__28_SetStateMachine_m9F1DD0A547383261CF771518474AA92DE5EA9268_AdjustorThunk (void);
+extern void U3CInitializeAsyncU3Ed__0_MoveNext_mE0F2712B94080AC77791325B161855C15AEC7A90_AdjustorThunk (void);
+extern void U3CInitializeAsyncU3Ed__0_SetStateMachine_m1DFD8EB4E97C70D15A2F2EF1EF70465C3CE374AD_AdjustorThunk (void);
+static Il2CppTokenAdjustorThunkPair s_adjustorThunks[14] = 
+{
+	{ 0x06000034, U3CSetActiveDeviceAsyncU3Ed__6_MoveNext_mA47359D444D388E807639FAB8301075C9BAD859F_AdjustorThunk },
+	{ 0x06000035, U3CSetActiveDeviceAsyncU3Ed__6_SetStateMachine_mCB85FB596E5C712D5F02F4E556383E9BE1F00D81_AdjustorThunk },
+	{ 0x0600003A, U3CSetActiveDeviceAsyncU3Ed__6_MoveNext_m6BED40EDFA8B52528234E1890B8E8442620379B5_AdjustorThunk },
+	{ 0x0600003B, U3CSetActiveDeviceAsyncU3Ed__6_SetStateMachine_m003D43956E3E66108528F46A1AB26F0D1DC7ED5A_AdjustorThunk },
+	{ 0x06000071, U3CInitializeAsyncU3Ed__20_MoveNext_m74EAE3D2FFFE06231380352E55C7F89D60759AF3_AdjustorThunk },
+	{ 0x06000072, U3CInitializeAsyncU3Ed__20_SetStateMachine_mE7F291758B8F6E1793BFD74D69F7A60C042F9ACB_AdjustorThunk },
+	{ 0x06000073, U3CJoinChatAsyncU3Ed__22_MoveNext_m9CD3AD7A78EC3B5AA837638CF7B82E44091EEF1F_AdjustorThunk },
+	{ 0x06000074, U3CJoinChatAsyncU3Ed__22_SetStateMachine_mC623714E8CA51BE8FAF5BD5715FC46BB6D084602_AdjustorThunk },
+	{ 0x06000075, U3CLeaveChatAsyncU3Ed__23_MoveNext_m23CE70B5368BD970498BA4DA5B4BDF9B6853FCE8_AdjustorThunk },
+	{ 0x06000076, U3CLeaveChatAsyncU3Ed__23_SetStateMachine_m13B4A9A13B99233F29E27D61AD9F6EEA59FD3EB8_AdjustorThunk },
+	{ 0x06000077, U3CSendChatMessageAsyncU3Ed__28_MoveNext_mD0B6D65739E0F5EC522073455FF15372B9D72424_AdjustorThunk },
+	{ 0x06000078, U3CSendChatMessageAsyncU3Ed__28_SetStateMachine_m9F1DD0A547383261CF771518474AA92DE5EA9268_AdjustorThunk },
+	{ 0x060000CD, U3CInitializeAsyncU3Ed__0_MoveNext_mE0F2712B94080AC77791325B161855C15AEC7A90_AdjustorThunk },
+	{ 0x060000CE, U3CInitializeAsyncU3Ed__0_SetStateMachine_m1DFD8EB4E97C70D15A2F2EF1EF70465C3CE374AD_AdjustorThunk },
+};
+static const int32_t s_InvokerIndices[215] = 
+{
+	32890,
+	20202,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	19946,
+	19946,
+	15493,
+	19946,
+	20202,
+	15493,
+	19946,
+	19946,
+	15493,
+	19946,
+	20202,
+	15493,
+	15493,
+	19946,
+	19946,
+	19946,
+	19946,
+	19682,
+	19718,
+	19946,
+	15493,
+	15493,
+	15493,
+	15493,
+	15493,
+	15493,
+	15493,
+	19946,
+	19946,
+	19682,
+	19729,
+	19682,
+	15233,
+	20202,
+	20202,
+	20202,
+	15493,
+	15493,
+	15493,
+	15493,
+	15493,
+	15493,
+	15493,
+	15493,
+	15493,
+	15493,
+	20082,
+	20082,
+	19946,
+	19682,
+	6136,
+	13335,
+	19946,
+	19946,
+	19946,
+	19946,
+	6138,
+	15623,
+	15623,
+	20202,
+	15493,
+	15493,
+	15493,
+	15493,
+	15493,
+	20202,
+	15493,
+	20202,
+	15493,
+	20202,
+	15493,
+	20202,
+	15493,
+	32637,
+	31444,
+	32835,
+	32835,
+	31462,
+	-1,
+	-1,
+	20202,
+	27113,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	-1,
+	20202,
+	15493,
+	20202,
+	20202,
+	20202,
+	15384,
+	15493,
+	15493,
+	20202,
+	20202,
+	20202,
+	20202,
+	15493,
+	15493,
+	15493,
+	15493,
+	20202,
+	20202,
+	15233,
+	19682,
+	15233,
+	20202,
+	20202,
+	20202,
+	20202,
+	20202,
+	20202,
+	15493,
+	15493,
+	8035,
+	20202,
+	20202,
+	15493,
+	20202,
+	15384,
+	15493,
+	15493,
+	20202,
+	20202,
+	20202,
+	20202,
+	7998,
+	15493,
+	15493,
+	15493,
+	15493,
+	15493,
+	15493,
+	20202,
+	32835,
+	32728,
+	19946,
+	15493,
+	19946,
+	15493,
+	19946,
+	15493,
+	19946,
+	15493,
+	20202,
+	-1,
+	19946,
+	20202,
+	20202,
+	15493,
+	32835,
+	32637,
+	31444,
+	32835,
+	20202,
+	20202,
+	19682,
+	15233,
+	20202,
+};
+static const Il2CppTokenRangePair s_rgctxIndices[1] = 
+{
+	{ 0x0200001B, { 0, 6 } },
+};
+extern const uint32_t g_rgctx_LazySingleton_1_t26D14269260F8EC4BFC17FE016E9F2AA185BFC0E;
+extern const uint32_t g_rgctx_T_t3C217A4A0E9E2D3652F1C0A398CF3F651733E48C;
+extern const uint32_t g_rgctx_LazySingleton_1_t26D14269260F8EC4BFC17FE016E9F2AA185BFC0E;
+extern const uint32_t g_rgctx_LazySingleton_1_CreateInstance_m779317DDE58B11B1341997AA8163D53F06D2CFCA;
+extern const uint32_t g_rgctx_T_t3C217A4A0E9E2D3652F1C0A398CF3F651733E48C;
+extern const uint32_t g_rgctx_GameObject_AddComponent_TisT_t3C217A4A0E9E2D3652F1C0A398CF3F651733E48C_mB3A7209F5AD248A8733AE1939EDB723732581D6A;
+static const Il2CppRGCTXDefinition s_rgctxValues[6] = 
+{
+	{ (Il2CppRGCTXDataType)2, (const void *)&g_rgctx_LazySingleton_1_t26D14269260F8EC4BFC17FE016E9F2AA185BFC0E },
+	{ (Il2CppRGCTXDataType)2, (const void *)&g_rgctx_T_t3C217A4A0E9E2D3652F1C0A398CF3F651733E48C },
+	{ (Il2CppRGCTXDataType)2, (const void *)&g_rgctx_LazySingleton_1_t26D14269260F8EC4BFC17FE016E9F2AA185BFC0E },
+	{ (Il2CppRGCTXDataType)3, (const void *)&g_rgctx_LazySingleton_1_CreateInstance_m779317DDE58B11B1341997AA8163D53F06D2CFCA },
+	{ (Il2CppRGCTXDataType)1, (const void *)&g_rgctx_T_t3C217A4A0E9E2D3652F1C0A398CF3F651733E48C },
+	{ (Il2CppRGCTXDataType)3, (const void *)&g_rgctx_GameObject_AddComponent_TisT_t3C217A4A0E9E2D3652F1C0A398CF3F651733E48C_mB3A7209F5AD248A8733AE1939EDB723732581D6A },
+};
+IL2CPP_EXTERN_C const Il2CppCodeGenModule g_Unity_Multiplayer_Widgets_Core_CodeGenModule;
+const Il2CppCodeGenModule g_Unity_Multiplayer_Widgets_Core_CodeGenModule = 
+{
+	"Unity.Multiplayer.Widgets.Core.dll",
+	215,
+	s_methodPointers,
+	14,
+	s_adjustorThunks,
+	s_InvokerIndices,
+	0,
+	NULL,
+	1,
+	s_rgctxIndices,
+	6,
+	s_rgctxValues,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+};

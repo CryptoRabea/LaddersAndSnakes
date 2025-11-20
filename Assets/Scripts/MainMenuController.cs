@@ -5,6 +5,8 @@ using TMPro;
 using Fusion;
 using System.Collections.Generic;
 using System.Linq;
+using Fusion.Sockets;
+using System;
 
 /// <summary>
 /// Main menu controller for game setup and multiplayer options
@@ -714,6 +716,10 @@ public class MainMenuController : MonoBehaviour
 
     // Callback handler class for Fusion
     private class RoomListCallbacks : INetworkRunnerCallbacks
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     {
         private MainMenuController _controller;
 

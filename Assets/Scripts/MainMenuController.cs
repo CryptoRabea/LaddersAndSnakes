@@ -713,7 +713,7 @@ public class MainMenuController : MonoBehaviour
     }
 
     // Callback handler class for Fusion
-    private class RoomListCallbacks : Fusion.Sockets.INetworkRunnerCallbacks
+    private class RoomListCallbacks : INetworkRunnerCallbacks
     {
         private MainMenuController _controller;
 

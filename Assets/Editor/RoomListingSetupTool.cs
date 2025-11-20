@@ -386,8 +386,7 @@ public class RoomListingSetupTool : EditorWindow
         viewportRect.offsetMin = Vector2.zero;
         viewportRect.offsetMax = Vector2.zero;
 
-        viewport.AddComponent<Mask>();
-        viewport.AddComponent<Image>().color = Color.clear;
+        RectMask2D mask = viewport.AddComponent<RectMask2D>();
 
         // Content
         GameObject content = new GameObject("Content");
@@ -396,7 +395,8 @@ public class RoomListingSetupTool : EditorWindow
         contentRect.anchorMin = new Vector2(0, 1);
         contentRect.anchorMax = new Vector2(1, 1);
         contentRect.pivot = new Vector2(0.5f, 1);
-        contentRect.sizeDelta = new Vector2(0, 0);
+        contentRect.anchoredPosition = Vector2.zero;
+        contentRect.sizeDelta = new Vector2(0, 100);
 
         VerticalLayoutGroup contentLayout = content.AddComponent<VerticalLayoutGroup>();
         contentLayout.spacing = 15;
@@ -719,11 +719,10 @@ public class RoomListingSetupTool : EditorWindow
         RectTransform viewportRect = viewportObj.AddComponent<RectTransform>();
         viewportRect.anchorMin = Vector2.zero;
         viewportRect.anchorMax = Vector2.one;
-        viewportRect.offsetMin = new Vector2(5, 5);
-        viewportRect.offsetMax = new Vector2(-5, -5);
+        viewportRect.offsetMin = Vector2.zero;
+        viewportRect.offsetMax = Vector2.zero;
 
-        viewportObj.AddComponent<Mask>();
-        viewportObj.AddComponent<Image>().color = Color.clear;
+        RectMask2D viewportMask = viewportObj.AddComponent<RectMask2D>();
 
         // Create content
         GameObject contentObj = new GameObject("Content");
@@ -732,7 +731,8 @@ public class RoomListingSetupTool : EditorWindow
         contentRect.anchorMin = new Vector2(0, 1);
         contentRect.anchorMax = new Vector2(1, 1);
         contentRect.pivot = new Vector2(0.5f, 1);
-        contentRect.sizeDelta = new Vector2(0, 0);
+        contentRect.anchoredPosition = Vector2.zero;
+        contentRect.sizeDelta = new Vector2(0, 160);
 
         VerticalLayoutGroup contentLayout = contentObj.AddComponent<VerticalLayoutGroup>();
         contentLayout.childControlWidth = true;

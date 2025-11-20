@@ -652,27 +652,153 @@ public class RoomListingSetupTool : EditorWindow
 
         TMP_Dropdown dropdown = dropdownObj.AddComponent<TMP_Dropdown>();
 
+        // Create arrow
+        GameObject arrowObj = new GameObject("Arrow");
+        arrowObj.transform.SetParent(dropdownObj.transform, false);
+        RectTransform arrowRect = arrowObj.AddComponent<RectTransform>();
+        arrowRect.anchorMin = new Vector2(1, 0.5f);
+        arrowRect.anchorMax = new Vector2(1, 0.5f);
+        arrowRect.pivot = new Vector2(1, 0.5f);
+        arrowRect.anchoredPosition = new Vector2(-10, 0);
+        arrowRect.sizeDelta = new Vector2(20, 20);
+
+        Image arrowImg = arrowObj.AddComponent<Image>();
+        arrowImg.color = Color.white;
+
+        // Create label
         GameObject labelObj = new GameObject("Label");
         labelObj.transform.SetParent(dropdownObj.transform, false);
         RectTransform labelRect = labelObj.AddComponent<RectTransform>();
         labelRect.anchorMin = Vector2.zero;
         labelRect.anchorMax = Vector2.one;
         labelRect.offsetMin = new Vector2(15, 0);
-        labelRect.offsetMax = new Vector2(-30, 0);
+        labelRect.offsetMax = new Vector2(-40, 0);
 
         TextMeshProUGUI labelTmp = labelObj.AddComponent<TextMeshProUGUI>();
         labelTmp.text = label;
         labelTmp.fontSize = 32;
         labelTmp.color = Color.white;
+        labelTmp.alignment = TextAlignmentOptions.MidlineLeft;
 
+        // Create template
+        GameObject templateObj = new GameObject("Template");
+        templateObj.transform.SetParent(dropdownObj.transform, false);
+        RectTransform templateRect = templateObj.AddComponent<RectTransform>();
+        templateRect.anchorMin = new Vector2(0, 0);
+        templateRect.anchorMax = new Vector2(1, 0);
+        templateRect.pivot = new Vector2(0.5f, 1);
+        templateRect.anchoredPosition = new Vector2(0, 2);
+        templateRect.sizeDelta = new Vector2(0, 150);
+
+        Image templateImg = templateObj.AddComponent<Image>();
+        templateImg.color = new Color(0.15f, 0.15f, 0.2f, 1f);
+
+        ScrollRect templateScroll = templateObj.AddComponent<ScrollRect>();
+        templateScroll.horizontal = false;
+        templateScroll.movementType = ScrollRect.MovementType.Clamped;
+
+        templateObj.SetActive(false);
+
+        // Create viewport
+        GameObject viewportObj = new GameObject("Viewport");
+        viewportObj.transform.SetParent(templateObj.transform, false);
+        RectTransform viewportRect = viewportObj.AddComponent<RectTransform>();
+        viewportRect.anchorMin = Vector2.zero;
+        viewportRect.anchorMax = Vector2.one;
+        viewportRect.offsetMin = new Vector2(5, 5);
+        viewportRect.offsetMax = new Vector2(-5, -5);
+
+        viewportObj.AddComponent<Mask>();
+        viewportObj.AddComponent<Image>().color = Color.clear;
+
+        // Create content
+        GameObject contentObj = new GameObject("Content");
+        contentObj.transform.SetParent(viewportObj.transform, false);
+        RectTransform contentRect = contentObj.AddComponent<RectTransform>();
+        contentRect.anchorMin = new Vector2(0, 1);
+        contentRect.anchorMax = new Vector2(1, 1);
+        contentRect.pivot = new Vector2(0.5f, 1);
+        contentRect.sizeDelta = new Vector2(0, 0);
+
+        VerticalLayoutGroup contentLayout = contentObj.AddComponent<VerticalLayoutGroup>();
+        contentLayout.childControlWidth = true;
+        contentLayout.childControlHeight = false;
+        contentLayout.childForceExpandWidth = true;
+
+        ContentSizeFitter contentFitter = contentObj.AddComponent<ContentSizeFitter>();
+        contentFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+        // Create item
+        GameObject itemObj = new GameObject("Item");
+        itemObj.transform.SetParent(contentObj.transform, false);
+        RectTransform itemRect = itemObj.AddComponent<RectTransform>();
+        itemRect.sizeDelta = new Vector2(0, 40);
+
+        Toggle itemToggle = itemObj.AddComponent<Toggle>();
+        itemToggle.isOn = true;
+
+        // Item background
+        GameObject itemBgObj = new GameObject("Item Background");
+        itemBgObj.transform.SetParent(itemObj.transform, false);
+        RectTransform itemBgRect = itemBgObj.AddComponent<RectTransform>();
+        itemBgRect.anchorMin = Vector2.zero;
+        itemBgRect.anchorMax = Vector2.one;
+        itemBgRect.offsetMin = Vector2.zero;
+        itemBgRect.offsetMax = Vector2.zero;
+
+        Image itemBgImg = itemBgObj.AddComponent<Image>();
+        itemBgImg.color = new Color(0.25f, 0.25f, 0.3f, 1f);
+
+        itemToggle.targetGraphic = itemBgImg;
+
+        // Item checkmark
+        GameObject checkmarkObj = new GameObject("Item Checkmark");
+        checkmarkObj.transform.SetParent(itemObj.transform, false);
+        RectTransform checkmarkRect = checkmarkObj.AddComponent<RectTransform>();
+        checkmarkRect.anchorMin = new Vector2(0, 0.5f);
+        checkmarkRect.anchorMax = new Vector2(0, 0.5f);
+        checkmarkRect.pivot = new Vector2(0, 0.5f);
+        checkmarkRect.anchoredPosition = new Vector2(10, 0);
+        checkmarkRect.sizeDelta = new Vector2(20, 20);
+
+        Image checkmarkImg = checkmarkObj.AddComponent<Image>();
+        checkmarkImg.color = Color.green;
+
+        itemToggle.graphic = checkmarkImg;
+
+        // Item label
+        GameObject itemLabelObj = new GameObject("Item Label");
+        itemLabelObj.transform.SetParent(itemObj.transform, false);
+        RectTransform itemLabelRect = itemLabelObj.AddComponent<RectTransform>();
+        itemLabelRect.anchorMin = Vector2.zero;
+        itemLabelRect.anchorMax = Vector2.one;
+        itemLabelRect.offsetMin = new Vector2(40, 0);
+        itemLabelRect.offsetMax = new Vector2(-10, 0);
+
+        TextMeshProUGUI itemLabelTmp = itemLabelObj.AddComponent<TextMeshProUGUI>();
+        itemLabelTmp.text = "Option";
+        itemLabelTmp.fontSize = 28;
+        itemLabelTmp.color = Color.white;
+        itemLabelTmp.alignment = TextAlignmentOptions.MidlineLeft;
+
+        // Configure dropdown references
+        dropdown.targetGraphic = img;
+        dropdown.template = templateRect;
         dropdown.captionText = labelTmp;
+        dropdown.itemText = itemLabelTmp;
+
+        templateScroll.content = contentRect;
+        templateScroll.viewport = viewportRect;
 
         // Add options
+        dropdown.options.Clear();
         dropdown.options.Add(new TMP_Dropdown.OptionData("2 Players"));
         dropdown.options.Add(new TMP_Dropdown.OptionData("3 Players"));
         dropdown.options.Add(new TMP_Dropdown.OptionData("4 Players"));
         dropdown.options.Add(new TMP_Dropdown.OptionData("6 Players"));
         dropdown.options.Add(new TMP_Dropdown.OptionData("8 Players"));
+
+        dropdown.value = 1; // Default to 3 players
 
         return dropdownObj;
     }

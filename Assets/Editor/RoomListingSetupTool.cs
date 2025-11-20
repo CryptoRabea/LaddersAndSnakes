@@ -676,9 +676,12 @@ public class RoomListingSetupTool : EditorWindow
 
         TextMeshProUGUI labelTmp = labelObj.AddComponent<TextMeshProUGUI>();
         labelTmp.text = label;
-        labelTmp.fontSize = 32;
-        labelTmp.color = Color.white;
+        labelTmp.fontSize = 36;
+        labelTmp.fontStyle = FontStyles.Bold;
+        labelTmp.color = new Color(1f, 1f, 1f, 1f); // Pure white
         labelTmp.alignment = TextAlignmentOptions.MidlineLeft;
+        labelTmp.enableAutoSizing = false;
+        labelTmp.overflowMode = TextOverflowModes.Overflow;
 
         // Create template
         GameObject templateObj = new GameObject("Template");
@@ -688,7 +691,7 @@ public class RoomListingSetupTool : EditorWindow
         templateRect.anchorMax = new Vector2(1, 0);
         templateRect.pivot = new Vector2(0.5f, 1);
         templateRect.anchoredPosition = new Vector2(0, 2);
-        templateRect.sizeDelta = new Vector2(0, 150);
+        templateRect.sizeDelta = new Vector2(0, 200);
 
         Image templateImg = templateObj.AddComponent<Image>();
         templateImg.color = new Color(0.15f, 0.15f, 0.2f, 1f);
@@ -732,7 +735,7 @@ public class RoomListingSetupTool : EditorWindow
         GameObject itemObj = new GameObject("Item");
         itemObj.transform.SetParent(contentObj.transform, false);
         RectTransform itemRect = itemObj.AddComponent<RectTransform>();
-        itemRect.sizeDelta = new Vector2(0, 40);
+        itemRect.sizeDelta = new Vector2(0, 50);
 
         Toggle itemToggle = itemObj.AddComponent<Toggle>();
         itemToggle.isOn = true;
@@ -777,9 +780,12 @@ public class RoomListingSetupTool : EditorWindow
 
         TextMeshProUGUI itemLabelTmp = itemLabelObj.AddComponent<TextMeshProUGUI>();
         itemLabelTmp.text = "Option";
-        itemLabelTmp.fontSize = 28;
-        itemLabelTmp.color = Color.white;
+        itemLabelTmp.fontSize = 32;
+        itemLabelTmp.fontStyle = FontStyles.Bold;
+        itemLabelTmp.color = new Color(1f, 1f, 1f, 1f); // Pure white
         itemLabelTmp.alignment = TextAlignmentOptions.MidlineLeft;
+        itemLabelTmp.enableAutoSizing = false;
+        itemLabelTmp.overflowMode = TextOverflowModes.Overflow;
 
         // Configure dropdown references
         dropdown.targetGraphic = img;
@@ -799,6 +805,7 @@ public class RoomListingSetupTool : EditorWindow
         dropdown.options.Add(new TMP_Dropdown.OptionData("8 Players"));
 
         dropdown.value = 1; // Default to 3 players
+        dropdown.RefreshShownValue(); // Force update the displayed text
 
         return dropdownObj;
     }
@@ -904,10 +911,12 @@ public class RoomListingSetupTool : EditorWindow
         nameObj.AddComponent<LayoutElement>().preferredWidth = 350;
         TextMeshProUGUI nameTmp = nameObj.AddComponent<TextMeshProUGUI>();
         nameTmp.text = "Room Name";
-        nameTmp.fontSize = 36;
+        nameTmp.fontSize = 38;
         nameTmp.alignment = TextAlignmentOptions.MidlineLeft;
-        nameTmp.color = Color.white;
+        nameTmp.color = new Color(1f, 1f, 1f, 1f); // Pure white
         nameTmp.fontStyle = FontStyles.Bold;
+        nameTmp.enableAutoSizing = false;
+        nameTmp.overflowMode = TextOverflowModes.Overflow;
 
         // Player count
         GameObject countObj = new GameObject("PlayerCountText");
@@ -915,9 +924,12 @@ public class RoomListingSetupTool : EditorWindow
         countObj.AddComponent<LayoutElement>().preferredWidth = 180;
         TextMeshProUGUI countTmp = countObj.AddComponent<TextMeshProUGUI>();
         countTmp.text = "0/4 Players";
-        countTmp.fontSize = 32;
+        countTmp.fontSize = 34;
         countTmp.alignment = TextAlignmentOptions.Center;
-        countTmp.color = Color.green;
+        countTmp.color = new Color(0.3f, 1f, 0.3f, 1f); // Bright green
+        countTmp.fontStyle = FontStyles.Bold;
+        countTmp.enableAutoSizing = false;
+        countTmp.overflowMode = TextOverflowModes.Overflow;
 
         // Select button
         GameObject btnObj = new GameObject("SelectButton");
@@ -940,10 +952,12 @@ public class RoomListingSetupTool : EditorWindow
 
         TextMeshProUGUI btnTmp = btnTextObj.AddComponent<TextMeshProUGUI>();
         btnTmp.text = "Select";
-        btnTmp.fontSize = 32;
+        btnTmp.fontSize = 34;
         btnTmp.alignment = TextAlignmentOptions.Center;
-        btnTmp.color = Color.white;
+        btnTmp.color = new Color(1f, 1f, 1f, 1f); // Pure white
         btnTmp.fontStyle = FontStyles.Bold;
+        btnTmp.enableAutoSizing = false;
+        btnTmp.overflowMode = TextOverflowModes.Overflow;
 
         string path = EditorUtility.SaveFilePanelInProject("Save Room List Item", "RoomListItem", "prefab", "Save prefab");
         if (!string.IsNullOrEmpty(path))

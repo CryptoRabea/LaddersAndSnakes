@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
 using TMPro;
+using System.Linq;
 
 /// <summary>
 /// Complete main menu setup tool - creates ALL UI components
@@ -336,6 +337,7 @@ public class RoomListingSetupTool : EditorWindow
         headerRect.sizeDelta = new Vector2(0, 80);
 
         TextMeshProUGUI headerText = header.AddComponent<TextMeshProUGUI>();
+        headerText.font = GetDefaultFont();
         headerText.text = "Available Rooms";
         headerText.fontSize = 48;
         headerText.alignment = TextAlignmentOptions.Center;
@@ -353,6 +355,7 @@ public class RoomListingSetupTool : EditorWindow
         statusRect.sizeDelta = new Vector2(-40, 40);
 
         TextMeshProUGUI statusText = statusObj.AddComponent<TextMeshProUGUI>();
+        statusText.font = GetDefaultFont();
         statusText.text = "Connecting...";
         statusText.fontSize = 28;
         statusText.alignment = TextAlignmentOptions.Center;
@@ -452,6 +455,7 @@ public class RoomListingSetupTool : EditorWindow
         headerRect.sizeDelta = new Vector2(0, 80);
 
         TextMeshProUGUI headerText = header.AddComponent<TextMeshProUGUI>();
+        headerText.font = GetDefaultFont();
         headerText.text = "Create New Room";
         headerText.fontSize = 48;
         headerText.alignment = TextAlignmentOptions.Center;
@@ -531,6 +535,7 @@ public class RoomListingSetupTool : EditorWindow
         headerRect.sizeDelta = new Vector2(0, 100);
 
         TextMeshProUGUI headerText = header.AddComponent<TextMeshProUGUI>();
+        headerText.font = GetDefaultFont();
         headerText.text = "Settings";
         headerText.fontSize = 54;
         headerText.alignment = TextAlignmentOptions.Center;
@@ -578,6 +583,7 @@ public class RoomListingSetupTool : EditorWindow
         textRect.offsetMax = Vector2.zero;
 
         TextMeshProUGUI tmp = textObj.AddComponent<TextMeshProUGUI>();
+        tmp.font = GetDefaultFont();
         tmp.text = text;
         tmp.fontSize = height * 0.4f;
         tmp.alignment = TextAlignmentOptions.Center;
@@ -616,6 +622,7 @@ public class RoomListingSetupTool : EditorWindow
         textRect.offsetMax = Vector2.zero;
 
         TextMeshProUGUI tmp = textObj.AddComponent<TextMeshProUGUI>();
+        tmp.font = GetDefaultFont();
         tmp.fontSize = 32;
         tmp.color = Color.white;
 
@@ -628,6 +635,7 @@ public class RoomListingSetupTool : EditorWindow
         placeholderRect.offsetMax = Vector2.zero;
 
         TextMeshProUGUI placeholderTmp = placeholderObj.AddComponent<TextMeshProUGUI>();
+        placeholderTmp.font = GetDefaultFont();
         placeholderTmp.text = placeholder;
         placeholderTmp.fontSize = 32;
         placeholderTmp.color = new Color(0.6f, 0.6f, 0.6f, 0.7f);
@@ -675,6 +683,7 @@ public class RoomListingSetupTool : EditorWindow
         labelRect.offsetMax = new Vector2(-40, 0);
 
         TextMeshProUGUI labelTmp = labelObj.AddComponent<TextMeshProUGUI>();
+        labelTmp.font = GetDefaultFont();
         labelTmp.text = label;
         labelTmp.fontSize = 28;
         labelTmp.fontStyle = FontStyles.Bold;
@@ -781,6 +790,7 @@ public class RoomListingSetupTool : EditorWindow
         itemLabelRect.offsetMax = new Vector2(-10, 0);
 
         TextMeshProUGUI itemLabelTmp = itemLabelObj.AddComponent<TextMeshProUGUI>();
+        itemLabelTmp.font = GetDefaultFont();
         itemLabelTmp.text = "Option";
         itemLabelTmp.fontSize = 24;
         itemLabelTmp.fontStyle = FontStyles.Bold;
@@ -913,6 +923,7 @@ public class RoomListingSetupTool : EditorWindow
         nameObj.transform.SetParent(item.transform, false);
         nameObj.AddComponent<LayoutElement>().preferredWidth = 350;
         TextMeshProUGUI nameTmp = nameObj.AddComponent<TextMeshProUGUI>();
+        nameTmp.font = GetDefaultFont();
         nameTmp.text = "Room Name";
         nameTmp.fontSize = 32;
         nameTmp.alignment = TextAlignmentOptions.MidlineLeft;
@@ -927,6 +938,7 @@ public class RoomListingSetupTool : EditorWindow
         countObj.transform.SetParent(item.transform, false);
         countObj.AddComponent<LayoutElement>().preferredWidth = 180;
         TextMeshProUGUI countTmp = countObj.AddComponent<TextMeshProUGUI>();
+        countTmp.font = GetDefaultFont();
         countTmp.text = "0/4 Players";
         countTmp.fontSize = 28;
         countTmp.alignment = TextAlignmentOptions.Center;
@@ -956,6 +968,7 @@ public class RoomListingSetupTool : EditorWindow
         btnTextRect.offsetMax = Vector2.zero;
 
         TextMeshProUGUI btnTmp = btnTextObj.AddComponent<TextMeshProUGUI>();
+        btnTmp.font = GetDefaultFont();
         btnTmp.text = "Select";
         btnTmp.fontSize = 28;
         btnTmp.alignment = TextAlignmentOptions.Center;
@@ -996,5 +1009,25 @@ public class RoomListingSetupTool : EditorWindow
     {
         Canvas[] canvases = FindObjectsOfType<Canvas>();
         return canvases.Length > 0 ? canvases[0].gameObject : null;
+    }
+
+    private TMP_FontAsset GetDefaultFont()
+    {
+        // Try to get the default TMP font
+        if (TMP_Settings.defaultFontAsset != null)
+        {
+            return TMP_Settings.defaultFontAsset;
+        }
+
+        // Search for any TMP font asset in the project
+        string[] guids = AssetDatabase.FindAssets("t:TMP_FontAsset");
+        if (guids.Length > 0)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guids[0]);
+            return AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(path);
+        }
+
+        // If no font found, load from resources
+        return Resources.Load<TMP_FontAsset>("Fonts & Materials/LiberationSans SDF");
     }
 }

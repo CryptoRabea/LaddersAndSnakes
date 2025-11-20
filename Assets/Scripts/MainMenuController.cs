@@ -716,18 +716,6 @@ public class MainMenuController : MonoBehaviour
 
     // Callback handler class for Fusion
     private class RoomListCallbacks : INetworkRunnerCallbacks
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
-=======
-
->>>>>>> Stashed changes
-=======
-
->>>>>>> Stashed changes
     {
         private MainMenuController _controller;
 
